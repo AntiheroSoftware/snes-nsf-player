@@ -1,0 +1,457 @@
+;:ts=8
+R0	equ	1
+R1	equ	5
+R2	equ	9
+R3	equ	13
+;#include "data.h"
+;#include "pad.h"
+;#include "PPU.h"
+;#include "PPURegisters.h"
+;#include "ressource.h"
+;#include "string.h"
+;#include "debug.h"
+;#include "event.h"
+;
+;//#include <stdlib.h>
+;
+;byte cursorX, cursorY;
+;word debugMap[0x400];
+;
+;void initDebug(void) {
+	code
+	xdef	__initDebug
+	func
+__initDebug:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L2
+	tcs
+	phd
+	tcd
+;	word i;
+;
+;	for(i=0; i<0x400; i++) {
+i_1	set	0
+	stz	<L3+i_1
+	bra	L10004
+L10003:
+;		debugMap[i] = 0x00;
+	lda	<L3+i_1
+	asl	A
+	tax
+	lda	#$0
+	sta	|__debugMap,X
+;	}
+	inc	<L3+i_1
+L10004:
+	lda	<L3+i_1
+	cmp	#<$400
+	bcc	L10003
+;}
+	pld
+	tsc
+	clc
+	adc	#L2
+	tcs
+	rts
+L2	equ	6
+L3	equ	5
+	ends
+	efunc
+;
+;void setCursorDebug(int x, int y) {
+	code
+	xdef	__setCursorDebug
+	func
+__setCursorDebug:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L6
+	tcs
+	phd
+	tcd
+x_0	set	3
+y_0	set	5
+;	cursorX = (byte) x;
+	sep	#$20
+	longa	off
+	lda	<L6+x_0
+	sta	|__cursorX
+;	cursorY = (byte) y;
+	lda	<L6+y_0
+	sta	|__cursorY
+	rep	#$20
+	longa	on
+;}
+	lda	<L6+1
+	sta	<L6+1+4
+	pld
+	tsc
+	clc
+	adc	#L6+4
+	tcs
+	rts
+L6	equ	0
+L7	equ	1
+	ends
+	efunc
+;
+;void writeStringDebug(char out[]) {
+	code
+	xdef	__writeStringDebug
+	func
+__writeStringDebug:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L9
+	tcs
+	phd
+	tcd
+out_0	set	3
+;	word i;
+;	char buffer;
+;
+;	for(i=0; out[i] != '\0'; i++) {
+i_1	set	0
+buffer_1	set	2
+	stz	<L10+i_1
+	brl	L10008
+L10007:
+;		buffer = out[i];
+	sep	#$20
+	longa	off
+	ldy	<L10+i_1
+	lda	(<L9+out_0),Y
+	sta	<L10+buffer_1
+;		if((cursorX > 0x1f) || (buffer == '\n')) {
+	lda	#$1f
+	cmp	|__cursorX
+	rep	#$20
+	longa	on
+	bcc	L11
+	sep	#$20
+	longa	off
+	lda	<L10+buffer_1
+	cmp	#<$a
+	rep	#$20
+	longa	on
+	bne	L10009
+L11:
+;			cursorY++;
+	sep	#$20
+	longa	off
+	inc	|__cursorY
+;			cursorX = 0;
+	stz	|__cursorX
+;			if(buffer == '\n') continue;
+	lda	<L10+buffer_1
+	cmp	#<$a
+	rep	#$20
+	longa	on
+	beq	L10005
+;		}
+;		if(buffer>='a' && buffer<='z') {
+L10009:
+	sep	#$20
+	longa	off
+	lda	<L10+buffer_1
+	cmp	#<$61
+	rep	#$20
+	longa	on
+	bcc	L10010
+	sep	#$20
+	longa	off
+	lda	#$7a
+	cmp	<L10+buffer_1
+	rep	#$20
+	longa	on
+	bcc	L10010
+;			buffer -= 0x20;
+	lda	<L10+buffer_1
+	and	#$ff
+	clc
+	adc	#$ffe0
+	sep	#$20
+	longa	off
+	sta	<L10+buffer_1
+	rep	#$20
+	longa	on
+;		}
+;		debugMap[cursorX+(cursorY*0x20)] = buffer - 0x20;
+L10010:
+	lda	|__cursorY
+	and	#$ff
+	asl	A
+	asl	A
+	asl	A
+	asl	A
+	asl	A
+	sta	<R1
+	lda	|__cursorX
+	and	#$ff
+	clc
+	adc	<R1
+	asl	A
+	tax
+	lda	<L10+buffer_1
+	and	#$ff
+	clc
+	adc	#$ffe0
+	sta	|__debugMap,X
+;		cursorX++;
+	sep	#$20
+	longa	off
+	inc	|__cursorX
+	rep	#$20
+	longa	on
+;	}
+L10005:
+	inc	<L10+i_1
+L10008:
+	ldy	<L10+i_1
+	lda	(<L9+out_0),Y
+	and	#$ff
+	beq	*+5
+	brl	L10007
+;}
+	lda	<L9+1
+	sta	<L9+1+2
+	pld
+	tsc
+	clc
+	adc	#L9+2
+	tcs
+	rts
+L9	equ	19
+L10	equ	17
+	ends
+	efunc
+;
+;void writeFarStringDebug(char far out[]) {
+	code
+	xdef	__writeFarStringDebug
+	func
+__writeFarStringDebug:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L19
+	tcs
+	phd
+	tcd
+out_0	set	3
+;	word i;
+;	char buffer;
+;
+;	for(i=0; out[i] != '\0'; i++) {
+i_1	set	0
+buffer_1	set	2
+	stz	<L20+i_1
+	brl	L10014
+L10013:
+;		buffer = out[i];
+	sep	#$20
+	longa	off
+	ldy	<L20+i_1
+	lda	[<L19+out_0],Y
+	sta	<L20+buffer_1
+;		if((cursorX > 0x1f) || (buffer == '\n')) {
+	lda	#$1f
+	cmp	|__cursorX
+	rep	#$20
+	longa	on
+	bcc	L21
+	sep	#$20
+	longa	off
+	lda	<L20+buffer_1
+	cmp	#<$a
+	rep	#$20
+	longa	on
+	bne	L10015
+L21:
+;			cursorY++;
+	sep	#$20
+	longa	off
+	inc	|__cursorY
+;			cursorX = 0;
+	stz	|__cursorX
+;			if(buffer == '\n') continue;
+	lda	<L20+buffer_1
+	cmp	#<$a
+	rep	#$20
+	longa	on
+	beq	L10011
+;		}
+;		if(buffer>='a' && buffer<='z') {
+L10015:
+	sep	#$20
+	longa	off
+	lda	<L20+buffer_1
+	cmp	#<$61
+	rep	#$20
+	longa	on
+	bcc	L10016
+	sep	#$20
+	longa	off
+	lda	#$7a
+	cmp	<L20+buffer_1
+	rep	#$20
+	longa	on
+	bcc	L10016
+;			buffer -= 0x20;
+	lda	<L20+buffer_1
+	and	#$ff
+	clc
+	adc	#$ffe0
+	sep	#$20
+	longa	off
+	sta	<L20+buffer_1
+	rep	#$20
+	longa	on
+;		}
+;		debugMap[cursorX+(cursorY*0x20)] = buffer - 0x20;
+L10016:
+	lda	|__cursorY
+	and	#$ff
+	asl	A
+	asl	A
+	asl	A
+	asl	A
+	asl	A
+	sta	<R1
+	lda	|__cursorX
+	and	#$ff
+	clc
+	adc	<R1
+	asl	A
+	tax
+	lda	<L20+buffer_1
+	and	#$ff
+	clc
+	adc	#$ffe0
+	sta	|__debugMap,X
+;		cursorX++;
+	sep	#$20
+	longa	off
+	inc	|__cursorX
+	rep	#$20
+	longa	on
+;	}
+L10011:
+	inc	<L20+i_1
+L10014:
+	ldy	<L20+i_1
+	lda	[<L19+out_0],Y
+	and	#$ff
+	beq	*+5
+	brl	L10013
+;}
+	lda	<L19+1
+	sta	<L19+1+4
+	pld
+	tsc
+	clc
+	adc	#L19+4
+	tcs
+	rts
+L19	equ	19
+L20	equ	17
+	ends
+	efunc
+;
+;void displayDebug(void) {
+	code
+	xdef	__displayDebug
+	func
+__displayDebug:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L29
+	tcs
+	phd
+	tcd
+;	VRAMLoad2(debugMap, DEBUG_MAP_ADDR, 0x0800);
+	pea	#<$800
+	pea	#<$1000
+	lda	#<__debugMap
+	sta	<R0
+	xref	_BEG_DATA
+	lda	#_BEG_DATA>>16
+	pha
+	pei	<R0
+	jsr	__VRAMLoad2
+;	setINIDSPDirectValue(0x0f);
+	pea	#<$f
+	jsr	__setINIDSPDirectValue
+;}
+	pld
+	tsc
+	clc
+	adc	#L29
+	tcs
+	rts
+L29	equ	4
+L30	equ	5
+	ends
+	efunc
+;
+;char displayDebugEvent(word counter) {
+	code
+	xdef	__displayDebugEvent
+	func
+__displayDebugEvent:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L32
+	tcs
+	phd
+	tcd
+counter_0	set	3
+;	displayDebug();
+	jsr	__displayDebug
+;	return EVENT_CONTINUE;
+	lda	#$1
+	tay
+	lda	<L32+1
+	sta	<L32+1+2
+	pld
+	tsc
+	clc
+	adc	#L32+2
+	tcs
+	tya
+	rts
+;}
+L32	equ	0
+L33	equ	1
+	ends
+	efunc
+;
+	xref	__setINIDSPDirectValue
+	xref	__VRAMLoad2
+	udata
+	xdef	__debugMap
+__debugMap
+	ds	2048
+	ends
+	udata
+	xdef	__cursorY
+__cursorY
+	ds	1
+	ends
+	udata
+	xdef	__cursorX
+__cursorX
+	ds	1
+	ends

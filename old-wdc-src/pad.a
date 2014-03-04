@@ -1,0 +1,168 @@
+;:ts=8
+R0	equ	1
+R1	equ	5
+R2	equ	9
+R3	equ	13
+;#include "data.h";
+;#include "pad.h";
+;
+;void enablePad(void) {
+	code
+	xdef	__enablePad
+	func
+__enablePad:
+	longa	on
+	longi	on
+;	// Enable pad reading and NMI
+;	*(byte*)0x4200 = 0x81;
+	sep	#$20
+	longa	off
+	lda	#$81
+	sta	|16896
+	rep	#$20
+	longa	on
+;}
+	rts
+L2	equ	0
+L3	equ	1
+	ends
+	efunc
+;
+;void clearPad(padStatus pad) {
+	code
+	xdef	__clearPad
+	func
+__clearPad:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L5
+	tcs
+	phd
+	tcd
+pad_0	set	3
+;	word test;
+;
+;	test = 0;
+test_1	set	0
+	stz	<L6+test_1
+;	pad = (word) test;
+	clc
+	tdc
+	adc	#<L6+test_1
+	pha
+	clc
+	tdc
+	adc	#<L5+pad_0
+	pha
+	lda	#$2
+	xref	__~mov
+	jsr	__~mov
+;}
+	lda	<L5+1
+	sta	<L5+1+2
+	pld
+	tsc
+	clc
+	adc	#L5+2
+	tcs
+	rts
+L5	equ	6
+L6	equ	5
+	ends
+	efunc
+;
+;padStatus readPad(byte padNumber) {
+	code
+	xdef	__readPad
+	func
+__readPad:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L8
+	tcs
+	phd
+	tcd
+padNumber_0	set	3
+;	word test;
+;	padStatus *status;
+;	
+;	padNumber = padNumber << 1;
+test_1	set	0
+status_1	set	2
+	sep	#$20
+	longa	off
+	asl	<L8+padNumber_0
+	rep	#$20
+	longa	on
+;
+;	// if pad data still reading we wait
+;	while((*(byte*)0x4212 & 0x01)) { }
+L10002:
+	sep	#$20
+	longa	off
+	lda	|16914
+	and	#<$1
+	rep	#$20
+	longa	on
+	bne	L10002
+;
+;	test = (word) *(byte*)0x4218+padNumber << 8;
+	lda	<L8+padNumber_0
+	and	#$ff
+	sta	<R0
+	lda	|16920
+	and	#$ff
+	clc
+	adc	<R0
+	xba
+	and	#$ff00
+	sta	<L9+test_1
+;	test |= (word) *(byte*)0x4219+padNumber;
+	lda	<L8+padNumber_0
+	and	#$ff
+	sta	<R0
+	lda	|16921
+	and	#$ff
+	clc
+	adc	<R0
+	tsb	<L9+test_1
+;
+;	status = (padStatus *) &test;
+	clc
+	tdc
+	adc	#<L9+test_1
+	sta	<L9+status_1
+;	
+;	return *status;
+	pha
+	pea	#<L10001
+	lda	#$2
+	xref	__~mov
+	jsr	__~mov
+	lda	#<L10001
+	tay
+	lda	<L8+1
+	sta	<L8+1+2
+	pld
+	tsc
+	clc
+	adc	#L8+2
+	tcs
+	tya
+	rts
+;}
+L8	equ	16
+L9	equ	13
+	ends
+	efunc
+	udata
+L10001:
+	ds	2
+	ends
+;
+;
+;

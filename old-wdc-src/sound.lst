@@ -1,0 +1,130 @@
+  Mon Apr 16 2012 12:35                                                Page 1
+
+
+                     ***************************************
+                     **      WDC 65C816 Macro Assembler   **
+                     **                                   **
+                     **     Version Evaluation- Mar 27 2006    **
+                     ***************************************
+
+     1                        ;Sound.ASM
+     2                        ;
+     3                        ;Support routines for the SPC700
+     4                        ;(C) 1999 Realtime Simulations and Roleplaying Gam
+                    es
+     5                        ;Grog's worst nightmares come true with this blood
+                    y CPU
+     6                        
+     7                        ;#################################################
+                    #####
+     8                        ;### initSoundCPU is totally ported to wdc assembl
+                    er
+     9                        ;### transfer have been controlled and looks ok
+    10                        ;#################################################
+                    #####
+    11                        
+    12                        	XDEF __initSoundCPU
+    13                        
+    14                        __initSoundCPU:
+    15 00:0000: 4B                   phk
+    16 00:0001: AB                   plb
+    17 00:0002: 08                   php
+    18 00:0003: C2 30                rep #$30
+    19 00:0005: E2 20                sep #$20
+    20                                LONGA OFF
+    21                                LONGI ON
+    22                        
+    23                        wait_spc_ready_for_transfer:
+    24 00:0007: AE 40 21             ldx $2140
+    25 00:000A: E0 AA BB             cpx #$BBAA
+    26 00:000D: D0 F8        		bne wait_spc_ready_for_transfer
+    27                        
+    28 00:000F: A2 00 04             ldx #$0400      ;Target SPC address for pro
+                    gram
+    29 00:0012: 8E 42 21             stx $2142
+    30 00:0015: A2 00 00             ldx #$0000
+    31 00:0018: A9 01                lda #$01
+    32 00:001A: 8D 41 21             sta $2141
+    33 00:001D: A9 CC                lda #$CC
+    34 00:001F: 8D 40 21             sta $2140
+    35 00:0022: CD 40 21     ?1      cmp $2140       ;Wait for SPC to sync
+    36 00:0025: D0 FB                bne ?1
+    37                        
+    38                        SoundSendLoop:
+    39 00:0027: BF xx xx xx          lda >spcprogg,X
+    40 00:002B: 8D 41 21             sta $2141       ;Set the address
+    41 00:002E: 8A                   txa
+    42 00:002F: 8D 40 21             sta $2140       ;Set the data
+    43 00:0032: CD 40 21     ?1      cmp $2140
+    44 00:0035: D0 FB                bne ?1          ;Wait for SPC to sync
+    45 00:0037: E8                   inx
+    46 00:0038: EC 29 2B             cpx spcend-spcprogg   ;Check for last data 
+  Mon Apr 16 2012 12:35                                                Page 2
+
+
+                    byte
+    47 00:003B: D0 EA                bne SoundSendLoop
+    48                        
+    49 00:003D: 9C 41 21             stz $2141       ;Mark end of data
+    50 00:0040: A0 00 04             ldy #$0400      ;Set starting address of SP
+                    C code
+    51 00:0043: 8C 42 21             sty $2142
+    52 00:0046: E8                   inx
+    53 00:0047: E8                   inx
+    54 00:0048: 8A                   txa
+    55 00:0049: 8D 40 21             sta $2140       ;Tell SPC to begin executin
+                    g its program
+    56                        
+    57 00:004C: 28                   plp
+    58 00:004D: 60                   rts				; it's w
+                    as rtl
+    59                        
+    60                        SPC_CODE SECTION
+    61                        
+    62                        	XDEF spcprogg
+    63                        	XDEF spcend
+    64                        
+    65                        spcprogg:
+    66 00:0000: 20 CD F0 BD  	INSERT SPC_ORIG.bin
+       00:0004: E8 30 C4 F1 
+       00:0008: 3F AA 0B 3F 
+       00:000C: F8 0B 8F 5D 
+       00:0010: F2 8F 02 F3 
+       00:0014: 8F 05 F2 8F 
+       00:0018: 00 F3 8F 15 
+       00:001C: F2 8F 00 F3 
+       00:0020: 8F 25 F2 8F 
+       00:0024: 00 F3 8F 35 
+       00:0028: F2 8F 00 F3 
+       00:002C: 8F 07 F2 8F 
+       00:0030: 1F F3 8F 17 
+       00:0034: F2 8F 1F F3 
+       00:0038: 8F 27 F2 8F 
+       00:003C: 1F F3 8F 37 
+       00:0040: F2 8F 1F F3 
+       00:0044: 8F 24 F2 8F 
+       00:0048: 04 F3 8F 34 
+       00:004C: F2 8F 00 F3 
+       00:0050: 8F 4C F2 8F 
+       00:0054: 0F F3 8F 0C 
+       00:0058: F2 8F 7F F3 
+       00:005C: 8F 1C F2 8F 
+       00:0060: 7F F3 8F 6C 
+       00:0064: F2 8F 20 F3 
+       00:0068: 8F 3D F2 8F 
+       00:006C: 08 F3 3F 3D 
+       00:0070: 07 8F 7D F4 
+       00:0074: 3F 53 07 3F 
+       00:0078: 83 09 3F A8 
+       00:007C: 0A E4 F4 68 
+    67                        spcend:
+    68 00:2B29: FF           	DB $FF
+    69                        
+  Mon Apr 16 2012 12:35                                                Page 3
+
+
+    70                        ENDS
+
+
+      Lines assembled: 70
+      Errors: 0

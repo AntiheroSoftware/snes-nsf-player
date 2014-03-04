@@ -1,0 +1,139 @@
+Section CODE:
+	00008000 _BEG_CODE
+	00008000 __initDebug
+	00008027 __setCursorDebug
+	00008049 __writeStringDebug
+	000080e9 __writeFarStringDebug
+	00008189 __displayDebug
+	000081b3 __displayDebugEvent
+	000081cf __initInternalRegisters
+	00008202 __preInit
+	00008203 __main
+	0000845b __IRQHandler
+	0000845c __NMIHandler
+	00008460 __NMIReadPad
+	00008503 __oncePerVBlankReset
+	00008525 __spcNsfPlayEvent
+	00008543 __enablePad
+	0000854d __clearPad
+	00008575 __readPad
+	000085d8 __spc_sound_init
+	000085ec __spc_nsf_init
+	00008672 __spc_nsf_play
+	000086a1 __spc_sound_stop
+	00008a0d update_dsp
+	00008ac9 __initSoundCPU
+	00008b17 START
+	00008c27 IRQ
+	00008c33 NMI
+	00008c4e __waitForVBlank
+	00008c5a __waitForVBlankOver
+	00008c66 __VRAMLoad2
+	00008ca6 __CGRAMLoad2
+	00008ce1 __initEvents
+	00008ceb __createEvent
+	00008d2c __addEvent
+	00008d4c __addEventWithPriority
+	00008e03 __removeEvent
+	00008e5d __processEvents
+	00008ea2 __setEnabledEvent
+	00008ebf __isEnabledEvent
+	00008ec6 __initRegisters
+	00008eed __savePPUContext
+	00008f0b __restorePPUContext
+	00008f63 __setINIDSP
+	00008fc3 __setINIDSPDirectValue
+	00008fe5 __getINIDSP
+	00008fec __setOBJSEL
+	00009067 __setOBJSELDirectValue
+	00009089 __getOBJSEL
+	00009090 __reverse
+	000090d4 __itoa2
+	000091af __dwordtoa
+	000092ba __setBG12NBA
+	0000931c __setBG12NBADirectValue
+	0000933e __getBG12NBA
+	00009345 __setBG34NBA
+	000093a7 __setBG34NBADirectValue
+	000093c9 __getBG34NBA
+	000093d0 __setBGMODE
+	00009448 __setBGMODEDirectValue
+	0000946a __getBGMODE
+	00009471 __setMOSAIC
+	000094c7 __setMOSAICDirectValue
+	000094e9 __getMOSAIC
+	000094f0 __setBG1SC
+	0000954c __setBG1SCDirectValue
+	0000956e __getBG1SC
+	00009575 __setBG2SC
+	000095d1 __setBG2SCDirectValue
+	000095f3 __getBG2SC
+	000095fa __setOAMADDR
+	0000965b __setOAMADDRDirectValue
+	0000968a __getOAMADDR
+	0000968e __setOAMDATA
+	000096bc __setOAMDATADirectValue
+	000096eb __getOAMDATA
+	000096f2 __sbrk
+	0000971e __free
+	000097b2 __malloc
+	0000985d __memcpy
+	0000987e __~asl
+	00009886 __~cal
+	00009889 __~lsr
+	00009891 __~ludv
+	000098a6 __~lumd
+	000098b6 __~mov
+	000098d1 __~udv
+	00009905 __~umd
+	0000990a __~comdiv
+	0000994a _END_CODE
+
+Section DATA:
+	0000994a _BEG_DATA
+	00009a23 __heap_start
+	00009a25 __heap_end
+	00009a27 _END_DATA
+
+Section UDATA:
+	00000800 _BEG_UDATA
+	00000800 __debugMap
+	00001000 __cursorY
+	00001001 __cursorX
+	00001004 __pad1
+	00001006 __oncePerVBlank
+	00001009 __enabledEvents
+	0000100a __events
+	0000100c __PPUStatus
+	0000104d ___heap_top
+	0000104f ___mem_start
+	00001051 _END_UDATA
+
+Section vectors:
+	0000ffe4 _BEG_VECTORS
+	00010000 _END_VECTORS
+
+Section registration_data:
+	0000ffb0 _BEG_REGISTRATION_DATA
+	0000ffe0 _END_REGISTRATION_DATA
+
+Section ressource:
+	00018000 _BEG_RESSOURCE
+	00018000 __debugFont_pic
+	00018800 __debugFont_pal
+	00018820 nsf_data
+	0001ae20 _END_RESSOURCE
+
+Section nes_code:
+	00088000 _BEG_NES_CODE
+	00088000 nescode
+	00088004 nesinit
+	00088039 nesplay
+	0008806a _END_NES_CODE
+
+Section spc_code:
+	00038000 _BEG_SPC_CODE
+	00038000 spcprogg
+	0003ab29 spcend
+	0003ab2a _END_SPC_CODE
+

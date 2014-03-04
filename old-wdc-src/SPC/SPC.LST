@@ -1,0 +1,4217 @@
+0001   0400             .org $400
+0002   0400             
+0003   0400             ;========================================
+0004   0400             ;       NES Registers
+0005   0400             ;----------------------------------------
+0006   0400             sq4000          = $40   ; $4000
+0007   0400             sq4001          = $41   ; $4001
+0008   0400             sq4002          = $42   ; $4002
+0009   0400             sq4003          = $43   ; $4003
+0010   0400             sq4004          = $44   ; $4004
+0011   0400             sq4005          = $45   ; $4005
+0012   0400             sq4006          = $46   ; $4006
+0013   0400             sq4007          = $47   ; $4007
+0014   0400             tr4008          = $48   ; $4008
+0015   0400             tr4009          = $49   ; $4009
+0016   0400             tr400A          = $4A   ; $400A
+0017   0400             tr400B          = $4b   ; $400B
+0018   0400             no400C          = $4C   ; $400C
+0019   0400             no400D          = $4D   ; $400D
+0020   0400             no400E          = $4E   ; $400E
+0021   0400             no400F          = $4F   ; $400F
+0022   0400             pcm_freq        = $50   ; $4010
+0023   0400             pcm_raw         = $51   ; $4011
+0024   0400             pcm_addr        = $52   ; $4012
+0025   0400             pcm_length      = $53   ; $4013
+0026   0400             
+0027   0400             sound_ctrl      = $55   ; $4015
+0028   0400             no4016	    = $56   ; $4016
+0029   0400             
+0030   0400             ;========================================
+0031   0400             ;       SPC Memory
+0032   0400             ;----------------------------------------
+0033   0400             
+0034   0400             pulse0duty      = $60
+0035   0400             pulse0dutyold   = $61
+0036   0400             pulse1duty      = $62
+0037   0400             pulse1dutyold   = $63
+0038   0400             puls0_sample    = $64
+0039   0400             puls1_sample    = $65
+0040   0400             puls0_sample_old        = $66
+0041   0400             puls1_sample_old        = $67
+0042   0400             temp1           = $68
+0043   0400             temp2           = $69
+0044   0400             temp3           = $6A
+0045   0400             temp4           = $6B
+0046   0400             temp5           = $6C
+0047   0400             temp6           = $6D
+0048   0400             temp7           = $6E
+0049   0400             temp8           = $6F
+0050   0400             old4003         = $70
+0051   0400             
+0052   0400             sweeptemp1      = $78
+0053   0400             sweeptemp2      = $79
+0054   0400             sweep_freq_lo   = $7A
+0055   0400             sweep_freq_hi   = $7B
+0056   0400             
+0057   0400             linear_count_lo = $7D
+0058   0400             linear_count_hi = $7E
+0059   0400             timer3count_lo  = $7F
+0060   0400             timer3count_hi  = $80
+0061   0400             sweep1          = $81
+0062   0400             sweep2          = $82
+0063   0400             sweep_freq_lo2  = $83
+0064   0400             sweep_freq_hi2  = $84
+0065   0400             timer3val       = $85
+0066   0400             decay1volume    = $86
+0067   0400             decay1rate      = $87
+0068   0400             decay_status    = $88
+0069   0400             decay2volume    = $89
+0070   0400             decay2rate      = $8A
+0071   0400             decay3volume    = $8B
+0072   0400             decay3rate      = $8C
+0073   0400             add_temp        = $8D
+0074   0400             
+0075   0400             ;========================================
+0076   0400             
+0077   0400             
+0078   0400             start:
+0079   0400 20                  clrp                    ; clear direct page flag (DP = $0000-$00FF)
+0080   0401 CD F0               mov x,#$F0
+0081   0403 BD                  mov SP,x
+0082   0404             
+0083   0404 E8 30               mov a,#00110000b
+0084   0406 C4 F1               mov $F1,a               ; clear all ports, disable timers
+0085   0408             
+0086   0408 3F AA 0B            call !reset_dsp         ; clear DSP registers
+0087   040B 3F F8 0B            call !set_directory     ; set sample directory
+0088   040E             
+0089   040E 8F 5D F2            mov $F2,#$5D           ; directory offset
+0090   0411 8F 02 F3            mov $F3,#$02           ; $200
+0091   0414             
+0092   0414 8F 05 F2            mov $F2,#$05            ; ADSR off, GAIN enabled
+0093   0417 8F 00 F3            mov $F3,#0
+0094   041A 8F 15 F2            mov $F2,#$15            ; ADSR off, GAIN enabled
+0095   041D 8F 00 F3            mov $F3,#0
+0096   0420 8F 25 F2            mov $F2,#$25
+0097   0423 8F 00 F3            mov $F3,#0
+0098   0426 8F 35 F2            mov $F2,#$35
+0099   0429 8F 00 F3            mov $F3,#0
+0100   042C             
+0101   042C 8F 07 F2            mov $F2,#$07            ; infinite gain
+0102   042F 8F 1F F3            mov $F3,#$1F
+0103   0432 8F 17 F2            mov $F2,#$17            ; infinite gain
+0104   0435 8F 1F F3            mov $F3,#$1F
+0105   0438 8F 27 F2            mov $F2,#$27
+0106   043B 8F 1F F3            mov $F3,#$1F
+0107   043E 8F 37 F2            mov $F2,#$37
+0108   0441 8F 1F F3            mov $F3,#$1F
+0109   0444             
+0110   0444             
+0111   0444 8F 24 F2            mov $F2,#$24            ; sample # for triangle
+0112   0447 8F 04 F3            mov $F3,#$04
+0113   044A             
+0114   044A 8F 34 F2            mov $F2,#$34
+0115   044D 8F 00 F3            mov $F3,#$00            ; sample # for noise
+0116   0450             
+0117   0450             
+0118   0450 8F 4C F2            mov $F2,#$4C            ; key on
+0119   0453 8F 0F F3            mov $F3,#00001111b
+0120   0456             
+0121   0456 8F 0C F2            mov $F2,#$0C            ; main vol L
+0122   0459 8F 7F F3            mov $F3,#$7F
+0123   045C 8F 1C F2            mov $F2,#$1C            ; main vol R
+0124   045F 8F 7F F3            mov $F3,#$7F
+0125   0462             
+0126   0462 8F 6C F2            mov $F2,#$6C
+0127   0465 8F 20 F3            mov $F3,#00100000b      ; soft reset, mute, and echo disabled
+0128   0468             
+0129   0468 8F 3D F2            mov $F2,#$3D            ; noise on voice 3
+0130   046B 8F 08 F3            mov $F3,#00001000b
+0131   046E             
+0132   046E 3F 3D 07            call !enable_timer3
+0133   0471             
+0134   0471             next_xfer:
+0135   0471 8F 7D F4            mov $F4,#$7D            ; move $7D to port 0 (SPC ready)
+0136   0474             wait:
+0137   0474 3F 53 07            call !check_timer3
+0138   0477 3F 83 09            call !check_timers
+0139   047A 3F A8 0A            call !check_timers2
+0140   047D E4 F4               mov a,$F4               ; wait for port 0 to be $D7 (CPU ready)
+0141   047F 68 D7               cmp a,#$D7
+0142   0481 D0 F1               bne wait
+0143   0483 C4 F4               mov $F4,a               ; reply to CPU with $D7 (begin transfer)
+0144   0485             
+0145   0485 CD 00               mov x,#0
+0146   0487             xfer:
+0147   0487 3E F4               cmp x,$F4               ; wait for port 0 to have current byte #
+0148   0489 D0 FC               bne xfer
+0149   048B             
+0150   048B E4 F5               mov a,$F5               ; load data on port 1
+0151   048D D4 40               mov $40+x,a             ; store data at $40 - $55
+0152   048F D8 F4               mov $F4,x               ; reply to CPU on port 0
+0153   0491             
+0154   0491 3D                  inc x
+0155   0492 C8 17               cmp x,#$17
+0156   0494 D0 F1               bne xfer
+0157   0496             
+0158   0496             ;=====================================
+0159   0496             
+0160   0496             
+0161   0496             ;-------------------------------------
+0162   0496             square0:
+0163   0496             
+0164   0496 E4 55               mov a,sound_ctrl
+0165   0498 28 01               and a,#00000001b
+0166   049A D0 0F               bne sq0_enabled
+0167   049C             silence:
+0168   049C 8F 00 F2            mov $F2,#0
+0169   049F 8F 00 F3            mov $F3,#0
+0170   04A2 8F 01 F2            mov $F2,#1
+0171   04A5 8F 00 F3            mov $F3,#0
+0172   04A8 5F 78 05            jmp !square1
+0173   04AB             
+0174   04AB             sq0_enabled:
+0175   04AB             
+0176   04AB             ;-------------------------------------
+0177   04AB                                             ; emulate duty cycle (select sample #)
+0178   04AB                                             ; check first the octave sample to be played
+0179   04AB             
+0180   04AB E4 40               mov a,sq4000            ; emulate duty cycle
+0181   04AD 28 C0               and a,#11000000b
+0182   04AF 60                  clrc
+0183   04B0 3C                  rol a
+0184   04B1 3C                  rol a
+0185   04B2 3C                  rol a
+0186   04B3             
+0187   04B3 C4 64               mov puls0_sample,a
+0188   04B5 64 66               cmp a,puls0_sample_old
+0189   04B7 F0 0C               beq sq1_no_change
+0190   04B9             
+0191   04B9             sq1_sample_change:
+0192   04B9             
+0193   04B9 8F 04 F2            mov $F2,#$04            ; sample # reg
+0194   04BC FA 64 F3            mov $F3,puls0_sample
+0195   04BF             
+0196   04BF 8F 4C F2            mov $F2,#$4C            ; key on
+0197   04C2 8F 01 F3            mov $F3,#00000001b
+0198   04C5             
+0199   04C5             sq1_no_change:
+0200   04C5             
+0201   04C5 FA 64 66            mov puls0_sample_old,puls0_sample
+0202   04C8             
+0203   04C8             ;        mov puls0_sample,#0
+0204   04C8             ;
+0205   04C8             ;        mov y,a
+0206   04C8             ;
+0207   04C8             ;        mov a,sq4003
+0208   04C8             ;        and a,#00000111b
+0209   04C8             ;        mov x,a
+0210   04C8             ;        mov a,y
+0211   04C8             ;;        cmp x,#00000101b
+0212   04C8             ;;        beq pitch0
+0213   04C8             ;        cmp x,#00000110b
+0214   04C8             ;        beq pitch0
+0215   04C8             ;        cmp x,#00000111b
+0216   04C8             ;        beq pitch0
+0217   04C8             ;
+0218   04C8             ;        clrc
+0219   04C8             ;        adc a,#4
+0220   04C8             ;        mov puls0_sample,#1
+0221   04C8             ;
+0222   04C8             ;pitch0:
+0223   04C8             ;        mov $F2,#$04            ; sample #
+0224   04C8             ;        mov $F3,a
+0225   04C8             ;
+0226   04C8             ;        mov $F2,#$4C            ; key on
+0227   04C8             ;        mov $F3,#00000001b
+0228   04C8             ;no_change:
+0229   04C8             ;        mov pulse0dutyold,pulse0duty
+0230   04C8             ;        mov puls0_sample_old,puls0_sample
+0231   04C8             
+0232   04C8             ;-------------------------------------
+0233   04C8             ; freq sweep test
+0234   04C8             
+0235   04C8             ;        mov a,$41
+0236   04C8             ;        and a,#10000000b
+0237   04C8             ;        beq skipsweep0
+0238   04C8             ;        mov a,$41
+0239   04C8             ;
+0240   04C8             ;        mov sweeptemp1,$42
+0241   04C8             ;        mov sweeptemp2,$43
+0242   04C8             ;        and sweeptemp2,#00000111b
+0243   04C8             ;
+0244   04C8             ;        mov a,$41
+0245   04C8             ;        and a,#00000111b
+0246   04C8             ;        beq skipsweep0
+0247   04C8             ;        mov x,a
+0248   04C8             ;
+0249   04C8             ;keepshifting0:
+0250   04C8             ;        clrc
+0251   04C8             ;        ror sweeptemp2
+0252   04C8             ;        ror sweeptemp1
+0253   04C8             ;
+0254   04C8             ;        dec x
+0255   04C8             ;        bne keepshifting0
+0256   04C8             ;
+0257   04C8             ;        and $43,#00000111b
+0258   04C8             ;
+0259   04C8             ;        mov a,sweeptemp1
+0260   04C8             ;        mov y,sweeptemp2
+0261   04C8             ;
+0262   04C8             ;        addw ya,$42
+0263   04C8             ;        mov a,$42
+0264   04C8             ;        mov y,$43
+0265   04C8             ;
+0266   04C8             ;
+0267   04C8             ;        mov a,$42
+0268   04C8             ;        clrc
+0269   04C8             ;        rol a
+0270   04C8             ;        push psw
+0271   04C8             ;        clrc
+0272   04C8             ;        adc a,#freqtable & 255
+0273   04C8             ;        rol temp3
+0274   04C8             ;        mov temp1,a
+0275   04C8             ;        pop psw
+0276   04C8             ;        mov a,$43
+0277   04C8             ;        rol a
+0278   04C8             ;        ror temp3
+0279   04C8             ;        adc a,#freqtable >> 8
+0280   04C8             ;        mov temp2,a
+0281   04C8             ;
+0282   04C8             ;        mov y,#0
+0283   04C8             ;        mov a,[temp1]+y
+0284   04C8             ;        mov $F2,#2
+0285   04C8             ;        mov $F3,a
+0286   04C8             ;
+0287   04C8             ;        inc y
+0288   04C8             ;        mov a,[temp1]+y
+0289   04C8             ;        mov $F2,#3
+0290   04C8             ;        mov $F3,a
+0291   04C8             ;
+0292   04C8             ;        jmp !nextsq0
+0293   04C8             ;
+0294   04C8             ;
+0295   04C8             ;skipsweep0:
+0296   04C8             
+0297   04C8             ;-------------------------------------
+0298   04C8             
+0299   04C8                                     ; check if sweeps are enabled
+0300   04C8 E4 41               mov a,$41
+0301   04CA 28 80               and a,#10000000b
+0302   04CC F0 0B               beq skip00
+0303   04CE E4 41               mov a,$41
+0304   04D0 28 07               and a,#00000111b
+0305   04D2 F0 05               beq skip00
+0306   04D4             
+0307   04D4 3F 83 09            call !check_timers
+0308   04D7 2F 4C               bra nextsq0
+0309   04D9             
+0310   04D9             skip00:
+0311   04D9             
+0312   04D9             
+0313   04D9 E4 43               mov a,sq4003            ; check if freq is 0 or too high
+0314   04DB 28 07               and a,#00000111b
+0315   04DD D0 1C               bne ok1
+0316   04DF E4 42               mov a,sq4002
+0317   04E1 F0 B9               beq silence
+0318   04E3 68 01               cmp a,#1
+0319   04E5 F0 B5               beq silence
+0320   04E7 68 02               cmp a,#2
+0321   04E9 F0 B1               beq silence
+0322   04EB 68 03               cmp a,#3
+0323   04ED F0 AD               beq silence
+0324   04EF 68 04               cmp a,#4
+0325   04F1 F0 A9               beq silence
+0326   04F3 68 05               cmp a,#5
+0327   04F5 F0 A5               beq silence
+0328   04F7 68 06               cmp a,#6
+0329   04F9 F0 A1               beq silence
+0330   04FB             ok1:
+0331   04FB             
+0332   04FB             
+0333   04FB             
+0334   04FB             
+0335   04FB 38 07 43            and $43,#00000111b
+0336   04FE             
+0337   04FE E4 42               mov a,$42
+0338   0500 60                  clrc
+0339   0501 3C                  rol a
+0340   0502 0D                  push psw
+0341   0503 60                  clrc
+0342   0504 88 BD               adc a,#freqtable & 255
+0343   0506 2B 6A               rol temp3
+0344   0508 C4 68               mov temp1,a
+0345   050A 8E                  pop psw
+0346   050B E4 43               mov a,$43
+0347   050D 3C                  rol a
+0348   050E 6B 6A               ror temp3 & 255
+0349   0510 88 0E               adc a,#freqtable >> 8
+0350   0512 C4 69               mov temp2,a
+0351   0514             
+0352   0514 8D 00               mov y,#0
+0353   0516 F7 68               mov a,[temp1]+y
+0354   0518 8F 02 F2            mov $F2,#2
+0355   051B C4 F3               mov $F3,a
+0356   051D             
+0357   051D FC                  inc y
+0358   051E F7 68               mov a,[temp1]+y
+0359   0520 8F 03 F2            mov $F2,#3
+0360   0523 C4 F3               mov $F3,a
+0361   0525             
+0362   0525             ;-----------------------------------------------
+0363   0525             
+0364   0525             nextsq0:
+0365   0525             
+0366   0525 E4 40               mov a,sq4000            ; check volume decay disable
+0367   0527 28 10               and a,#00010000b
+0368   0529 D0 1C               bne decay_disabled
+0369   052B             
+0370   052B 3F 53 07            call !check_timer3
+0371   052E             
+0372   052E E4 56               mov a,$56
+0373   0530 28 01               and a,#00000001b
+0374   0532 F0 44               beq no_reset
+0375   0534             
+0376   0534             ;        mov a,sq4000
+0377   0534             ;        and a,#00001111b
+0378   0534             ;        mov x,a
+0379   0534             ;        mov a,!volume_decay_rates+X
+0380   0534             ;        mov decay1rate,a
+0381   0534 2F 42               bra no_reset
+0382   0536             
+0383   0536             
+0384   0536             volume_decay_rates:
+0385   0536 03                  .db 3
+0386   0537 06                  .db 6
+0387   0538 09                  .db 9
+0388   0539 0C                  .db 12
+0389   053A 0F                  .db 15
+0390   053B 12                  .db 18
+0391   053C 15                  .db 21
+0392   053D 18                  .db 24
+0393   053E 1B                  .db 27
+0394   053F 1E                  .db 30
+0395   0540 21                  .db 33
+0396   0541 24                  .db 36
+0397   0542 28                  .db 40
+0398   0543 2C                  .db 44
+0399   0544 30                  .db 48
+0400   0545 34                  .db 52
+0401   0546 38                  .db 56
+0402   0547             
+0403   0547             ;        mov a,sq4000
+0404   0547             ;        and a,#00001111b
+0405   0547             ;        mov x,a
+0406   0547             ;        mov a,!volume_decay_table+X
+0407   0547             ;        mov $F2,#$07
+0408   0547             ;        mov $F3,a
+0409   0547             ;
+0410   0547             ;        mov $F2,#$08             ; envx
+0411   0547             ;        mov $F3,#01111000b
+0412   0547             ;
+0413   0547             ;
+0414   0547             ;        mov $F2,#$04
+0415   0547             ;        mov $F3,puls0_sample
+0416   0547             ;        mov $F2,#$4C
+0417   0547             ;        mov $F3,#00000001b
+0418   0547             ;
+0419   0547             ;        mov a,#$1F
+0420   0547             ;        mov $F2,#$08
+0421   0547             ;        mov $F3,a
+0422   0547             ;
+0423   0547             ;        bra write_volume
+0424   0547             
+0425   0547             decay_disabled:
+0426   0547 8F 07 F2            mov $F2,#$07
+0427   054A 8F 1F F3            mov $F3,#$1F
+0428   054D             
+0429   054D E4 56               mov a,no4016
+0430   054F 28 20               and a,#20h
+0431   0551 F0 14               beq mono
+0432   0553             
+0433   0553 E4 40               mov a,sq4000
+0434   0555 28 0F               and a,#00001111b
+0435   0557 1C                  asl a
+0436   0558 1C                  asl a
+0437   0559 1C                  asl a
+0438   055A             ;        asl a
+0439   055A             
+0440   055A 8F 00 F2            mov $F2,#0
+0441   055D C4 F3               mov $F3,a
+0442   055F 8F 01 F2            mov $F2,#1
+0443   0562 8F 00 F3            mov $F3,#0
+0444   0565 2F 11               bra no_reset
+0445   0567             
+0446   0567             
+0447   0567             mono:
+0448   0567 E4 40               mov a,sq4000            ; emulate volume, square 0
+0449   0569 28 0F               and a,#00001111b
+0450   056B 1C                  asl a
+0451   056C 1C                  asl a
+0452   056D 1C                  asl a
+0453   056E             
+0454   056E             write_volume:
+0455   056E 8F 00 F2            mov $F2,#0              ; write volume
+0456   0571 C4 F3               mov $F3,a
+0457   0573 8F 01 F2            mov $F2,#1
+0458   0576 C4 F3               mov $F3,a
+0459   0578             ;        mov $F3,#0
+0460   0578             
+0461   0578             no_reset:
+0462   0578             
+0463   0578             
+0464   0578             
+0465   0578             ;=====================================
+0466   0578             
+0467   0578             ;-------------------------------------
+0468   0578             square1:
+0469   0578             
+0470   0578 E4 55               mov a,sound_ctrl
+0471   057A 28 02               and a,#00000010b
+0472   057C D0 0F               bne sq1_enabled
+0473   057E             silence2:
+0474   057E 8F 10 F2            mov $F2,#$10
+0475   0581 8F 00 F3            mov $F3,#0
+0476   0584 8F 11 F2            mov $F2,#$11
+0477   0587 8F 00 F3            mov $F3,#0
+0478   058A 5F 46 06            jmp !triangle
+0479   058D             
+0480   058D             sq1_enabled:
+0481   058D             
+0482   058D             
+0483   058D             ;-------------------------------------
+0484   058D                                             ; emulate duty cycle (select sample #)
+0485   058D                                             ; check first the octave sample to be played
+0486   058D             
+0487   058D E4 44               mov a,sq4004            ; emulate duty cycle
+0488   058F 28 C0               and a,#11000000b
+0489   0591 60                  clrc
+0490   0592 3C                  rol a
+0491   0593 3C                  rol a
+0492   0594 3C                  rol a
+0493   0595             
+0494   0595 C4 65               mov puls1_sample,a
+0495   0597 64 67               cmp a,puls1_sample_old
+0496   0599 F0 0C               beq sq2_no_change
+0497   059B             
+0498   059B             sq2_sample_change:
+0499   059B             
+0500   059B 8F 14 F2            mov $F2,#$14            ; sample # reg
+0501   059E FA 65 F3            mov $F3,puls1_sample
+0502   05A1             
+0503   05A1 8F 4C F2            mov $F2,#$4C            ; key on
+0504   05A4 8F 02 F3            mov $F3,#00000010b
+0505   05A7             
+0506   05A7             sq2_no_change:
+0507   05A7             
+0508   05A7 FA 65 67            mov puls1_sample_old,puls1_sample
+0509   05AA             
+0510   05AA             
+0511   05AA             
+0512   05AA             
+0513   05AA             
+0514   05AA             ;        mov puls0_sample,#0
+0515   05AA             ;
+0516   05AA             ;        mov y,a
+0517   05AA             ;
+0518   05AA             ;        mov a,sq4003
+0519   05AA             ;        and a,#00000111b
+0520   05AA             ;        mov x,a
+0521   05AA             ;        mov a,y
+0522   05AA             ;;        cmp x,#00000101b
+0523   05AA             ;;        beq pitch0
+0524   05AA             ;        cmp x,#00000110b
+0525   05AA             ;        beq pitch0
+0526   05AA             ;        cmp x,#00000111b
+0527   05AA             ;        beq pitch0
+0528   05AA             ;
+0529   05AA             ;        clrc
+0530   05AA             ;        adc a,#4
+0531   05AA             ;        mov puls0_sample,#1
+0532   05AA             ;
+0533   05AA             ;pitch0:
+0534   05AA             ;        mov $F2,#$04            ; sample #
+0535   05AA             ;        mov $F3,a
+0536   05AA             ;
+0537   05AA             ;        mov $F2,#$4C            ; key on
+0538   05AA             ;        mov $F3,#00000001b
+0539   05AA             ;no_change:
+0540   05AA             ;        mov pulse0dutyold,pulse0duty
+0541   05AA             ;        mov puls0_sample_old,puls0_sample
+0542   05AA             ;-------------------------------------
+0543   05AA             
+0544   05AA             
+0545   05AA                                     ; check if sweeps are enabled
+0546   05AA E4 45               mov a,$45
+0547   05AC 28 80               and a,#10000000b
+0548   05AE F0 0B               beq skip01
+0549   05B0 E4 45               mov a,$45
+0550   05B2 28 07               and a,#00000111b
+0551   05B4 F0 05               beq skip01
+0552   05B6             
+0553   05B6 3F A8 0A            call !check_timers2
+0554   05B9 2F 4C               bra nextsq1
+0555   05BB             
+0556   05BB             skip01:
+0557   05BB             
+0558   05BB             
+0559   05BB E4 47               mov a,sq4007            ; check if freq is 0 or too high
+0560   05BD 28 07               and a,#00000111b
+0561   05BF D0 1C               bne ok2
+0562   05C1 E4 46               mov a,sq4006
+0563   05C3 F0 B9               beq silence2
+0564   05C5 68 01               cmp a,#1
+0565   05C7 F0 B5               beq silence2
+0566   05C9 68 02               cmp a,#2
+0567   05CB F0 B1               beq silence2
+0568   05CD 68 03               cmp a,#3
+0569   05CF F0 AD               beq silence2
+0570   05D1 68 04               cmp a,#4
+0571   05D3 F0 A9               beq silence2
+0572   05D5 68 05               cmp a,#5
+0573   05D7 F0 A5               beq silence2
+0574   05D9 68 06               cmp a,#6
+0575   05DB F0 A1               beq silence2
+0576   05DD             ok2:
+0577   05DD             
+0578   05DD             
+0579   05DD 38 07 47            and $47,#00000111b
+0580   05E0             
+0581   05E0 E4 46               mov a,$46
+0582   05E2 60                  clrc
+0583   05E3 3C                  rol a
+0584   05E4 0D                  push psw
+0585   05E5 60                  clrc
+0586   05E6 88 BD               adc a,#freqtable & 255
+0587   05E8 2B 6A               rol temp3
+0588   05EA C4 68               mov temp1,a
+0589   05EC 8E                  pop psw
+0590   05ED E4 47               mov a,$47
+0591   05EF 3C                  rol a
+0592   05F0 6B 6A               ror temp3
+0593   05F2 88 0E               adc a,#freqtable >> 8
+0594   05F4 C4 69               mov temp2,a
+0595   05F6             
+0596   05F6 8D 00               mov y,#0
+0597   05F8 F7 68               mov a,[temp1]+y
+0598   05FA 8F 12 F2            mov $F2,#$12
+0599   05FD C4 F3               mov $F3,a
+0600   05FF             
+0601   05FF FC                  inc y
+0602   0600 F7 68               mov a,[temp1]+y
+0603   0602 8F 13 F2            mov $F2,#$13
+0604   0605 C4 F3               mov $F3,a
+0605   0607             
+0606   0607             ;--------------------------------------
+0607   0607             
+0608   0607             nextsq1:
+0609   0607             
+0610   0607 E4 44               mov a,sq4004            ; check decay disabled
+0611   0609 28 10               and a,#00010000b
+0612   060B D0 08               bne decay_disabled2
+0613   060D             
+0614   060D E4 56               mov a,$56
+0615   060F 28 02               and a,#00000010b
+0616   0611 F0 33               beq no_reset2
+0617   0613 2F 31               bra no_reset2
+0618   0615             
+0619   0615             ;        mov a,sq4004
+0620   0615             ;        and a,#00001111b
+0621   0615             ;        mov x,a
+0622   0615             ;        mov a,!volume_decay_table+X
+0623   0615             ;        mov $F2,#$17
+0624   0615             ;        mov $F3,a
+0625   0615             ;
+0626   0615             ;        mov $F2,#$18             ; envx
+0627   0615             ;        mov $F3,#01111000b
+0628   0615             ;
+0629   0615             ;
+0630   0615             ;        mov $F2,#$14
+0631   0615             ;        mov $F3,puls0_sample
+0632   0615             ;        mov $F2,#$4C
+0633   0615             ;        mov $F3,#00000010b
+0634   0615             ;
+0635   0615             ;        mov a,#$1F
+0636   0615             ;        mov $F2,#$18
+0637   0615             ;        mov $F3,a
+0638   0615             ;
+0639   0615             ;        bra write_volume2
+0640   0615             
+0641   0615             decay_disabled2:
+0642   0615 8F 17 F2            mov $F2,#$17
+0643   0618 8F 1F F3            mov $F3,#$1F
+0644   061B             
+0645   061B E4 56               mov a,no4016
+0646   061D 28 20               and a,#20h
+0647   061F F0 14               beq mono2
+0648   0621             
+0649   0621 E4 44               mov a,sq4004
+0650   0623 28 0F               and a,#00001111b
+0651   0625 1C                  asl a
+0652   0626 1C                  asl a
+0653   0627 1C                  asl a
+0654   0628             ;        asl a
+0655   0628             
+0656   0628 8F 10 F2            mov $F2,#$10
+0657   062B 8F 00 F3            mov $F3,#0
+0658   062E 8F 11 F2            mov $F2,#$11
+0659   0631 C4 F3               mov $F3,a
+0660   0633 2F 11               bra no_reset2
+0661   0635             
+0662   0635             
+0663   0635             mono2:
+0664   0635 E4 44               mov a,sq4004            ; emulate volume, square 0
+0665   0637 28 0F               and a,#00001111b
+0666   0639 1C                  asl a
+0667   063A 1C                  asl a
+0668   063B 1C                  asl a
+0669   063C             
+0670   063C             write_volume2:
+0671   063C 8F 10 F2            mov $F2,#$10            ; write volume
+0672   063F             ;        mov $F3,#0
+0673   063F C4 F3               mov $F3,a
+0674   0641 8F 11 F2            mov $F2,#$11
+0675   0644 C4 F3               mov $F3,a
+0676   0646             
+0677   0646             no_reset2:
+0678   0646             
+0679   0646             
+0680   0646             
+0681   0646             ;=====================================
+0682   0646             
+0683   0646             ;-------------------------------------
+0684   0646             triangle:
+0685   0646 E4 55               mov a,sound_ctrl
+0686   0648 28 04               and a,#00000100b        ; check triangle bit of $4015
+0687   064A D0 0F               bne tri_enabled
+0688   064C             
+0689   064C             silence3:
+0690   064C 8F 20 F2            mov $F2,#$20
+0691   064F 8F 00 F3            mov $F3,#0
+0692   0652 8F 21 F2            mov $F2,#$21
+0693   0655 8F 00 F3            mov $F3,#0
+0694   0658 5F E1 06            jmp !noise
+0695   065B             
+0696   065B             tri_enabled:
+0697   065B             
+0698   065B             ;        mov a,no4016
+0699   065B             ;        and a,#00000100b
+0700   065B             ;        beq silence3
+0701   065B             
+0702   065B E4 48               mov a,tr4008
+0703   065D F0 ED               beq silence3
+0704   065F 28 80               and a,#10000000b
+0705   0661 F0 31               beq tri_length_enabled
+0706   0663 E4 48               mov a,tr4008
+0707   0665 28 7F               and a,#01111111b
+0708   0667 F0 E3               beq silence3
+0709   0669             
+0710   0669 E4 56               mov a,no4016
+0711   066B 28 20               and a,#20h
+0712   066D F0 17               beq mono3
+0713   066F             
+0714   066F E4 51               mov a,pcm_raw
+0715   0671 5C                  lsr a
+0716   0672 5C                  lsr a
+0717   0673 C4 8D               mov add_temp,a
+0718   0675 E8 3F               mov a,#$3F
+0719   0677             
+0720   0677 80                  setc
+0721   0678 A4 8D               sbc a,add_temp
+0722   067A             
+0723   067A 8F 20 F2            mov $F2,#$20
+0724   067D C4 F3               mov $F3,a
+0725   067F 8F 21 F2            mov $F2,#$21
+0726   0682 C4 F3               mov $F3,a
+0727   0684             
+0728   0684             
+0729   0684             ;        mov $F2,#$20    ; set volume
+0730   0684             ;        mov $F3,#$3F
+0731   0684             ;        mov $F2,#$21
+0732   0684             ;        mov $F3,#$3F
+0733   0684             
+0734   0684 2F 21       	  bra notimer
+0735   0686             mono3:
+0736   0686             
+0737   0686 8F 20 F2            mov $F2,#20h
+0738   0689 8F 7F F3            mov $F3,#7Fh
+0739   068C 8F 21 F3            mov $F3,#21h
+0740   068F 8F 7F F3            mov $F3,#7Fh
+0741   0692             
+0742   0692 2F 13               bra notimer
+0743   0694             
+0744   0694             tri_length_enabled:
+0745   0694             
+0746   0694 E4 56               mov a,no4016
+0747   0696 28 04               and a,#00000100b
+0748   0698 F0 0D               beq notimer
+0749   069A E4 48               mov a,tr4008
+0750   069C 28 7F               and a,#01111111b
+0751   069E 8D 03               mov y,#3
+0752   06A0 CF                  mul ya
+0753   06A1 CB 7E               mov linear_count_hi,y
+0754   06A3 C4 7D               mov linear_count_lo,a
+0755   06A5             
+0756   06A5 E4 FF               mov a,$FF                ; clear counter
+0757   06A7             notimer:
+0758   06A7             
+0759   06A7 3F 53 07            call !check_timer3
+0760   06AA             
+0761   06AA             
+0762   06AA             
+0763   06AA 38 07 4B            and $4B,#00000111b
+0764   06AD             
+0765   06AD E4 4A               mov a,$4A
+0766   06AF 60                  clrc
+0767   06B0 3C                  rol a
+0768   06B1 0D                  push psw
+0769   06B2 60                  clrc
+0770   06B3 88 BD               adc a,#tritable & 255
+0771   06B5 2B 6A               rol temp3
+0772   06B7 C4 68               mov temp1,a
+0773   06B9 8E                  pop psw
+0774   06BA E4 4B               mov a,$4B
+0775   06BC 3C                  rol a
+0776   06BD 6B 6A               ror temp3
+0777   06BF 88 1E               adc a,#tritable >> 8
+0778   06C1 C4 69               mov temp2,a
+0779   06C3             
+0780   06C3 8D 00               mov y,#0
+0781   06C5 F7 68               mov a,[temp1]+y
+0782   06C7 8F 22 F2            mov $F2,#$22
+0783   06CA             
+0784   06CA 80                  setc
+0785   06CB 68 00               cmp a,#0
+0786   06CD F0 06               beq nomess1
+0787   06CF 68 01               cmp a,#1
+0788   06D1 F0 02               beq nomess1
+0789   06D3 A8 02               sbc a,#2
+0790   06D5             nomess1:
+0791   06D5 C4 F3               mov $F3,a
+0792   06D7             
+0793   06D7 FC                  inc y
+0794   06D8 F7 68               mov a,[temp1]+y
+0795   06DA 8F 23 F2            mov $F2,#$23
+0796   06DD A8 00               sbc a,#0
+0797   06DF C4 F3               mov $F3,a
+0798   06E1             
+0799   06E1             
+0800   06E1             ;=====================================
+0801   06E1             
+0802   06E1             ;-------------------------------------
+0803   06E1             noise:
+0804   06E1 E4 55               mov a,sound_ctrl
+0805   06E3 28 08               and a,#00001000b
+0806   06E5 D0 0E               bne noise_enabled
+0807   06E7             
+0808   06E7 8F 30 F2            mov $F2,#$30
+0809   06EA 8F 00 F3            mov $F3,#0
+0810   06ED 8F 31 F2            mov $F2,#$31
+0811   06F0 8F 00 F3            mov $F3,#0
+0812   06F3             
+0813   06F3 2F 45               bra noise_off
+0814   06F5             
+0815   06F5             noise_enabled:
+0816   06F5 E4 4C               mov a,no400C            ; check decay disable
+0817   06F7 28 10               and a,#00010000b
+0818   06F9 D0 02               bne decay_disabled3
+0819   06FB             
+0820   06FB 2F 30               bra no_reset3
+0821   06FD             
+0822   06FD             ;        mov a,$56
+0823   06FD             ;        and a,#00001000b
+0824   06FD             ;        beq no_reset3
+0825   06FD             ;
+0826   06FD             ;        mov a,no400C
+0827   06FD             ;        and a,#00001111b
+0828   06FD             ;        mov x,a
+0829   06FD             ;        mov a,!volume_decay_table+X
+0830   06FD             ;        mov $F2,#$37
+0831   06FD             ;        mov $F3,a
+0832   06FD             ;
+0833   06FD             ;        mov $F2,#$38
+0834   06FD             ;        mov $F3,#01111000b
+0835   06FD             ;
+0836   06FD             ;        mov $F2,#$34
+0837   06FD             ;        mov $F3,#0        ;puls0_sample
+0838   06FD             ;        mov $F2,#$4C
+0839   06FD             ;        mov $F3,#00001000b
+0840   06FD             ;
+0841   06FD             ;        mov a,#$08
+0842   06FD             ;        mov $F2,#$38
+0843   06FD             ;        mov $F3,a
+0844   06FD             ;
+0845   06FD             ;        bra write_volume3
+0846   06FD             
+0847   06FD             decay_disabled3:
+0848   06FD 8F 37 F2            mov $F2,#$37
+0849   0700 8F 1F F3            mov $F3,#$1F
+0850   0703             
+0851   0703 E4 56               mov a,no4016
+0852   0705 28 20               and a,#20h
+0853   0707 F0 06               beq mono4
+0854   0709             
+0855   0709 E4 4C               mov a,no400C
+0856   070B 28 0F               and a,#00001111b
+0857   070D 2F 14               bra write_volume3
+0858   070F             
+0859   070F             mono4:
+0860   070F E4 4C               mov a,no400C            ; write noise volume
+0861   0711 28 0F               and a,#00001111b
+0862   0713 1C                  asl a
+0863   0714 5D                  mov x,a
+0864   0715             
+0865   0715             
+0866   0715 E4 51               mov a,pcm_raw
+0867   0717 5C                  lsr a
+0868   0718 5C                  lsr a
+0869   0719 C4 8D               mov add_temp,a
+0870   071B 7D                  mov a,x
+0871   071C 80                  setc
+0872   071D A4 8D               sbc a,add_temp
+0873   071F B0 02               bcs just_fine
+0874   0721 E8 00               mov a,#0
+0875   0723             just_fine:
+0876   0723             
+0877   0723             ;        mov $F2,#$30
+0878   0723             ;        mov $F3,a
+0879   0723             ;        mov $F2,#$31
+0880   0723             ;        mov $F3,a
+0881   0723             
+0882   0723             
+0883   0723             
+0884   0723             ;        asl a
+0885   0723             ;        asl a
+0886   0723             ;        asl a
+0887   0723             write_volume3:
+0888   0723 8F 30 F2            mov $F2,#$30
+0889   0726 C4 F3               mov $F3,a
+0890   0728 8F 31 F2            mov $F2,#$31
+0891   072B C4 F3               mov $F3,a
+0892   072D             
+0893   072D             no_reset3:
+0894   072D             ;---------------------------------------
+0895   072D                                             ; write noise frequency
+0896   072D E4 4E               mov a,no400E
+0897   072F 28 0F               and a,#00001111b
+0898   0731 5D                  mov x,a
+0899   0732 F5 49 0C            mov a,!noise_freq_table+X
+0900   0735             
+0901   0735 8F 6C F2            mov $F2,#$6C
+0902   0738 C4 F3               mov $F3,a
+0903   073A             
+0904   073A             
+0905   073A             ;        mov $F2,#$6C
+0906   073A             ;        mov a,no400E
+0907   073A             ;        eor a,#$FF
+0908   073A             ;        and a,#00001111b
+0909   073A             ;        asl a
+0910   073A             ;        or  a,#00100000b        ; set echo disable
+0911   073A             ;        mov $F3,a               ; write noise frequency
+0912   073A             
+0913   073A             noise_off:
+0914   073A             
+0915   073A 5F 71 04            jmp !next_xfer
+0916   073D             
+0917   073D             
+0918   073D             ;======================================
+0919   073D             ; timer notes:
+0920   073D             ;               linear counter
+0921   073D             ;               267.094 Timer2 units (15.6ms) for 1/240hz
+0922   073D             ;               267.094 / 3 = 89.031 (timer value)
+0923   073D             ;               4-bit counter / 3 is number of .25-frames passed
+0924   073D             ;                       maxmimum time allowed between checks
+0925   073D             ;                       before 4-bit overflow: 22.2 milliseconds!
+0926   073D             ;
+0927   073D             
+0928   073D             enable_timer3:
+0929   073D 8F 00 F1            mov $F1,#0                              ; disable timers
+0930   0740 8F 59 FC            mov $FC,#89				; 89 * 3 = 267
+0931   0743 8F 16 FB            mov $FB,#22                             ; 22.2222 * 3 = 66.66666
+0932   0746 8F 16 FA            mov $FA,#22
+0933   0749 E4 FF               mov a,$FF                               ; clear counters
+0934   074B E4 FE               mov a,$FE
+0935   074D E4 FD               mov a,$FD
+0936   074F 8F 07 F1            mov $F1,#00000111b              ; enable timers
+0937   0752 6F                  ret
+0938   0753             
+0939   0753             
+0940   0753             check_timer3:
+0941   0753 E4 FF               mov a,$FF               ; timer's 4-bit counter
+0942   0755 C4 85               mov timer3val,a
+0943   0757             
+0944   0757 E4 40               mov a,sq4000
+0945   0759 28 10               and a,#00010000b
+0946   075B F0 03               beq decay1
+0947   075D 5F 07 08            jmp !no_decay1
+0948   0760             decay1:
+0949   0760             
+0950   0760 E4 56               mov a,$56
+0951   0762 28 01               and a,#00000001b
+0952   0764 F0 10               beq no_decay_reset
+0953   0766             
+0954   0766 E8 0F               mov a,#00001111b        ; reset decay
+0955   0768 C4 86               mov decay1volume,a
+0956   076A E8 00               mov a,#0
+0957   076C C4 87               mov decay1rate,a
+0958   076E             
+0959   076E E4 88               mov a,decay_status
+0960   0770 08 01               or a,#00000001b
+0961   0772 C4 88               mov decay_status,a
+0962   0774             
+0963   0774 2F 38               bra write_decay_volume
+0964   0776             
+0965   0776             no_decay_reset:
+0966   0776             
+0967   0776 E4 88               mov a,decay_status
+0968   0778 28 01               and a,#00000001b
+0969   077A D0 03               bne no_decay1x
+0970   077C 5F 07 08            jmp !no_decay1
+0971   077F             no_decay1x:
+0972   077F             
+0973   077F E4 40               mov a,sq4000
+0974   0781 28 0F               and a,#00001111b
+0975   0783 5D                  mov x,a
+0976   0784             
+0977   0784 E4 85               mov a,timer3val
+0978   0786 60                  clrc
+0979   0787 84 87               adc a,decay1rate
+0980   0789 C4 87               mov decay1rate,a
+0981   078B             
+0982   078B 75 36 05            cmp a,!volume_decay_rates+X
+0983   078E 90 77               bcc no_decay1
+0984   0790             
+0985   0790 E8 00               mov a,#0
+0986   0792 C4 87               mov decay1rate,a
+0987   0794             
+0988   0794 E4 86               mov a,decay1volume
+0989   0796 D0 14               bne no_decay_end
+0990   0798             
+0991   0798 E4 40               mov a,sq4000
+0992   079A 28 20               and a,#00100000b        ; decay looping enabled?
+0993   079C F0 06               beq decay1_end
+0994   079E E8 10               mov a,#00010000b        ; looped, reset volume
+0995   07A0 C4 86               mov decay1volume,a
+0996   07A2 2F 63               bra no_decay1
+0997   07A4             
+0998   07A4             decay1_end:
+0999   07A4 E4 88               mov a,decay_status      ; disabled!
+1000   07A6 28 FE               and a,#11111110b
+1001   07A8 C4 88               mov decay_status,a
+1002   07AA 2F 5B               bra no_decay1
+1003   07AC             
+1004   07AC             no_decay_end:
+1005   07AC 8B 86               dec decay1volume
+1006   07AE             
+1007   07AE             write_decay_volume:
+1008   07AE E4 86               mov a,decay1volume
+1009   07B0 1C                  asl a
+1010   07B1 1C                  asl a
+1011   07B2 1C                  asl a
+1012   07B3 5D                  mov x,a
+1013   07B4             
+1014   07B4 E4 55               mov a,sound_ctrl
+1015   07B6 28 01               and a,#00000001b
+1016   07B8 F0 2E               beq silenced1
+1017   07BA             
+1018   07BA E4 41               mov a,sq4001
+1019   07BC 28 80               and a,#10000000b
+1020   07BE F0 08               beq okd1y
+1021   07C0 E4 41               mov a,sq4001
+1022   07C2 28 07               and a,#00000111b
+1023   07C4 F0 02               beq okd1y
+1024   07C6 2F 10               bra ooykd
+1025   07C8             
+1026   07C8             okd1y:
+1027   07C8 E4 43               mov a,sq4003
+1028   07CA 28 07               and a,#00000111b
+1029   07CC D0 1C               bne okd1                ; check if freq is 0 or too high
+1030   07CE E4 42               mov a,sq4002
+1031   07D0 F0 16               beq silenced1
+1032   07D2 68 07               cmp a,#7
+1033   07D4 90 12               bcc silenced1
+1034   07D6 2F 12               bra okd1
+1035   07D8             
+1036   07D8             ooykd:
+1037   07D8 E4 7A               mov a,sweep_freq_lo
+1038   07DA 28 07               and a,#00000111b
+1039   07DC D0 0C               bne okd1                ; check if freq is 0 or too high
+1040   07DE E4 7B               mov a,sweep_freq_hi
+1041   07E0 F0 06               beq silenced1
+1042   07E2 68 07               cmp a,#7
+1043   07E4 90 02               bcc silenced1
+1044   07E6 2F 02               bra okd1
+1045   07E8             
+1046   07E8             silenced1:
+1047   07E8 CD 00               mov x,#0
+1048   07EA             okd1:
+1049   07EA E4 56               mov a,no4016
+1050   07EC 28 20               and a,#20h
+1051   07EE F0 0D               beq monod1
+1052   07F0             
+1053   07F0 8F 00 F2            mov $F2,#0
+1054   07F3 D8 F3               mov $F3,x
+1055   07F5 8F 01 F2            mov $F2,#1
+1056   07F8 8F 00 F3            mov $F3,#0
+1057   07FB 2F 0A               bra no_decay1
+1058   07FD             
+1059   07FD             monod1:
+1060   07FD 8F 00 F2            mov $F2,#0              ; write volume
+1061   0800 D8 F3               mov $F3,x
+1062   0802 8F 01 F2            mov $F2,#1
+1063   0805 D8 F3               mov $F3,x
+1064   0807             
+1065   0807             
+1066   0807             no_decay1:
+1067   0807             
+1068   0807 E4 44               mov a,sq4004
+1069   0809 28 10               and a,#00010000b
+1070   080B F0 03               beq decay2
+1071   080D 5F B7 08            jmp !no_decay2
+1072   0810             decay2:
+1073   0810             
+1074   0810 E4 56               mov a,$56
+1075   0812 28 02               and a,#00000010b
+1076   0814 F0 10               beq no_decay_reset2
+1077   0816             
+1078   0816 E8 0F               mov a,#00001111b        ; reset decay
+1079   0818 C4 89               mov decay2volume,a
+1080   081A E8 00               mov a,#0
+1081   081C C4 8A               mov decay2rate,a
+1082   081E             
+1083   081E E4 88               mov a,decay_status
+1084   0820 08 02               or a,#00000010b
+1085   0822 C4 88               mov decay_status,a
+1086   0824             
+1087   0824 2F 38               bra write_decay_volume2
+1088   0826             
+1089   0826             no_decay_reset2:
+1090   0826             
+1091   0826 E4 88               mov a,decay_status
+1092   0828 28 02               and a,#00000010b
+1093   082A D0 03               bne no_decay2x
+1094   082C 5F B7 08            jmp !no_decay2
+1095   082F             no_decay2x:
+1096   082F             
+1097   082F E4 44               mov a,sq4004
+1098   0831 28 0F               and a,#00001111b
+1099   0833 5D                  mov x,a
+1100   0834             
+1101   0834 E4 85               mov a,timer3val
+1102   0836 60                  clrc
+1103   0837 84 8A               adc a,decay2rate
+1104   0839 C4 8A               mov decay2rate,a
+1105   083B             
+1106   083B 75 36 05            cmp a,!volume_decay_rates+X
+1107   083E 90 77               bcc no_decay2
+1108   0840             
+1109   0840 E8 00               mov a,#0
+1110   0842 C4 8A               mov decay2rate,a
+1111   0844             
+1112   0844 E4 89               mov a,decay2volume
+1113   0846 D0 14               bne no_decay_end2
+1114   0848             
+1115   0848 E4 44               mov a,sq4004
+1116   084A 28 20               and a,#00100000b        ; decay looping enabled?
+1117   084C F0 06               beq decay2_end
+1118   084E E8 10               mov a,#00010000b        ; looped, reset volume
+1119   0850 C4 89               mov decay2volume,a
+1120   0852 2F 63               bra no_decay2
+1121   0854             
+1122   0854             decay2_end:
+1123   0854 E4 88               mov a,decay_status      ; disabled!
+1124   0856 28 FD               and a,#11111101b
+1125   0858 C4 88               mov decay_status,a
+1126   085A 2F 5B               bra no_decay2
+1127   085C             
+1128   085C             no_decay_end2:
+1129   085C 8B 89               dec decay2volume
+1130   085E             
+1131   085E             write_decay_volume2:
+1132   085E E4 89               mov a,decay2volume
+1133   0860 1C                  asl a
+1134   0861 1C                  asl a
+1135   0862 1C                  asl a
+1136   0863 5D                  mov x,a
+1137   0864             
+1138   0864 E4 55               mov a,sound_ctrl
+1139   0866 28 02               and a,#00000010b
+1140   0868 F0 2E               beq silenced2
+1141   086A             
+1142   086A E4 45               mov a,sq4005
+1143   086C 28 80               and a,#10000000b
+1144   086E F0 08               beq okd2y
+1145   0870 E4 45               mov a,sq4005
+1146   0872 28 07               and a,#00000111b
+1147   0874 F0 02               beq okd2y
+1148   0876 2F 10               bra ooykd2
+1149   0878             
+1150   0878             okd2y:
+1151   0878 E4 47               mov a,sq4007
+1152   087A 28 07               and a,#00000111b
+1153   087C D0 1C               bne okd2                ; check if freq is 0 or too high
+1154   087E E4 46               mov a,sq4006
+1155   0880 F0 16               beq silenced2
+1156   0882 68 07               cmp a,#7
+1157   0884 90 12               bcc silenced2
+1158   0886 2F 12               bra okd2
+1159   0888             
+1160   0888             ooykd2:
+1161   0888             
+1162   0888             
+1163   0888 E4 83               mov a,sweep_freq_lo2
+1164   088A 28 07               and a,#00000111b
+1165   088C D0 0C               bne okd2                ; check if freq is 0 or too high
+1166   088E E4 84               mov a,sweep_freq_hi2
+1167   0890 F0 06               beq silenced2
+1168   0892 68 07               cmp a,#7
+1169   0894 90 02               bcc silenced2
+1170   0896 2F 02               bra okd2
+1171   0898             
+1172   0898             silenced2:
+1173   0898 CD 00               mov x,#0
+1174   089A             okd2:
+1175   089A E4 56               mov a,no4016
+1176   089C 28 20               and a,#20h
+1177   089E F0 0D               beq monod2
+1178   08A0             
+1179   08A0 8F 10 F2            mov $F2,#10h
+1180   08A3 8F 00 F3            mov $F3,#0
+1181   08A6 8F 11 F2            mov $F2,#11h
+1182   08A9 D8 F3               mov $F3,x
+1183   08AB 2F 0A               bra no_decay2
+1184   08AD             
+1185   08AD             monod2:
+1186   08AD 8F 10 F2            mov $F2,#$10              ; write volume
+1187   08B0 D8 F3               mov $F3,x
+1188   08B2 8F 11 F2            mov $F2,#$11
+1189   08B5 D8 F3               mov $F3,x
+1190   08B7             
+1191   08B7             
+1192   08B7             no_decay2:
+1193   08B7             
+1194   08B7             
+1195   08B7 E4 4C               mov a,no400C
+1196   08B9 28 10               and a,#00010000b
+1197   08BB D0 69               bne no_decay3
+1198   08BD             
+1199   08BD             
+1200   08BD E4 55               mov a,sound_ctrl
+1201   08BF 28 08               and a,#00001000b
+1202   08C1 F0 63               beq no_decay3
+1203   08C3             
+1204   08C3 E4 56               mov a,$56
+1205   08C5 28 08               and a,#00001000b
+1206   08C7 F0 10               beq no_decay_reset3
+1207   08C9             
+1208   08C9 E8 0F               mov a,#00001111b        ; reset decay
+1209   08CB C4 8B               mov decay3volume,a
+1210   08CD E8 00               mov a,#0
+1211   08CF C4 8C               mov decay3rate,a
+1212   08D1             
+1213   08D1 E4 88               mov a,decay_status
+1214   08D3 08 08               or a,#00001000b
+1215   08D5 C4 88               mov decay_status,a
+1216   08D7             
+1217   08D7 2F 3F               bra write_decay_volume3
+1218   08D9             
+1219   08D9             no_decay_reset3:
+1220   08D9             
+1221   08D9 E4 88               mov a,decay_status
+1222   08DB 28 08               and a,#00001000b
+1223   08DD F0 47               beq no_decay3
+1224   08DF             
+1225   08DF E4 4C               mov a,no400C
+1226   08E1 28 0F               and a,#00001111b
+1227   08E3 5D                  mov x,a
+1228   08E4             
+1229   08E4 E4 85               mov a,timer3val
+1230   08E6 60                  clrc
+1231   08E7 84 8C               adc a,decay3rate
+1232   08E9 C4 8C               mov decay3rate,a
+1233   08EB             
+1234   08EB 75 36 05            cmp a,!volume_decay_rates+X
+1235   08EE 90 36               bcc no_decay3
+1236   08F0             
+1237   08F0 E8 00               mov a,#0
+1238   08F2 C4 8C               mov decay3rate,a
+1239   08F4             
+1240   08F4 E4 8B               mov a,decay3volume
+1241   08F6 D0 14               bne no_decay_end3
+1242   08F8             
+1243   08F8 E4 4C               mov a,no400C
+1244   08FA 28 20               and a,#00100000b        ; decay looping enabled?
+1245   08FC F0 06               beq decay3_end
+1246   08FE E8 10               mov a,#00010000b        ; looped, reset volume
+1247   0900 C4 8B               mov decay3volume,a
+1248   0902 2F 22               bra no_decay3
+1249   0904             
+1250   0904             decay3_end:
+1251   0904 E4 88               mov a,decay_status      ; disabled!
+1252   0906 28 F7               and a,#11110111b
+1253   0908 C4 88               mov decay_status,a
+1254   090A 2F 1A               bra no_decay3
+1255   090C             
+1256   090C             no_decay_end3:
+1257   090C 8B 8B               dec decay3volume
+1258   090E             
+1259   090E E4 55               mov a,sound_ctrl
+1260   0910 28 08               and a,#00001000b
+1261   0912 D0 04               bne write_decay_volume3
+1262   0914 CD 00               mov x,#0
+1263   0916 2F 04               bra noise_decayed
+1264   0918             
+1265   0918             write_decay_volume3:
+1266   0918 E4 8B               mov a,decay3volume
+1267   091A 1C                  asl a
+1268   091B             ;        asl a
+1269   091B             ;        asl a
+1270   091B 5D                  mov x,a
+1271   091C             
+1272   091C             noise_decayed:
+1273   091C 8F 30 F2            mov $F2,#$30              ; write volume
+1274   091F D8 F3               mov $F3,x
+1275   0921 8F 31 F2            mov $F2,#$31
+1276   0924 D8 F3               mov $F3,x
+1277   0926             
+1278   0926             
+1279   0926             no_decay3:
+1280   0926             
+1281   0926             
+1282   0926 E4 55               mov a,sound_ctrl
+1283   0928 28 04               and a,#00000100b
+1284   092A F0 2C               beq timer3_complete
+1285   092C             
+1286   092C E4 7E               mov a,linear_count_hi
+1287   092E D0 04               bne needed
+1288   0930 E4 7D               mov a,linear_count_lo
+1289   0932 F0 23               beq not_needed
+1290   0934             needed:
+1291   0934 E4 85               mov a,timer3val
+1292   0936             
+1293   0936 60                  clrc
+1294   0937 84 7F               adc a,timer3count_lo
+1295   0939 C4 7F               mov timer3count_lo,a
+1296   093B E8 00               mov a,#0
+1297   093D 84 80               adc a,timer3count_hi
+1298   093F C4 80               mov timer3count_hi,a
+1299   0941             
+1300   0941 64 7E               cmp a,linear_count_hi
+1301   0943 90 06               bcc timer3_ongoing
+1302   0945             
+1303   0945 E4 7F               mov a,timer3count_lo
+1304   0947 64 7D               cmp a,linear_count_lo
+1305   0949 B0 0D               bcs timer3_complete
+1306   094B             timer3_ongoing:
+1307   094B             
+1308   094B 8F 20 F2            mov $F2,#$20    ; set volume
+1309   094E 8F 3F F3            mov $F3,#$3F
+1310   0951 8F 21 F2            mov $F2,#$21
+1311   0954 8F 3F F3            mov $F3,#$3F
+1312   0957             
+1313   0957             not_needed:
+1314   0957 6F                  ret
+1315   0958             
+1316   0958             timer3_complete:
+1317   0958             ;        mov $F1,#0
+1318   0958             
+1319   0958 8F 20 F2            mov $F2,#$20
+1320   095B 8F 00 F3            mov $F3,#0
+1321   095E 8F 21 F2            mov $F2,#$21
+1322   0961 8F 00 F3            mov $F3,#0
+1323   0964 8F 00 7D            mov linear_count_lo,#0
+1324   0967 8F 00 7E            mov linear_count_hi,#0
+1325   096A             
+1326   096A 8F 00 7F            mov timer3count_lo,#0
+1327   096D 8F 00 80            mov timer3count_hi,#0
+1328   0970 6F                  ret
+1329   0971             
+1330   0971             
+1331   0971 E4 48               mov a,tr4008
+1332   0973 24 00               and a,
+1333   0975 6F                  ret
+1334   0976             
+1335   0976             
+1336   0976             silencex1:
+1337   0976 8F 00 F2            mov $F2,#0
+1338   0979 8F 00 F3            mov $F3,#0
+1339   097C 8F 01 F2            mov $F2,#1
+1340   097F 8F 00 F3            mov $F3,#0
+1341   0982             
+1342   0982             nonsweep:
+1343   0982 6F                  ret
+1344   0983             
+1345   0983             check_timers:
+1346   0983 E4 41               mov a,sq4001
+1347   0985 28 80               and a,#10000000b
+1348   0987 F0 F9               beq nonsweep
+1349   0989 E4 41               mov a,sq4001
+1350   098B 28 07               and a,#00000111b
+1351   098D F0 F3               beq nonsweep
+1352   098F             
+1353   098F E4 56               mov a,no4016
+1354   0991 28 40               and a,#01000000b
+1355   0993 F0 46               beq nofreqchange
+1356   0995             
+1357   0995 38 BF 56            and no4016,#10111111b   ; disable!
+1358   0998 E4 FD               mov a,$FD               ; clear counter
+1359   099A             
+1360   099A E4 42               mov a,sq4002
+1361   099C C4 7A               mov sweep_freq_lo,a
+1362   099E E4 43               mov a,sq4003
+1363   09A0 28 07               and a,#00000111b
+1364   09A2 C4 7B               mov sweep_freq_hi,a
+1365   09A4             
+1366   09A4 D0 08               bne ok1x                ; check if freq is 0 or too high
+1367   09A6 E4 7A               mov a,sweep_freq_lo
+1368   09A8 F0 CC               beq silencex1
+1369   09AA 68 07               cmp a,#7
+1370   09AC 90 C8               bcc silencex1
+1371   09AE             ok1x:
+1372   09AE             
+1373   09AE E4 7B               mov a,sweep_freq_hi
+1374   09B0 28 F8               and a,#11111000b
+1375   09B2 D0 C2               bne silencex1
+1376   09B4             
+1377   09B4             
+1378   09B4 E4 7A               mov a,sweep_freq_lo
+1379   09B6 60                  clrc
+1380   09B7 3C                  rol a
+1381   09B8 0D                  push psw
+1382   09B9 60                  clrc
+1383   09BA 88 BD               adc a,#freqtable & 255
+1384   09BC 2B 6A               rol temp3
+1385   09BE C4 68               mov temp1,a
+1386   09C0 8E                  pop psw
+1387   09C1 E4 7B               mov a,sweep_freq_hi
+1388   09C3 3C                  rol a
+1389   09C4 6B 6A               ror temp3
+1390   09C6 88 0E               adc a,#freqtable >> 8
+1391   09C8 C4 69               mov temp2,a
+1392   09CA             
+1393   09CA 8D 00               mov y,#0
+1394   09CC F7 68               mov a,[temp1]+y
+1395   09CE 8F 02 F2            mov $F2,#2
+1396   09D1 C4 F3               mov $F3,a
+1397   09D3             
+1398   09D3 FC                  inc y
+1399   09D4 F7 68               mov a,[temp1]+y
+1400   09D6 8F 03 F2            mov $F2,#3
+1401   09D9 C4 F3               mov $F3,a
+1402   09DB             
+1403   09DB             
+1404   09DB             nofreqchange:
+1405   09DB             
+1406   09DB E4 41               mov a,sq4001
+1407   09DD 28 70               and a,#01110000b
+1408   09DF 5C                  lsr a
+1409   09E0 5C                  lsr a
+1410   09E1 5C                  lsr a
+1411   09E2 5C                  lsr a
+1412   09E3 5D                  mov x,a
+1413   09E4             
+1414   09E4 E4 FD               mov a,$FD
+1415   09E6 60                  clrc
+1416   09E7 84 81               adc a,sweep1
+1417   09E9 C4 81               mov sweep1,a
+1418   09EB             
+1419   09EB 75 93 0A            cmp a,!sweeptimes+x
+1420   09EE             
+1421   09EE 90 92               bcc nonsweep
+1422   09F0             
+1423   09F0 E8 00               mov a,#0
+1424   09F2 C4 81               mov sweep1,a
+1425   09F4             
+1426   09F4 E4 7A               mov a,sweep_freq_lo
+1427   09F6 C4 78               mov sweeptemp1,a
+1428   09F8 E4 7B               mov a,sweep_freq_hi
+1429   09FA C4 79               mov sweeptemp2,a
+1430   09FC             
+1431   09FC E4 41               mov a,sq4001
+1432   09FE 28 07               and a,#00000111b
+1433   0A00 D0 01               bne swcont
+1434   0A02 6F                  ret
+1435   0A03             
+1436   0A03             swcont:
+1437   0A03 60                  clrc
+1438   0A04 6B 79               ror sweeptemp2
+1439   0A06 6B 78               ror sweeptemp1
+1440   0A08 9C                  dec a
+1441   0A09 D0 F8               bne swcont
+1442   0A0B             
+1443   0A0B E4 78               mov a,sweeptemp1        ; decrease by 1 (sweep channel difference)
+1444   0A0D 80                  setc
+1445   0A0E A8 01               sbc a,#1
+1446   0A10 C4 78               mov sweeptemp1,a
+1447   0A12 E4 79               mov a,sweeptemp2
+1448   0A14 A8 00               sbc a,#0
+1449   0A16 C4 79               mov sweeptemp2,a
+1450   0A18             
+1451   0A18             
+1452   0A18 E4 7B               mov a,sweep_freq_hi
+1453   0A1A D0 08               bne ok3x                ; check if freq is 0 or too high
+1454   0A1C E4 7A               mov a,sweep_freq_lo
+1455   0A1E F0 66               beq silencex2
+1456   0A20 68 07               cmp a,#7
+1457   0A22 90 62               bcc silencex2
+1458   0A24             ok3x:
+1459   0A24             
+1460   0A24 E4 7B               mov a,sweep_freq_hi
+1461   0A26 28 F8               and a,#11111000b
+1462   0A28 D0 5C               bne silencex2
+1463   0A2A             
+1464   0A2A             
+1465   0A2A E4 41               mov a,sq4001
+1466   0A2C 28 08               and a,#00001000b
+1467   0A2E D0 0F               bne decrease
+1468   0A30             
+1469   0A30 E4 7A               mov a,sweep_freq_lo
+1470   0A32 60                  clrc
+1471   0A33 84 78               adc a,sweeptemp1
+1472   0A35 C4 7A               mov sweep_freq_lo,a
+1473   0A37             
+1474   0A37 E4 7B               mov a,sweep_freq_hi
+1475   0A39 84 79               adc a,sweeptemp2
+1476   0A3B C4 7B               mov sweep_freq_hi,a
+1477   0A3D 2F 0D               bra swupdate
+1478   0A3F             
+1479   0A3F             decrease:
+1480   0A3F E4 7A               mov a,sweep_freq_lo
+1481   0A41 80                  setc
+1482   0A42 A4 78               sbc a,sweeptemp1
+1483   0A44 C4 7A               mov sweep_freq_lo,a
+1484   0A46             
+1485   0A46 E4 7B               mov a,sweep_freq_hi
+1486   0A48 A4 79               sbc a,sweeptemp2
+1487   0A4A C4 7B               mov sweep_freq_hi,a
+1488   0A4C             
+1489   0A4C             
+1490   0A4C             swupdate:
+1491   0A4C E4 7B               mov a,sweep_freq_hi
+1492   0A4E D0 08               bne ok2x                ; check if freq is 0 or too high
+1493   0A50 E4 7A               mov a,sweep_freq_lo
+1494   0A52 F0 32               beq silencex2
+1495   0A54 68 07               cmp a,#7
+1496   0A56 90 2E               bcc silencex2
+1497   0A58             ok2x:
+1498   0A58             
+1499   0A58 E4 7B               mov a,sweep_freq_hi
+1500   0A5A 28 F8               and a,#11111000b
+1501   0A5C D0 28               bne silencex2
+1502   0A5E             
+1503   0A5E             
+1504   0A5E E4 7A               mov a,sweep_freq_lo
+1505   0A60 60                  clrc
+1506   0A61 3C                  rol a
+1507   0A62 0D                  push psw
+1508   0A63 60                  clrc
+1509   0A64 88 BD               adc a,#freqtable & 255
+1510   0A66 2B 6A               rol temp3
+1511   0A68 C4 68               mov temp1,a
+1512   0A6A 8E                  pop psw
+1513   0A6B E4 7B               mov a,sweep_freq_hi
+1514   0A6D 3C                  rol a
+1515   0A6E 6B 6A               ror temp3
+1516   0A70 88 0E               adc a,#freqtable >> 8
+1517   0A72 C4 69               mov temp2,a
+1518   0A74             
+1519   0A74 8D 00               mov y,#0
+1520   0A76 F7 68               mov a,[temp1]+y
+1521   0A78 8F 02 F2            mov $F2,#2
+1522   0A7B C4 F3               mov $F3,a
+1523   0A7D             
+1524   0A7D FC                  inc y
+1525   0A7E F7 68               mov a,[temp1]+y
+1526   0A80 8F 03 F2            mov $F2,#3
+1527   0A83 C4 F3               mov $F3,a
+1528   0A85             
+1529   0A85             swzero:
+1530   0A85 6F                  ret
+1531   0A86             
+1532   0A86             
+1533   0A86             silencex2:
+1534   0A86 8F 00 F2            mov $F2,#0
+1535   0A89 8F 00 F3            mov $F3,#0
+1536   0A8C 8F 01 F2            mov $F2,#1
+1537   0A8F 8F 00 F3            mov $F3,#0
+1538   0A92 6F                  ret
+1539   0A93             
+1540   0A93             
+1541   0A93             
+1542   0A93             sweeptimes:
+1543   0A93 03 06 09 0C         .db 3,6,9,12,15,18,21,24
+1543   0A97 0F 12 15 18 
+1544   0A9B             
+1545   0A9B             
+1546   0A9B             silencex12:
+1547   0A9B 8F 10 F2            mov $F2,#$10
+1548   0A9E 8F 00 F3            mov $F3,#0
+1549   0AA1 8F 11 F2            mov $F2,#$11
+1550   0AA4 8F 00 F3            mov $F3,#0
+1551   0AA7             
+1552   0AA7             nonsweepx:
+1553   0AA7 6F                  ret
+1554   0AA8             
+1555   0AA8             
+1556   0AA8             
+1557   0AA8             check_timers2:
+1558   0AA8 E4 45               mov a,sq4005
+1559   0AAA 28 80               and a,#10000000b
+1560   0AAC F0 F9               beq nonsweepx
+1561   0AAE E4 45               mov a,sq4005
+1562   0AB0 28 07               and a,#00000111b
+1563   0AB2 F0 F3               beq nonsweepx
+1564   0AB4             
+1565   0AB4 E4 56               mov a,no4016
+1566   0AB6 28 80               and a,#10000000b
+1567   0AB8 F0 46               beq nofreqchangex
+1568   0ABA             
+1569   0ABA 38 7F 56            and no4016,#01111111b   ; disable!
+1570   0ABD E4 FE               mov a,$FE               ; clear counter
+1571   0ABF             
+1572   0ABF E4 46               mov a,sq4006
+1573   0AC1 C4 83               mov sweep_freq_lo2,a
+1574   0AC3 E4 47               mov a,sq4007
+1575   0AC5 28 07               and a,#00000111b
+1576   0AC7 C4 84               mov sweep_freq_hi2,a
+1577   0AC9             
+1578   0AC9 D0 08               bne ok1x2               ; check if freq is 0 or too high
+1579   0ACB E4 83               mov a,sweep_freq_lo2
+1580   0ACD F0 CC               beq silencex12
+1581   0ACF 68 07               cmp a,#7
+1582   0AD1 90 C8               bcc silencex12
+1583   0AD3             ok1x2:
+1584   0AD3             
+1585   0AD3 E4 84               mov a,sweep_freq_hi2
+1586   0AD5 28 F8               and a,#11111000b
+1587   0AD7 D0 C2               bne silencex12
+1588   0AD9             
+1589   0AD9             
+1590   0AD9 E4 83               mov a,sweep_freq_lo2
+1591   0ADB 60                  clrc
+1592   0ADC 3C                  rol a
+1593   0ADD 0D                  push psw
+1594   0ADE 60                  clrc
+1595   0ADF 88 BD               adc a,#freqtable & 255
+1596   0AE1 2B 6A               rol temp3
+1597   0AE3 C4 68               mov temp1,a
+1598   0AE5 8E                  pop psw
+1599   0AE6 E4 84               mov a,sweep_freq_hi2
+1600   0AE8 3C                  rol a
+1601   0AE9 6B 6A               ror temp3
+1602   0AEB 88 0E               adc a,#freqtable >> 8
+1603   0AED C4 69               mov temp2,a
+1604   0AEF             
+1605   0AEF 8D 00               mov y,#0
+1606   0AF1 F7 68               mov a,[temp1]+y
+1607   0AF3 8F 12 F2            mov $F2,#$12
+1608   0AF6 C4 F3               mov $F3,a
+1609   0AF8             
+1610   0AF8 FC                  inc y
+1611   0AF9 F7 68               mov a,[temp1]+y
+1612   0AFB 8F 13 F2            mov $F2,#$13
+1613   0AFE C4 F3               mov $F3,a
+1614   0B00             
+1615   0B00             
+1616   0B00             nofreqchangex:
+1617   0B00             
+1618   0B00 E4 45               mov a,sq4005
+1619   0B02 28 70               and a,#01110000b
+1620   0B04 5C                  lsr a
+1621   0B05 5C                  lsr a
+1622   0B06 5C                  lsr a
+1623   0B07 5C                  lsr a
+1624   0B08 5D                  mov x,a
+1625   0B09             
+1626   0B09 E4 FE               mov a,$FE
+1627   0B0B 60                  clrc
+1628   0B0C 84 82               adc a,sweep2
+1629   0B0E C4 82               mov sweep2,a
+1630   0B10             
+1631   0B10 75 93 0A            cmp a,!sweeptimes+x
+1632   0B13             
+1633   0B13 90 92               bcc nonsweepx
+1634   0B15             
+1635   0B15 E8 00               mov a,#0
+1636   0B17 C4 82               mov sweep2,a
+1637   0B19             
+1638   0B19 E4 83               mov a,sweep_freq_lo2
+1639   0B1B C4 78               mov sweeptemp1,a
+1640   0B1D E4 84               mov a,sweep_freq_hi2
+1641   0B1F C4 79               mov sweeptemp2,a
+1642   0B21             
+1643   0B21 E4 45               mov a,sq4005
+1644   0B23 28 07               and a,#00000111b
+1645   0B25 F0 75               beq swzero2
+1646   0B27             
+1647   0B27             swcont2:
+1648   0B27 60                  clrc
+1649   0B28 6B 79               ror sweeptemp2
+1650   0B2A 6B 78               ror sweeptemp1
+1651   0B2C 9C                  dec a
+1652   0B2D D0 F8               bne swcont2
+1653   0B2F             
+1654   0B2F             
+1655   0B2F E4 84               mov a,sweep_freq_hi2
+1656   0B31 D0 08               bne ok3x2               ; check if freq is 0 or too high
+1657   0B33 E4 83               mov a,sweep_freq_lo2
+1658   0B35 F0 66               beq silencex22
+1659   0B37 68 07               cmp a,#7
+1660   0B39 90 62               bcc silencex22
+1661   0B3B             ok3x2:
+1662   0B3B             
+1663   0B3B E4 84               mov a,sweep_freq_hi2
+1664   0B3D 28 F8               and a,#11111000b
+1665   0B3F D0 5C               bne silencex22
+1666   0B41             
+1667   0B41             
+1668   0B41 E4 45               mov a,sq4005
+1669   0B43 28 08               and a,#00001000b
+1670   0B45 D0 0F               bne decrease2
+1671   0B47             
+1672   0B47 E4 83               mov a,sweep_freq_lo2
+1673   0B49 60                  clrc
+1674   0B4A 84 78               adc a,sweeptemp1
+1675   0B4C C4 83               mov sweep_freq_lo2,a
+1676   0B4E             
+1677   0B4E E4 84               mov a,sweep_freq_hi2
+1678   0B50 84 79               adc a,sweeptemp2
+1679   0B52 C4 84               mov sweep_freq_hi2,a
+1680   0B54 2F 0D               bra swupdate2
+1681   0B56             
+1682   0B56             decrease2:
+1683   0B56 E4 83               mov a,sweep_freq_lo2
+1684   0B58 80                  setc
+1685   0B59 A4 78               sbc a,sweeptemp1
+1686   0B5B C4 83               mov sweep_freq_lo2,a
+1687   0B5D             
+1688   0B5D E4 84               mov a,sweep_freq_hi2
+1689   0B5F A4 79               sbc a,sweeptemp2
+1690   0B61 C4 84               mov sweep_freq_hi2,a
+1691   0B63             
+1692   0B63             
+1693   0B63             swupdate2:
+1694   0B63 E4 84               mov a,sweep_freq_hi2
+1695   0B65 D0 08               bne ok2x2               ; check if freq is 0 or too high
+1696   0B67 E4 83               mov a,sweep_freq_lo2
+1697   0B69 F0 32               beq silencex22
+1698   0B6B 68 07               cmp a,#7
+1699   0B6D 90 2E               bcc silencex22
+1700   0B6F             ok2x2:
+1701   0B6F             
+1702   0B6F E4 84               mov a,sweep_freq_hi2
+1703   0B71 28 F8               and a,#11111000b
+1704   0B73 D0 28               bne silencex22
+1705   0B75             
+1706   0B75             
+1707   0B75 E4 83               mov a,sweep_freq_lo2
+1708   0B77 60                  clrc
+1709   0B78 3C                  rol a
+1710   0B79 0D                  push psw
+1711   0B7A 60                  clrc
+1712   0B7B 88 BD               adc a,#freqtable & 255
+1713   0B7D 2B 6A               rol temp3
+1714   0B7F C4 68               mov temp1,a
+1715   0B81 8E                  pop psw
+1716   0B82 E4 84               mov a,sweep_freq_hi2
+1717   0B84 3C                  rol a
+1718   0B85 6B 6A               ror temp3
+1719   0B87 88 0E               adc a,#freqtable >> 8
+1720   0B89 C4 69               mov temp2,a
+1721   0B8B             
+1722   0B8B 8D 00               mov y,#0
+1723   0B8D F7 68               mov a,[temp1]+y
+1724   0B8F 8F 12 F2            mov $F2,#$12
+1725   0B92 C4 F3               mov $F3,a
+1726   0B94             
+1727   0B94 FC                  inc y
+1728   0B95 F7 68               mov a,[temp1]+y
+1729   0B97 8F 13 F2            mov $F2,#$13
+1730   0B9A C4 F3               mov $F3,a
+1731   0B9C             
+1732   0B9C             swzero2:
+1733   0B9C 6F                  ret
+1734   0B9D             
+1735   0B9D             
+1736   0B9D             silencex22:
+1737   0B9D 8F 10 F2            mov $F2,#$10
+1738   0BA0 8F 00 F3            mov $F3,#0
+1739   0BA3 8F 11 F2            mov $F2,#$11
+1740   0BA6 8F 00 F3            mov $F3,#0
+1741   0BA9 6F                  ret
+1742   0BAA             
+1743   0BAA             
+1744   0BAA             
+1745   0BAA             
+1746   0BAA             
+1747   0BAA             ;======================================
+1748   0BAA             reset_dsp:
+1749   0BAA 8D 00               mov y,#0
+1750   0BAC CD 00               mov x,#0
+1751   0BAE             clear:
+1752   0BAE D8 F2               mov $F2,x
+1753   0BB0 CB F3               mov $F3,y
+1754   0BB2 3D                  inc x
+1755   0BB3 7D                  mov a,x
+1756   0BB4 28 0F               and a,#00001111b
+1757   0BB6 68 0A               cmp a,#$0A
+1758   0BB8 D0 F4               bne clear
+1759   0BBA 7D                  mov a,x
+1760   0BBB 28 F0               and a,#11110000b
+1761   0BBD 60                  clrc
+1762   0BBE 88 10               adc a,#$10
+1763   0BC0 5D                  mov x,a
+1764   0BC1 C8 80               cmp x,#$80
+1765   0BC3 D0 E9               bne clear
+1766   0BC5             
+1767   0BC5 E8 0C               mov a,#$0C
+1768   0BC7             clear2:
+1769   0BC7 C4 F2               mov $F2,a
+1770   0BC9 CB F3               mov $F3,y
+1771   0BCB 60                  clrc
+1772   0BCC 88 10               adc a,#$10
+1773   0BCE 68 8C               cmp a,#$8C
+1774   0BD0 D0 F5               bne clear2
+1775   0BD2             
+1776   0BD2 E8 0D               mov a,#$0D
+1777   0BD4             clear3:
+1778   0BD4 C4 F2               mov $F2,a
+1779   0BD6 CB F3               mov $F3,y
+1780   0BD8 60                  clrc
+1781   0BD9 88 10               adc a,#$10
+1782   0BDB 68 8D               cmp a,#$8D
+1783   0BDD D0 F5               bne clear3
+1784   0BDF             
+1785   0BDF E8 0F               mov a,#$0F
+1786   0BE1             clear4:
+1787   0BE1 C4 F2               mov $F2,a
+1788   0BE3 CB F3               mov $F3,y
+1789   0BE5 60                  clrc
+1790   0BE6 88 10               adc a,#$10
+1791   0BE8 68 8F               cmp a,#$8F
+1792   0BEA D0 F5               bne clear4
+1793   0BEC             
+1794   0BEC                                             ; clear zero-page
+1795   0BEC E8 00               mov a,#0
+1796   0BEE CD EF               mov x,#$EF
+1797   0BF0             clear5
+1798   0BF0 D4 00               mov $00+x,a
+1799   0BF2 1D                  dec x
+1800   0BF3 D0 FB               bne clear5
+1801   0BF5 C4 00               mov $00,a
+1802   0BF7             
+1803   0BF7 6F                  ret
+1804   0BF8             
+1805   0BF8             
+1806   0BF8             ;======================================
+1807   0BF8             
+1808   0BF8             set_directory:
+1809   0BF8 E8 59               mov a,#pulse0 & 255     ; directory for Pulse 0
+1810   0BFA C5 00 02            mov !$0200,a
+1811   0BFD C5 02 02            mov !$0202,a
+1812   0C00 E8 0C               mov a,#pulse0 >> 8
+1813   0C02 C5 01 02            mov !$0201,a
+1814   0C05 C5 03 02            mov !$0203,a
+1815   0C08             
+1816   0C08 E8 62               mov a,#pulse1 & 255     ; directory for Pulse 1
+1817   0C0A C5 04 02            mov !$0204,a
+1818   0C0D C5 06 02            mov !$0206,a
+1819   0C10 E8 0C               mov a,#pulse1 >> 8
+1820   0C12 C5 05 02            mov !$0205,a
+1821   0C15 C5 07 02            mov !$0207,a
+1822   0C18             
+1823   0C18 E8 6B               mov a,#pulse2 & 255     ; directory for Pulse 2
+1824   0C1A C5 08 02            mov !$0208,a
+1825   0C1D C5 0A 02            mov !$020A,a
+1826   0C20 E8 0C               mov a,#pulse2 >> 8
+1827   0C22 C5 09 02            mov !$0209,a
+1828   0C25 C5 0B 02            mov !$020B,a
+1829   0C28             
+1830   0C28 E8 74               mov a,#pulse3 & 255     ; directory for Pulse 3 (same as pulse1)
+1831   0C2A C5 0C 02            mov !$020C,a
+1832   0C2D C5 0E 02            mov !$020E,a
+1833   0C30 E8 0C               mov a,#pulse3 >> 8
+1834   0C32 C5 0D 02            mov !$020D,a
+1835   0C35 C5 0F 02            mov !$020F,a
+1836   0C38             
+1837   0C38 E8 E1               mov a,#triang & 255     ; directory for Triangle
+1838   0C3A C5 10 02            mov !$0210,a
+1839   0C3D C5 12 02            mov !$0212,a
+1840   0C40 E8 2E               mov a,#triang >> 8
+1841   0C42 C5 11 02            mov !$0211,a
+1842   0C45 C5 13 02            mov !$0213,a
+1843   0C48             
+1844   0C48 6F                  ret
+1845   0C49             
+1846   0C49             ;======================================================================
+1847   0C49             ;       DSP value            NES reg    NES decay       SPC decay
+1848   0C49             ;----------------------------------------------------------------------
+1849   0C49             ;volume_decay_table:    ( no longer used )
+1850   0C49             ;        .db $8D                 ; $00   240Hz .25 sec   260 msec
+1851   0C49             ;        .db $8A                 ; $01   120Hz .5 sec    510 msec
+1852   0C49             ;        .db $88                 ; $02   80Hz .75 sec    770 msec
+1853   0C49             ;        .db $87                 ; $03   60Hz 1 sec      1 second
+1854   0C49             ;        .db $86                 ; $04   48Hz 1.25 sec   1.3 seconds
+1855   0C49             ;        .db $85                 ; $05   40Hz 1.5 sec    1.5 seconds
+1856   0C49             ;        .db $85                 ; $06   34Hz 1.764 sec  1.5 seconds
+1857   0C49             ;        .db $84                 ; $07   30Hz 2 sec      2.0 seconds
+1858   0C49             ;        .db $83                 ; $08   26Hz 2.307 sec  2.6 seconds
+1859   0C49             ;        .db $83                 ; $09   24Hz 2.5 sec    2.6 seconds
+1860   0C49             ;        .db $83                 ; $0A   21Hz 2.857 sec  2.6 seconds
+1861   0C49             ;        .db $82                 ; $0B   20Hz 3 sec      3.1 seconds
+1862   0C49             ;        .db $82                 ; $0C   18Hz 3.333 sec  3.1 seconds
+1863   0C49             ;        .db $82                 ; $0D   17Hz 3.529 sec  3.1 seconds
+1864   0C49             ;        .db $81                 ; $0E   16Hz 3.75 sec   4.1 seconds
+1865   0C49             ;        .db $81                 ; $0F   15Hz 4 sec      4.1 seconds
+1866   0C49             ;======================================================================
+1867   0C49             ;       DSP value            NES reg    NES noise freq  SPC noise freq
+1868   0C49             ;----------------------------------------------------------------------
+1869   0C49             noise_freq_table:
+1870   0C49 3F                  .db 00111111b           ; $0                    32mhz
+1871   0C4A 3F                  .db 00111111b           ; $1                    32mhz
+1872   0C4B 3F                  .db 00111111b           ; $2                    32mhz
+1873   0C4C 3F                  .db 00111111b           ; $3                    32mhz
+1874   0C4D 3F                  .db 00111111b           ; $4                    32mhz
+1875   0C4E 3F                  .db 00111111b           ; $5                    32mhz
+1876   0C4F 3E                  .db 00111110b           ; $6                    16mhz
+1877   0C50 3E                  .db 00111110b           ; $7                    16mhz
+1878   0C51 3E                  .db 00111110b           ; $8    16744.04mhz     16mhz
+1879   0C52 3E                  .db 00111110b           ; $9    14080hz         16mhz
+1880   0C53 3C                  .db 00111100b           ; $A    9397.28hz       8.0mhz
+1881   0C54 3B                  .db 00111011b           ; $B    7040hz          6.4mhz
+1882   0C55 39                  .db 00111001b           ; $C    4698.64hz       4.0mhz
+1883   0C56 38                  .db 00111000b           ; $D    35200hz         3.2mhz
+1884   0C57 35                  .db 00110101b           ; $E    17600 hz        1.6mhz
+1885   0C58 32                  .db 00110010b           ; $F    880 hz          800hz
+1886   0C59             ;======================================================================
+1887   0C59             
+1888   0C59             pulse0: .include "pl1a-0.asm"
+0001+  0C59 B3 44 BB BB .db     $B3,$44,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0001+  0C5D BB BB BB BB 
+0001+  0C61 BB 
+1889   0C62             pulse1: .include "pl1a-1.asm"
+0001+  0C62 B3 44 44 BB .db     $B3,$44,$44,$BB,$BB,$BB,$BB,$BB,$BB
+0001+  0C66 BB BB BB BB 
+0001+  0C6A BB 
+1890   0C6B             pulse2: .include "pl1a-2.asm"
+0001+  0C6B B3 44 44 44 .db     $B3,$44,$44,$44,$44,$BB,$BB,$BB,$BB
+0001+  0C6F 44 BB BB BB 
+0001+  0C73 BB 
+1891   0C74             pulse3: .include "pl1a-3.asm"
+0001+  0C74 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$44,$44
+0001+  0C78 BB BB BB 44 
+0001+  0C7C 44 
+1892   0C7D             
+1893   0C7D             pulse0b: .include "pl3-0.asm"
+0001+  0C7D B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0C81 44 44 44 44 
+0001+  0C85 44 
+0002+  0C86 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0002+  0C8A BB BB BB BB 
+0002+  0C8E BB 
+0003+  0C8F B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0003+  0C93 BB BB BB BB 
+0003+  0C97 BB 
+0004+  0C98 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0004+  0C9C BB BB BB BB 
+0004+  0CA0 BB 
+0005+  0CA1 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0005+  0CA5 BB BB BB BB 
+0005+  0CA9 BB 
+0006+  0CAA B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0006+  0CAE BB BB BB BB 
+0006+  0CB2 BB 
+0007+  0CB3 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0007+  0CB7 BB BB BB BB 
+0007+  0CBB BB 
+0008+  0CBC B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0008+  0CC0 BB BB BB BB 
+0008+  0CC4 BB 
+1894   0CC5             pulse1b: .include "pl3-1.asm"
+0001+  0CC5 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0CC9 44 44 44 44 
+0001+  0CCD 44 
+0002+  0CCE B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0002+  0CD2 44 44 44 44 
+0002+  0CD6 44 
+0003+  0CD7 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0003+  0CDB BB BB BB BB 
+0003+  0CDF BB 
+0004+  0CE0 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0004+  0CE4 BB BB BB BB 
+0004+  0CE8 BB 
+0005+  0CE9 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0005+  0CED BB BB BB BB 
+0005+  0CF1 BB 
+0006+  0CF2 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0006+  0CF6 BB BB BB BB 
+0006+  0CFA BB 
+0007+  0CFB B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0007+  0CFF BB BB BB BB 
+0007+  0D03 BB 
+0008+  0D04 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0008+  0D08 BB BB BB BB 
+0008+  0D0C BB 
+1895   0D0D             pulse2b: .include "pl3-2.asm"
+0001+  0D0D B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0D11 44 44 44 44 
+0001+  0D15 44 
+0002+  0D16 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0002+  0D1A 44 44 44 44 
+0002+  0D1E 44 
+0003+  0D1F B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0003+  0D23 44 44 44 44 
+0003+  0D27 44 
+0004+  0D28 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0004+  0D2C 44 44 44 44 
+0004+  0D30 44 
+0005+  0D31 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0005+  0D35 BB BB BB BB 
+0005+  0D39 BB 
+0006+  0D3A B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0006+  0D3E BB BB BB BB 
+0006+  0D42 BB 
+0007+  0D43 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0007+  0D47 BB BB BB BB 
+0007+  0D4B BB 
+0008+  0D4C B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0008+  0D50 BB BB BB BB 
+0008+  0D54 BB 
+1896   0D55             pulse3b: .include "pl3-3.asm"
+0001+  0D55 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0D59 44 44 44 44 
+0001+  0D5D 44 
+0002+  0D5E B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0002+  0D62 44 44 44 44 
+0002+  0D66 44 
+0003+  0D67 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0003+  0D6B 44 44 44 44 
+0003+  0D6F 44 
+0004+  0D70 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0004+  0D74 44 44 44 44 
+0004+  0D78 44 
+0005+  0D79 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0005+  0D7D 44 44 44 44 
+0005+  0D81 44 
+0006+  0D82 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0006+  0D86 44 44 44 44 
+0006+  0D8A 44 
+0007+  0D8B B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0007+  0D8F BB BB BB BB 
+0007+  0D93 BB 
+0008+  0D94 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0008+  0D98 BB BB BB BB 
+0008+  0D9C BB 
+1897   0D9D             
+1898   0D9D             pulse0c: .include "pl2-0.asm"
+0001+  0D9D B0 44 44 44 .db     $B0,$44,$44,$44,$44,$BB,$BB,$BB,$BB
+0001+  0DA1 44 BB BB BB 
+0001+  0DA5 BB 
+0002+  0DA6 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0002+  0DAA BB BB BB BB 
+0002+  0DAE BB 
+0003+  0DAF B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0003+  0DB3 BB BB BB BB 
+0003+  0DB7 BB 
+0004+  0DB8 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0004+  0DBC BB BB BB BB 
+0004+  0DC0 BB 
+1899   0DC1             pulse1c: .include "pl2-1.asm"
+0001+  0DC1 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0DC5 44 44 44 44 
+0001+  0DC9 44 
+0002+  0DCA B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0002+  0DCE BB BB BB BB 
+0002+  0DD2 BB 
+0003+  0DD3 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0003+  0DD7 BB BB BB BB 
+0003+  0DDB BB 
+0004+  0DDC B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0004+  0DE0 BB BB BB BB 
+0004+  0DE4 BB 
+1900   0DE5             pulse2c: .include "pl2-2.asm"
+0001+  0DE5 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0DE9 44 44 44 44 
+0001+  0DED 44 
+0002+  0DEE B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0002+  0DF2 44 44 44 44 
+0002+  0DF6 44 
+0003+  0DF7 B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0003+  0DFB BB BB BB BB 
+0003+  0DFF BB 
+0004+  0E00 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0004+  0E04 BB BB BB BB 
+0004+  0E08 BB 
+1901   0E09             pulse3c: .include "pl2-3.asm"
+0001+  0E09 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0E0D 44 44 44 44 
+0001+  0E11 44 
+0002+  0E12 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0002+  0E16 44 44 44 44 
+0002+  0E1A 44 
+0003+  0E1B B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0003+  0E1F 44 44 44 44 
+0003+  0E23 44 
+0004+  0E24 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0004+  0E28 BB BB BB BB 
+0004+  0E2C BB 
+1902   0E2D             
+1903   0E2D             pulse0d: .include "pl1-0.asm"
+0001+  0E2D B0 44 44 BB .db     $B0,$44,$44,$BB,$BB,$BB,$BB,$BB,$BB
+0001+  0E31 BB BB BB BB 
+0001+  0E35 BB 
+0002+  0E36 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0002+  0E3A BB BB BB BB 
+0002+  0E3E BB 
+1904   0E3F             pulse1d: .include "pl1-1.asm"
+0001+  0E3F B0 44 44 44 .db     $B0,$44,$44,$44,$44,$BB,$BB,$BB,$BB
+0001+  0E43 44 BB BB BB 
+0001+  0E47 BB 
+0002+  0E48 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0002+  0E4C BB BB BB BB 
+0002+  0E50 BB 
+1905   0E51             pulse2d: .include "pl1-2.asm"
+0001+  0E51 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0E55 44 44 44 44 
+0001+  0E59 44 
+0002+  0E5A B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0002+  0E5E BB BB BB BB 
+0002+  0E62 BB 
+1906   0E63             pulse3d: .include "pl1-3.asm"
+0001+  0E63 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0E67 44 44 44 44 
+0001+  0E6B 44 
+0002+  0E6C B3 44 44 44 .db     $B3,$44,$44,$44,$44,$BB,$BB,$BB,$BB
+0002+  0E70 44 BB BB BB 
+0002+  0E74 BB 
+1907   0E75             
+1908   0E75             pulse0e: .include "pl1-0.asm"
+0001+  0E75 B0 44 44 BB .db     $B0,$44,$44,$BB,$BB,$BB,$BB,$BB,$BB
+0001+  0E79 BB BB BB BB 
+0001+  0E7D BB 
+0002+  0E7E B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0002+  0E82 BB BB BB BB 
+0002+  0E86 BB 
+1909   0E87             pulse1e: .include "pl1-1.asm"
+0001+  0E87 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$BB,$BB,$BB,$BB
+0001+  0E8B 44 BB BB BB 
+0001+  0E8F BB 
+0002+  0E90 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0002+  0E94 BB BB BB BB 
+0002+  0E98 BB 
+1910   0E99             pulse2e: .include "pl1-2.asm"
+0001+  0E99 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0E9D 44 44 44 44 
+0001+  0EA1 44 
+0002+  0EA2 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0002+  0EA6 BB BB BB BB 
+0002+  0EAA BB 
+1911   0EAB             pulse3e: .include "pl1-3.asm"
+0001+  0EAB B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  0EAF 44 44 44 44 
+0001+  0EB3 44 
+0002+  0EB4 B3 44 44 44 .db     $B3,$44,$44,$44,$44,$BB,$BB,$BB,$BB
+0002+  0EB8 44 BB BB BB 
+0002+  0EBC BB 
+1912   0EBD             
+1913   0EBD             freqtable: .include "snestabl.asm"
+0001+  0EBD 00 00 00 00         .db     $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+0001+  0EC1 00 00 00 00 
+0001+  0EC5 00 00 00 00 
+0001+  0EC9 00 00 00 00 
+0002+  0ECD 6E 63 7C 59         .db     $6E,$63,$7C,$59,$5A,$51,$92,$4A,$D6,$44,$EB,$3F,$A8,$3B,$EE,$37
+0002+  0ED1 5A 51 92 4A 
+0002+  0ED5 D6 44 EB 3F 
+0002+  0ED9 A8 3B EE 37 
+0003+  0EDD A3 34 B7 31         .db     $A3,$34,$B7,$31,$19,$2F,$BE,$2C,$9D,$2A,$AD,$28,$E8,$26,$49,$25
+0003+  0EE1 19 2F BE 2C 
+0003+  0EE5 9D 2A AD 28 
+0003+  0EE9 E8 26 49 25 
+0004+  0EED CB 23 6B 22         .db     $CB,$23,$6B,$22,$24,$21,$F5,$1F,$DB,$1E,$D4,$1D,$DD,$1C,$F7,$1B
+0004+  0EF1 24 21 F5 1F 
+0004+  0EF5 DB 1E D4 1D 
+0004+  0EF9 DD 1C F7 1B 
+0005+  0EFD 1E 1B 51 1A         .db     $1E,$1B,$51,$1A,$91,$19,$DB,$18,$2F,$18,$8C,$17,$F2,$16,$5F,$16
+0005+  0F01 91 19 DB 18 
+0005+  0F05 2F 18 8C 17 
+0005+  0F09 F2 16 5F 16 
+0006+  0F0D D3 15 4E 15         .db     $D3,$15,$4E,$15,$CF,$14,$56,$14,$E2,$13,$74,$13,$0A,$13,$A4,$12
+0006+  0F11 CF 14 56 14 
+0006+  0F15 E2 13 74 13 
+0006+  0F19 0A 13 A4 12 
+0007+  0F1D 43 12 E5 11         .db     $43,$12,$E5,$11,$8B,$11,$35,$11,$E2,$10,$92,$10,$45,$10,$FA,$0F
+0007+  0F21 8B 11 35 11 
+0007+  0F25 E2 10 92 10 
+0007+  0F29 45 10 FA 0F 
+0008+  0F2D B3 0F 6D 0F         .db     $B3,$0F,$6D,$0F,$2A,$0F,$EA,$0E,$AB,$0E,$6E,$0E,$34,$0E,$FB,$0D
+0008+  0F31 2A 0F EA 0E 
+0008+  0F35 AB 0E 6E 0E 
+0008+  0F39 34 0E FB 0D 
+0009+  0F3D C4 0D 8F 0D         .db     $C4,$0D,$8F,$0D,$5B,$0D,$28,$0D,$F8,$0C,$C8,$0C,$9A,$0C,$6D,$0C
+0009+  0F41 5B 0D 28 0D 
+0009+  0F45 F8 0C C8 0C 
+0009+  0F49 9A 0C 6D 0C 
+0010+  0F4D 42 0C 17 0C         .db     $42,$0C,$17,$0C,$EE,$0B,$C6,$0B,$9F,$0B,$79,$0B,$53,$0B,$2F,$0B
+0010+  0F51 EE 0B C6 0B 
+0010+  0F55 9F 0B 79 0B 
+0010+  0F59 53 0B 2F 0B 
+0011+  0F5D 0C 0B E9 0A         .db     $0C,$0B,$E9,$0A,$C8,$0A,$A7,$0A,$87,$0A,$67,$0A,$49,$0A,$2B,$0A
+0011+  0F61 C8 0A A7 0A 
+0011+  0F65 87 0A 67 0A 
+0011+  0F69 49 0A 2B 0A 
+0012+  0F6D 0E 0A F1 09         .db     $0E,$0A,$F1,$09,$D5,$09,$BA,$09,$9F,$09,$85,$09,$6B,$09,$52,$09
+0012+  0F71 D5 09 BA 09 
+0012+  0F75 9F 09 85 09 
+0012+  0F79 6B 09 52 09 
+0013+  0F7D 39 09 21 09         .db     $39,$09,$21,$09,$0A,$09,$F2,$08,$DC,$08,$C5,$08,$B0,$08,$9A,$08
+0013+  0F81 0A 09 F2 08 
+0013+  0F85 DC 08 C5 08 
+0013+  0F89 B0 08 9A 08 
+0014+  0F8D 85 08 71 08         .db     $85,$08,$71,$08,$5D,$08,$49,$08,$35,$08,$22,$08,$0F,$08,$FD,$07
+0014+  0F91 5D 08 49 08 
+0014+  0F95 35 08 22 08 
+0014+  0F99 0F 08 FD 07 
+0015+  0F9D EB 07 D9 07         .db     $EB,$07,$D9,$07,$C8,$07,$B6,$07,$A6,$07,$95,$07,$85,$07,$75,$07
+0015+  0FA1 C8 07 B6 07 
+0015+  0FA5 A6 07 95 07 
+0015+  0FA9 85 07 75 07 
+0016+  0FAD 65 07 55 07         .db     $65,$07,$55,$07,$46,$07,$37,$07,$28,$07,$1A,$07,$0B,$07,$FD,$06
+0016+  0FB1 46 07 37 07 
+0016+  0FB5 28 07 1A 07 
+0016+  0FB9 0B 07 FD 06 
+0017+  0FBD EF 06 E2 06         .db     $EF,$06,$E2,$06,$D4,$06,$C7,$06,$BA,$06,$AD,$06,$A0,$06,$94,$06
+0017+  0FC1 D4 06 C7 06 
+0017+  0FC5 BA 06 AD 06 
+0017+  0FC9 A0 06 94 06 
+0018+  0FCD 88 06 7C 06         .db     $88,$06,$7C,$06,$70,$06,$64,$06,$58,$06,$4D,$06,$42,$06,$36,$06
+0018+  0FD1 70 06 64 06 
+0018+  0FD5 58 06 4D 06 
+0018+  0FD9 42 06 36 06 
+0019+  0FDD 2B 06 21 06         .db     $2B,$06,$21,$06,$16,$06,$0B,$06,$01,$06,$F7,$05,$ED,$05,$E3,$05
+0019+  0FE1 16 06 0B 06 
+0019+  0FE5 01 06 F7 05 
+0019+  0FE9 ED 05 E3 05 
+0020+  0FED D9 05 CF 05         .db     $D9,$05,$CF,$05,$C5,$05,$BC,$05,$B3,$05,$A9,$05,$A0,$05,$97,$05
+0020+  0FF1 C5 05 BC 05 
+0020+  0FF5 B3 05 A9 05 
+0020+  0FF9 A0 05 97 05 
+0021+  0FFD 8E 05 86 05         .db     $8E,$05,$86,$05,$7D,$05,$74,$05,$6C,$05,$64,$05,$5B,$05,$53,$05
+0021+  1001 7D 05 74 05 
+0021+  1005 6C 05 64 05 
+0021+  1009 5B 05 53 05 
+0022+  100D 4B 05 43 05         .db     $4B,$05,$43,$05,$3B,$05,$33,$05,$2C,$05,$24,$05,$1D,$05,$15,$05
+0022+  1011 3B 05 33 05 
+0022+  1015 2C 05 24 05 
+0022+  1019 1D 05 15 05 
+0023+  101D 0E 05 07 05         .db     $0E,$05,$07,$05,$FF,$04,$F8,$04,$F1,$04,$EA,$04,$E3,$04,$DD,$04
+0023+  1021 FF 04 F8 04 
+0023+  1025 F1 04 EA 04 
+0023+  1029 E3 04 DD 04 
+0024+  102D D6 04 CF 04         .db     $D6,$04,$CF,$04,$C9,$04,$C2,$04,$BC,$04,$B5,$04,$AF,$04,$A9,$04
+0024+  1031 C9 04 C2 04 
+0024+  1035 BC 04 B5 04 
+0024+  1039 AF 04 A9 04 
+0025+  103D A2 04 9C 04         .db     $A2,$04,$9C,$04,$96,$04,$90,$04,$8A,$04,$85,$04,$7F,$04,$79,$04
+0025+  1041 96 04 90 04 
+0025+  1045 8A 04 85 04 
+0025+  1049 7F 04 79 04 
+0026+  104D 73 04 6E 04         .db     $73,$04,$6E,$04,$68,$04,$62,$04,$5D,$04,$58,$04,$52,$04,$4D,$04
+0026+  1051 68 04 62 04 
+0026+  1055 5D 04 58 04 
+0026+  1059 52 04 4D 04 
+0027+  105D 48 04 42 04         .db     $48,$04,$42,$04,$3D,$04,$38,$04,$33,$04,$2E,$04,$29,$04,$24,$04
+0027+  1061 3D 04 38 04 
+0027+  1065 33 04 2E 04 
+0027+  1069 29 04 24 04 
+0028+  106D 1F 04 1A 04         .db     $1F,$04,$1A,$04,$16,$04,$11,$04,$0C,$04,$07,$04,$03,$04,$FE,$03
+0028+  1071 16 04 11 04 
+0028+  1075 0C 04 07 04 
+0028+  1079 03 04 FE 03 
+0029+  107D FA 03 F5 03         .db     $FA,$03,$F5,$03,$F1,$03,$EC,$03,$E8,$03,$E4,$03,$DF,$03,$DB,$03
+0029+  1081 F1 03 EC 03 
+0029+  1085 E8 03 E4 03 
+0029+  1089 DF 03 DB 03 
+0030+  108D D7 03 D3 03         .db     $D7,$03,$D3,$03,$CE,$03,$CA,$03,$C6,$03,$C2,$03,$BE,$03,$BA,$03
+0030+  1091 CE 03 CA 03 
+0030+  1095 C6 03 C2 03 
+0030+  1099 BE 03 BA 03 
+0031+  109D B6 03 B2 03         .db     $B6,$03,$B2,$03,$AE,$03,$AA,$03,$A7,$03,$A3,$03,$9F,$03,$9B,$03
+0031+  10A1 AE 03 AA 03 
+0031+  10A5 A7 03 A3 03 
+0031+  10A9 9F 03 9B 03 
+0032+  10AD 98 03 94 03         .db     $98,$03,$94,$03,$90,$03,$8D,$03,$89,$03,$85,$03,$82,$03,$7E,$03
+0032+  10B1 90 03 8D 03 
+0032+  10B5 89 03 85 03 
+0032+  10B9 82 03 7E 03 
+0033+  10BD 7B 03 77 03         .db     $7B,$03,$77,$03,$74,$03,$71,$03,$6D,$03,$6A,$03,$67,$03,$63,$03
+0033+  10C1 74 03 71 03 
+0033+  10C5 6D 03 6A 03 
+0033+  10C9 67 03 63 03 
+0034+  10CD 60 03 5D 03         .db     $60,$03,$5D,$03,$5A,$03,$56,$03,$53,$03,$50,$03,$4D,$03,$4A,$03
+0034+  10D1 5A 03 56 03 
+0034+  10D5 53 03 50 03 
+0034+  10D9 4D 03 4A 03 
+0035+  10DD 47 03 44 03         .db     $47,$03,$44,$03,$41,$03,$3E,$03,$3B,$03,$38,$03,$35,$03,$32,$03
+0035+  10E1 41 03 3E 03 
+0035+  10E5 3B 03 38 03 
+0035+  10E9 35 03 32 03 
+0036+  10ED 2F 03 2C 03         .db     $2F,$03,$2C,$03,$29,$03,$26,$03,$23,$03,$21,$03,$1E,$03,$1B,$03
+0036+  10F1 29 03 26 03 
+0036+  10F5 23 03 21 03 
+0036+  10F9 1E 03 1B 03 
+0037+  10FD 18 03 15 03         .db     $18,$03,$15,$03,$13,$03,$10,$03,$0D,$03,$0B,$03,$08,$03,$05,$03
+0037+  1101 13 03 10 03 
+0037+  1105 0D 03 0B 03 
+0037+  1109 08 03 05 03 
+0038+  110D 03 03 00 03         .db     $03,$03,$00,$03,$FE,$02,$FB,$02,$F9,$02,$F6,$02,$F4,$02,$F1,$02
+0038+  1111 FE 02 FB 02 
+0038+  1115 F9 02 F6 02 
+0038+  1119 F4 02 F1 02 
+0039+  111D EF 02 EC 02         .db     $EF,$02,$EC,$02,$EA,$02,$E7,$02,$E5,$02,$E2,$02,$E0,$02,$DE,$02
+0039+  1121 EA 02 E7 02 
+0039+  1125 E5 02 E2 02 
+0039+  1129 E0 02 DE 02 
+0040+  112D DB 02 D9 02         .db     $DB,$02,$D9,$02,$D7,$02,$D4,$02,$D2,$02,$D0,$02,$CE,$02,$CB,$02
+0040+  1131 D7 02 D4 02 
+0040+  1135 D2 02 D0 02 
+0040+  1139 CE 02 CB 02 
+0041+  113D C9 02 C7 02         .db     $C9,$02,$C7,$02,$C5,$02,$C3,$02,$C0,$02,$BE,$02,$BC,$02,$BA,$02
+0041+  1141 C5 02 C3 02 
+0041+  1145 C0 02 BE 02 
+0041+  1149 BC 02 BA 02 
+0042+  114D B8 02 B6 02         .db     $B8,$02,$B6,$02,$B4,$02,$B2,$02,$AF,$02,$AD,$02,$AB,$02,$A9,$02
+0042+  1151 B4 02 B2 02 
+0042+  1155 AF 02 AD 02 
+0042+  1159 AB 02 A9 02 
+0043+  115D A7 02 A5 02         .db     $A7,$02,$A5,$02,$A3,$02,$A1,$02,$9F,$02,$9D,$02,$9B,$02,$99,$02
+0043+  1161 A3 02 A1 02 
+0043+  1165 9F 02 9D 02 
+0043+  1169 9B 02 99 02 
+0044+  116D 98 02 96 02         .db     $98,$02,$96,$02,$94,$02,$92,$02,$90,$02,$8E,$02,$8C,$02,$8A,$02
+0044+  1171 94 02 92 02 
+0044+  1175 90 02 8E 02 
+0044+  1179 8C 02 8A 02 
+0045+  117D 88 02 87 02         .db     $88,$02,$87,$02,$85,$02,$83,$02,$81,$02,$7F,$02,$7E,$02,$7C,$02
+0045+  1181 85 02 83 02 
+0045+  1185 81 02 7F 02 
+0045+  1189 7E 02 7C 02 
+0046+  118D 7A 02 78 02         .db     $7A,$02,$78,$02,$77,$02,$75,$02,$73,$02,$71,$02,$70,$02,$6E,$02
+0046+  1191 77 02 75 02 
+0046+  1195 73 02 71 02 
+0046+  1199 70 02 6E 02 
+0047+  119D 6C 02 6B 02         .db     $6C,$02,$6B,$02,$69,$02,$67,$02,$66,$02,$64,$02,$62,$02,$61,$02
+0047+  11A1 69 02 67 02 
+0047+  11A5 66 02 64 02 
+0047+  11A9 62 02 61 02 
+0048+  11AD 5F 02 5E 02         .db     $5F,$02,$5E,$02,$5C,$02,$5A,$02,$59,$02,$57,$02,$56,$02,$54,$02
+0048+  11B1 5C 02 5A 02 
+0048+  11B5 59 02 57 02 
+0048+  11B9 56 02 54 02 
+0049+  11BD 53 02 51 02         .db     $53,$02,$51,$02,$4F,$02,$4E,$02,$4C,$02,$4B,$02,$49,$02,$48,$02
+0049+  11C1 4F 02 4E 02 
+0049+  11C5 4C 02 4B 02 
+0049+  11C9 49 02 48 02 
+0050+  11CD 46 02 45 02         .db     $46,$02,$45,$02,$43,$02,$42,$02,$41,$02,$3F,$02,$3E,$02,$3C,$02
+0050+  11D1 43 02 42 02 
+0050+  11D5 41 02 3F 02 
+0050+  11D9 3E 02 3C 02 
+0051+  11DD 3B 02 39 02         .db     $3B,$02,$39,$02,$38,$02,$37,$02,$35,$02,$34,$02,$32,$02,$31,$02
+0051+  11E1 38 02 37 02 
+0051+  11E5 35 02 34 02 
+0051+  11E9 32 02 31 02 
+0052+  11ED 30 02 2E 02         .db     $30,$02,$2E,$02,$2D,$02,$2C,$02,$2A,$02,$29,$02,$28,$02,$26,$02
+0052+  11F1 2D 02 2C 02 
+0052+  11F5 2A 02 29 02 
+0052+  11F9 28 02 26 02 
+0053+  11FD 25 02 24 02         .db     $25,$02,$24,$02,$22,$02,$21,$02,$20,$02,$1E,$02,$1D,$02,$1C,$02
+0053+  1201 22 02 21 02 
+0053+  1205 20 02 1E 02 
+0053+  1209 1D 02 1C 02 
+0054+  120D 1B 02 19 02         .db     $1B,$02,$19,$02,$18,$02,$17,$02,$16,$02,$14,$02,$13,$02,$12,$02
+0054+  1211 18 02 17 02 
+0054+  1215 16 02 14 02 
+0054+  1219 13 02 12 02 
+0055+  121D 11 02 0F 02         .db     $11,$02,$0F,$02,$0E,$02,$0D,$02,$0C,$02,$0B,$02,$09,$02,$08,$02
+0055+  1221 0E 02 0D 02 
+0055+  1225 0C 02 0B 02 
+0055+  1229 09 02 08 02 
+0056+  122D 07 02 06 02         .db     $07,$02,$06,$02,$05,$02,$03,$02,$02,$02,$01,$02,$00,$02,$FF,$01
+0056+  1231 05 02 03 02 
+0056+  1235 02 02 01 02 
+0056+  1239 00 02 FF 01 
+0057+  123D FE 01 FD 01         .db     $FE,$01,$FD,$01,$FB,$01,$FA,$01,$F9,$01,$F8,$01,$F7,$01,$F6,$01
+0057+  1241 FB 01 FA 01 
+0057+  1245 F9 01 F8 01 
+0057+  1249 F7 01 F6 01 
+0058+  124D F5 01 F4 01         .db     $F5,$01,$F4,$01,$F3,$01,$F2,$01,$F0,$01,$EF,$01,$EE,$01,$ED,$01
+0058+  1251 F3 01 F2 01 
+0058+  1255 F0 01 EF 01 
+0058+  1259 EE 01 ED 01 
+0059+  125D EC 01 EB 01         .db     $EC,$01,$EB,$01,$EA,$01,$E9,$01,$E8,$01,$E7,$01,$E6,$01,$E5,$01
+0059+  1261 EA 01 E9 01 
+0059+  1265 E8 01 E7 01 
+0059+  1269 E6 01 E5 01 
+0060+  126D E4 01 E3 01         .db     $E4,$01,$E3,$01,$E2,$01,$E1,$01,$E0,$01,$DF,$01,$DE,$01,$DD,$01
+0060+  1271 E2 01 E1 01 
+0060+  1275 E0 01 DF 01 
+0060+  1279 DE 01 DD 01 
+0061+  127D DC 01 DB 01         .db     $DC,$01,$DB,$01,$DA,$01,$D9,$01,$D8,$01,$D7,$01,$D6,$01,$D5,$01
+0061+  1281 DA 01 D9 01 
+0061+  1285 D8 01 D7 01 
+0061+  1289 D6 01 D5 01 
+0062+  128D D4 01 D3 01         .db     $D4,$01,$D3,$01,$D2,$01,$D1,$01,$D0,$01,$CF,$01,$CE,$01,$CD,$01
+0062+  1291 D2 01 D1 01 
+0062+  1295 D0 01 CF 01 
+0062+  1299 CE 01 CD 01 
+0063+  129D CC 01 CC 01         .db     $CC,$01,$CC,$01,$CB,$01,$CA,$01,$C9,$01,$C8,$01,$C7,$01,$C6,$01
+0063+  12A1 CB 01 CA 01 
+0063+  12A5 C9 01 C8 01 
+0063+  12A9 C7 01 C6 01 
+0064+  12AD C5 01 C4 01         .db     $C5,$01,$C4,$01,$C3,$01,$C2,$01,$C2,$01,$C1,$01,$C0,$01,$BF,$01
+0064+  12B1 C3 01 C2 01 
+0064+  12B5 C2 01 C1 01 
+0064+  12B9 C0 01 BF 01 
+0065+  12BD BE 01 BD 01         .db     $BE,$01,$BD,$01,$BC,$01,$BB,$01,$BB,$01,$BA,$01,$B9,$01,$B8,$01
+0065+  12C1 BC 01 BB 01 
+0065+  12C5 BB 01 BA 01 
+0065+  12C9 B9 01 B8 01 
+0066+  12CD B7 01 B6 01         .db     $B7,$01,$B6,$01,$B6,$01,$B5,$01,$B4,$01,$B3,$01,$B2,$01,$B1,$01
+0066+  12D1 B6 01 B5 01 
+0066+  12D5 B4 01 B3 01 
+0066+  12D9 B2 01 B1 01 
+0067+  12DD B1 01 B0 01         .db     $B1,$01,$B0,$01,$AF,$01,$AE,$01,$AD,$01,$AD,$01,$AC,$01,$AB,$01
+0067+  12E1 AF 01 AE 01 
+0067+  12E5 AD 01 AD 01 
+0067+  12E9 AC 01 AB 01 
+0068+  12ED AA 01 A9 01         .db     $AA,$01,$A9,$01,$A9,$01,$A8,$01,$A7,$01,$A6,$01,$A5,$01,$A5,$01
+0068+  12F1 A9 01 A8 01 
+0068+  12F5 A7 01 A6 01 
+0068+  12F9 A5 01 A5 01 
+0069+  12FD A4 01 A3 01         .db     $A4,$01,$A3,$01,$A2,$01,$A2,$01,$A1,$01,$A0,$01,$9F,$01,$9F,$01
+0069+  1301 A2 01 A2 01 
+0069+  1305 A1 01 A0 01 
+0069+  1309 9F 01 9F 01 
+0070+  130D 9E 01 9D 01         .db     $9E,$01,$9D,$01,$9C,$01,$9C,$01,$9B,$01,$9A,$01,$99,$01,$99,$01
+0070+  1311 9C 01 9C 01 
+0070+  1315 9B 01 9A 01 
+0070+  1319 99 01 99 01 
+0071+  131D 98 01 97 01         .db     $98,$01,$97,$01,$96,$01,$96,$01,$95,$01,$94,$01,$94,$01,$93,$01
+0071+  1321 96 01 96 01 
+0071+  1325 95 01 94 01 
+0071+  1329 94 01 93 01 
+0072+  132D 92 01 91 01         .db     $92,$01,$91,$01,$91,$01,$90,$01,$8F,$01,$8F,$01,$8E,$01,$8D,$01
+0072+  1331 91 01 90 01 
+0072+  1335 8F 01 8F 01 
+0072+  1339 8E 01 8D 01 
+0073+  133D 8D 01 8C 01         .db     $8D,$01,$8C,$01,$8B,$01,$8A,$01,$8A,$01,$89,$01,$88,$01,$88,$01
+0073+  1341 8B 01 8A 01 
+0073+  1345 8A 01 89 01 
+0073+  1349 88 01 88 01 
+0074+  134D 87 01 86 01         .db     $87,$01,$86,$01,$86,$01,$85,$01,$84,$01,$84,$01,$83,$01,$82,$01
+0074+  1351 86 01 85 01 
+0074+  1355 84 01 84 01 
+0074+  1359 83 01 82 01 
+0075+  135D 82 01 81 01         .db     $82,$01,$81,$01,$81,$01,$80,$01,$7F,$01,$7F,$01,$7E,$01,$7D,$01
+0075+  1361 81 01 80 01 
+0075+  1365 7F 01 7F 01 
+0075+  1369 7E 01 7D 01 
+0076+  136D 7D 01 7C 01         .db     $7D,$01,$7C,$01,$7B,$01,$7B,$01,$7A,$01,$7A,$01,$79,$01,$78,$01
+0076+  1371 7B 01 7B 01 
+0076+  1375 7A 01 7A 01 
+0076+  1379 79 01 78 01 
+0077+  137D 78 01 77 01         .db     $78,$01,$77,$01,$76,$01,$76,$01,$75,$01,$75,$01,$74,$01,$73,$01
+0077+  1381 76 01 76 01 
+0077+  1385 75 01 75 01 
+0077+  1389 74 01 73 01 
+0078+  138D 73 01 72 01         .db     $73,$01,$72,$01,$72,$01,$71,$01,$70,$01,$70,$01,$6F,$01,$6F,$01
+0078+  1391 72 01 71 01 
+0078+  1395 70 01 70 01 
+0078+  1399 6F 01 6F 01 
+0079+  139D 6E 01 6D 01         .db     $6E,$01,$6D,$01,$6D,$01,$6C,$01,$6C,$01,$6B,$01,$6B,$01,$6A,$01
+0079+  13A1 6D 01 6C 01 
+0079+  13A5 6C 01 6B 01 
+0079+  13A9 6B 01 6A 01 
+0080+  13AD 69 01 69 01         .db     $69,$01,$69,$01,$68,$01,$68,$01,$67,$01,$67,$01,$66,$01,$65,$01
+0080+  13B1 68 01 68 01 
+0080+  13B5 67 01 67 01 
+0080+  13B9 66 01 65 01 
+0081+  13BD 65 01 64 01         .db     $65,$01,$64,$01,$64,$01,$63,$01,$63,$01,$62,$01,$62,$01,$61,$01
+0081+  13C1 64 01 63 01 
+0081+  13C5 63 01 62 01 
+0081+  13C9 62 01 61 01 
+0082+  13CD 60 01 60 01         .db     $60,$01,$60,$01,$5F,$01,$5F,$01,$5E,$01,$5E,$01,$5D,$01,$5D,$01
+0082+  13D1 5F 01 5F 01 
+0082+  13D5 5E 01 5E 01 
+0082+  13D9 5D 01 5D 01 
+0083+  13DD 5C 01 5C 01         .db     $5C,$01,$5C,$01,$5B,$01,$5B,$01,$5A,$01,$5A,$01,$59,$01,$59,$01
+0083+  13E1 5B 01 5B 01 
+0083+  13E5 5A 01 5A 01 
+0083+  13E9 59 01 59 01 
+0084+  13ED 58 01 57 01         .db     $58,$01,$57,$01,$57,$01,$56,$01,$56,$01,$55,$01,$55,$01,$54,$01
+0084+  13F1 57 01 56 01 
+0084+  13F5 56 01 55 01 
+0084+  13F9 55 01 54 01 
+0085+  13FD 54 01 53 01         .db     $54,$01,$53,$01,$53,$01,$52,$01,$52,$01,$51,$01,$51,$01,$50,$01
+0085+  1401 53 01 52 01 
+0085+  1405 52 01 51 01 
+0085+  1409 51 01 50 01 
+0086+  140D 50 01 4F 01         .db     $50,$01,$4F,$01,$4F,$01,$4E,$01,$4E,$01,$4D,$01,$4D,$01,$4C,$01
+0086+  1411 4F 01 4E 01 
+0086+  1415 4E 01 4D 01 
+0086+  1419 4D 01 4C 01 
+0087+  141D 4C 01 4C 01         .db     $4C,$01,$4C,$01,$4B,$01,$4B,$01,$4A,$01,$4A,$01,$49,$01,$49,$01
+0087+  1421 4B 01 4B 01 
+0087+  1425 4A 01 4A 01 
+0087+  1429 49 01 49 01 
+0088+  142D 48 01 48 01         .db     $48,$01,$48,$01,$47,$01,$47,$01,$46,$01,$46,$01,$45,$01,$45,$01
+0088+  1431 47 01 47 01 
+0088+  1435 46 01 46 01 
+0088+  1439 45 01 45 01 
+0089+  143D 44 01 44 01         .db     $44,$01,$44,$01,$44,$01,$43,$01,$43,$01,$42,$01,$42,$01,$41,$01
+0089+  1441 44 01 43 01 
+0089+  1445 43 01 42 01 
+0089+  1449 42 01 41 01 
+0090+  144D 41 01 40 01         .db     $41,$01,$40,$01,$40,$01,$3F,$01,$3F,$01,$3F,$01,$3E,$01,$3E,$01
+0090+  1451 40 01 3F 01 
+0090+  1455 3F 01 3F 01 
+0090+  1459 3E 01 3E 01 
+0091+  145D 3D 01 3D 01         .db     $3D,$01,$3D,$01,$3C,$01,$3C,$01,$3B,$01,$3B,$01,$3B,$01,$3A,$01
+0091+  1461 3C 01 3C 01 
+0091+  1465 3B 01 3B 01 
+0091+  1469 3B 01 3A 01 
+0092+  146D 3A 01 39 01         .db     $3A,$01,$39,$01,$39,$01,$38,$01,$38,$01,$38,$01,$37,$01,$37,$01
+0092+  1471 39 01 38 01 
+0092+  1475 38 01 38 01 
+0092+  1479 37 01 37 01 
+0093+  147D 36 01 36 01         .db     $36,$01,$36,$01,$35,$01,$35,$01,$35,$01,$34,$01,$34,$01,$33,$01
+0093+  1481 35 01 35 01 
+0093+  1485 35 01 34 01 
+0093+  1489 34 01 33 01 
+0094+  148D 33 01 33 01         .db     $33,$01,$33,$01,$32,$01,$32,$01,$31,$01,$31,$01,$31,$01,$30,$01
+0094+  1491 32 01 32 01 
+0094+  1495 31 01 31 01 
+0094+  1499 31 01 30 01 
+0095+  149D 30 01 2F 01         .db     $30,$01,$2F,$01,$2F,$01,$2F,$01,$2E,$01,$2E,$01,$2D,$01,$2D,$01
+0095+  14A1 2F 01 2F 01 
+0095+  14A5 2E 01 2E 01 
+0095+  14A9 2D 01 2D 01 
+0096+  14AD 2D 01 2C 01         .db     $2D,$01,$2C,$01,$2C,$01,$2B,$01,$2B,$01,$2B,$01,$2A,$01,$2A,$01
+0096+  14B1 2C 01 2B 01 
+0096+  14B5 2B 01 2B 01 
+0096+  14B9 2A 01 2A 01 
+0097+  14BD 29 01 29 01         .db     $29,$01,$29,$01,$29,$01,$28,$01,$28,$01,$27,$01,$27,$01,$27,$01
+0097+  14C1 29 01 28 01 
+0097+  14C5 28 01 27 01 
+0097+  14C9 27 01 27 01 
+0098+  14CD 26 01 26 01         .db     $26,$01,$26,$01,$26,$01,$25,$01,$25,$01,$24,$01,$24,$01,$24,$01
+0098+  14D1 26 01 25 01 
+0098+  14D5 25 01 24 01 
+0098+  14D9 24 01 24 01 
+0099+  14DD 23 01 23 01         .db     $23,$01,$23,$01,$23,$01,$22,$01,$22,$01,$21,$01,$21,$01,$21,$01
+0099+  14E1 23 01 22 01 
+0099+  14E5 22 01 21 01 
+0099+  14E9 21 01 21 01 
+0100+  14ED 20 01 20 01         .db     $20,$01,$20,$01,$20,$01,$1F,$01,$1F,$01,$1F,$01,$1E,$01,$1E,$01
+0100+  14F1 20 01 1F 01 
+0100+  14F5 1F 01 1F 01 
+0100+  14F9 1E 01 1E 01 
+0101+  14FD 1E 01 1D 01         .db     $1E,$01,$1D,$01,$1D,$01,$1C,$01,$1C,$01,$1C,$01,$1B,$01,$1B,$01
+0101+  1501 1D 01 1C 01 
+0101+  1505 1C 01 1C 01 
+0101+  1509 1B 01 1B 01 
+0102+  150D 1B 01 1A 01         .db     $1B,$01,$1A,$01,$1A,$01,$1A,$01,$19,$01,$19,$01,$19,$01,$18,$01
+0102+  1511 1A 01 1A 01 
+0102+  1515 19 01 19 01 
+0102+  1519 19 01 18 01 
+0103+  151D 18 01 18 01         .db     $18,$01,$18,$01,$17,$01,$17,$01,$17,$01,$16,$01,$16,$01,$16,$01
+0103+  1521 17 01 17 01 
+0103+  1525 17 01 16 01 
+0103+  1529 16 01 16 01 
+0104+  152D 15 01 15 01         .db     $15,$01,$15,$01,$15,$01,$14,$01,$14,$01,$14,$01,$13,$01,$13,$01
+0104+  1531 15 01 14 01 
+0104+  1535 14 01 14 01 
+0104+  1539 13 01 13 01 
+0105+  153D 13 01 12 01         .db     $13,$01,$12,$01,$12,$01,$12,$01,$11,$01,$11,$01,$11,$01,$10,$01
+0105+  1541 12 01 12 01 
+0105+  1545 11 01 11 01 
+0105+  1549 11 01 10 01 
+0106+  154D 10 01 10 01         .db     $10,$01,$10,$01,$0F,$01,$0F,$01,$0F,$01,$0E,$01,$0E,$01,$0E,$01
+0106+  1551 0F 01 0F 01 
+0106+  1555 0F 01 0E 01 
+0106+  1559 0E 01 0E 01 
+0107+  155D 0D 01 0D 01         .db     $0D,$01,$0D,$01,$0D,$01,$0C,$01,$0C,$01,$0C,$01,$0B,$01,$0B,$01
+0107+  1561 0D 01 0C 01 
+0107+  1565 0C 01 0C 01 
+0107+  1569 0B 01 0B 01 
+0108+  156D 0B 01 0B 01         .db     $0B,$01,$0B,$01,$0A,$01,$0A,$01,$0A,$01,$09,$01,$09,$01,$09,$01
+0108+  1571 0A 01 0A 01 
+0108+  1575 0A 01 09 01 
+0108+  1579 09 01 09 01 
+0109+  157D 08 01 08 01         .db     $08,$01,$08,$01,$08,$01,$07,$01,$07,$01,$07,$01,$07,$01,$06,$01
+0109+  1581 08 01 07 01 
+0109+  1585 07 01 07 01 
+0109+  1589 07 01 06 01 
+0110+  158D 06 01 06 01         .db     $06,$01,$06,$01,$05,$01,$05,$01,$05,$01,$04,$01,$04,$01,$04,$01
+0110+  1591 05 01 05 01 
+0110+  1595 05 01 04 01 
+0110+  1599 04 01 04 01 
+0111+  159D 04 01 03 01         .db     $04,$01,$03,$01,$03,$01,$03,$01,$02,$01,$02,$01,$02,$01,$01,$01
+0111+  15A1 03 01 03 01 
+0111+  15A5 02 01 02 01 
+0111+  15A9 02 01 01 01 
+0112+  15AD 01 01 01 01         .db     $01,$01,$01,$01,$01,$01,$00,$01,$00,$01,$00,$01,$FF,$00,$FF,$00
+0112+  15B1 01 01 00 01 
+0112+  15B5 00 01 00 01 
+0112+  15B9 FF 00 FF 00 
+0113+  15BD FF 00 FF 00         .db     $FF,$00,$FF,$00,$FE,$00,$FE,$00,$FE,$00,$FD,$00,$FD,$00,$FD,$00
+0113+  15C1 FE 00 FE 00 
+0113+  15C5 FE 00 FD 00 
+0113+  15C9 FD 00 FD 00 
+0114+  15CD FD 00 FC 00         .db     $FD,$00,$FC,$00,$FC,$00,$FC,$00,$FC,$00,$FB,$00,$FB,$00,$FB,$00
+0114+  15D1 FC 00 FC 00 
+0114+  15D5 FC 00 FB 00 
+0114+  15D9 FB 00 FB 00 
+0115+  15DD FA 00 FA 00         .db     $FA,$00,$FA,$00,$FA,$00,$FA,$00,$F9,$00,$F9,$00,$F9,$00,$F9,$00
+0115+  15E1 FA 00 FA 00 
+0115+  15E5 F9 00 F9 00 
+0115+  15E9 F9 00 F9 00 
+0116+  15ED F8 00 F8 00         .db     $F8,$00,$F8,$00,$F8,$00,$F7,$00,$F7,$00,$F7,$00,$F7,$00,$F6,$00
+0116+  15F1 F8 00 F7 00 
+0116+  15F5 F7 00 F7 00 
+0116+  15F9 F7 00 F6 00 
+0117+  15FD F6 00 F6 00         .db     $F6,$00,$F6,$00,$F6,$00,$F5,$00,$F5,$00,$F5,$00,$F5,$00,$F4,$00
+0117+  1601 F6 00 F5 00 
+0117+  1605 F5 00 F5 00 
+0117+  1609 F5 00 F4 00 
+0118+  160D F4 00 F4 00         .db     $F4,$00,$F4,$00,$F3,$00,$F3,$00,$F3,$00,$F3,$00,$F2,$00,$F2,$00
+0118+  1611 F3 00 F3 00 
+0118+  1615 F3 00 F3 00 
+0118+  1619 F2 00 F2 00 
+0119+  161D F2 00 F2 00         .db     $F2,$00,$F2,$00,$F1,$00,$F1,$00,$F1,$00,$F1,$00,$F0,$00,$F0,$00
+0119+  1621 F1 00 F1 00 
+0119+  1625 F1 00 F1 00 
+0119+  1629 F0 00 F0 00 
+0120+  162D F0 00 F0 00         .db     $F0,$00,$F0,$00,$EF,$00,$EF,$00,$EF,$00,$EF,$00,$EE,$00,$EE,$00
+0120+  1631 EF 00 EF 00 
+0120+  1635 EF 00 EF 00 
+0120+  1639 EE 00 EE 00 
+0121+  163D EE 00 EE 00         .db     $EE,$00,$EE,$00,$ED,$00,$ED,$00,$ED,$00,$ED,$00,$EC,$00,$EC,$00
+0121+  1641 ED 00 ED 00 
+0121+  1645 ED 00 ED 00 
+0121+  1649 EC 00 EC 00 
+0122+  164D EC 00 EC 00         .db     $EC,$00,$EC,$00,$EB,$00,$EB,$00,$EB,$00,$EB,$00,$EA,$00,$EA,$00
+0122+  1651 EB 00 EB 00 
+0122+  1655 EB 00 EB 00 
+0122+  1659 EA 00 EA 00 
+0123+  165D EA 00 EA 00         .db     $EA,$00,$EA,$00,$EA,$00,$E9,$00,$E9,$00,$E9,$00,$E9,$00,$E8,$00
+0123+  1661 EA 00 E9 00 
+0123+  1665 E9 00 E9 00 
+0123+  1669 E9 00 E8 00 
+0124+  166D E8 00 E8 00         .db     $E8,$00,$E8,$00,$E8,$00,$E7,$00,$E7,$00,$E7,$00,$E7,$00,$E6,$00
+0124+  1671 E8 00 E7 00 
+0124+  1675 E7 00 E7 00 
+0124+  1679 E7 00 E6 00 
+0125+  167D E6 00 E6 00         .db     $E6,$00,$E6,$00,$E6,$00,$E6,$00,$E5,$00,$E5,$00,$E5,$00,$E5,$00
+0125+  1681 E6 00 E6 00 
+0125+  1685 E5 00 E5 00 
+0125+  1689 E5 00 E5 00 
+0126+  168D E4 00 E4 00         .db     $E4,$00,$E4,$00,$E4,$00,$E4,$00,$E3,$00,$E3,$00,$E3,$00,$E3,$00
+0126+  1691 E4 00 E4 00 
+0126+  1695 E3 00 E3 00 
+0126+  1699 E3 00 E3 00 
+0127+  169D E3 00 E2 00         .db     $E3,$00,$E2,$00,$E2,$00,$E2,$00,$E2,$00,$E1,$00,$E1,$00,$E1,$00
+0127+  16A1 E2 00 E2 00 
+0127+  16A5 E2 00 E1 00 
+0127+  16A9 E1 00 E1 00 
+0128+  16AD E1 00 E1 00         .db     $E1,$00,$E1,$00,$E0,$00,$E0,$00,$E0,$00,$E0,$00,$DF,$00,$DF,$00
+0128+  16B1 E0 00 E0 00 
+0128+  16B5 E0 00 E0 00 
+0128+  16B9 DF 00 DF 00 
+0129+  16BD DF 00 DF 00         .db     $DF,$00,$DF,$00,$DF,$00,$DE,$00,$DE,$00,$DE,$00,$DE,$00,$DD,$00
+0129+  16C1 DF 00 DE 00 
+0129+  16C5 DE 00 DE 00 
+0129+  16C9 DE 00 DD 00 
+0130+  16CD DD 00 DD 00         .db     $DD,$00,$DD,$00,$DD,$00,$DD,$00,$DC,$00,$DC,$00,$DC,$00,$DC,$00
+0130+  16D1 DD 00 DD 00 
+0130+  16D5 DC 00 DC 00 
+0130+  16D9 DC 00 DC 00 
+0131+  16DD DC 00 DB 00         .db     $DC,$00,$DB,$00,$DB,$00,$DB,$00,$DB,$00,$DB,$00,$DA,$00,$DA,$00
+0131+  16E1 DB 00 DB 00 
+0131+  16E5 DB 00 DB 00 
+0131+  16E9 DA 00 DA 00 
+0132+  16ED DA 00 DA 00         .db     $DA,$00,$DA,$00,$D9,$00,$D9,$00,$D9,$00,$D9,$00,$D9,$00,$D8,$00
+0132+  16F1 D9 00 D9 00 
+0132+  16F5 D9 00 D9 00 
+0132+  16F9 D9 00 D8 00 
+0133+  16FD D8 00 D8 00         .db     $D8,$00,$D8,$00,$D8,$00,$D8,$00,$D7,$00,$D7,$00,$D7,$00,$D7,$00
+0133+  1701 D8 00 D8 00 
+0133+  1705 D7 00 D7 00 
+0133+  1709 D7 00 D7 00 
+0134+  170D D7 00 D6 00         .db     $D7,$00,$D6,$00,$D6,$00,$D6,$00,$D6,$00,$D6,$00,$D5,$00,$D5,$00
+0134+  1711 D6 00 D6 00 
+0134+  1715 D6 00 D6 00 
+0134+  1719 D5 00 D5 00 
+0135+  171D D5 00 D5 00         .db     $D5,$00,$D5,$00,$D5,$00,$D4,$00,$D4,$00,$D4,$00,$D4,$00,$D4,$00
+0135+  1721 D5 00 D4 00 
+0135+  1725 D4 00 D4 00 
+0135+  1729 D4 00 D4 00 
+0136+  172D D3 00 D3 00         .db     $D3,$00,$D3,$00,$D3,$00,$D3,$00,$D3,$00,$D2,$00,$D2,$00,$D2,$00
+0136+  1731 D3 00 D3 00 
+0136+  1735 D3 00 D2 00 
+0136+  1739 D2 00 D2 00 
+0137+  173D D2 00 D2 00         .db     $D2,$00,$D2,$00,$D1,$00,$D1,$00,$D1,$00,$D1,$00,$D1,$00,$D1,$00
+0137+  1741 D1 00 D1 00 
+0137+  1745 D1 00 D1 00 
+0137+  1749 D1 00 D1 00 
+0138+  174D D0 00 D0 00         .db     $D0,$00,$D0,$00,$D0,$00,$D0,$00,$D0,$00,$CF,$00,$CF,$00,$CF,$00
+0138+  1751 D0 00 D0 00 
+0138+  1755 D0 00 CF 00 
+0138+  1759 CF 00 CF 00 
+0139+  175D CF 00 CF 00         .db     $CF,$00,$CF,$00,$CE,$00,$CE,$00,$CE,$00,$CE,$00,$CE,$00,$CE,$00
+0139+  1761 CE 00 CE 00 
+0139+  1765 CE 00 CE 00 
+0139+  1769 CE 00 CE 00 
+0140+  176D CD 00 CD 00         .db     $CD,$00,$CD,$00,$CD,$00,$CD,$00,$CD,$00,$CC,$00,$CC,$00,$CC,$00
+0140+  1771 CD 00 CD 00 
+0140+  1775 CD 00 CC 00 
+0140+  1779 CC 00 CC 00 
+0141+  177D CC 00 CC 00         .db     $CC,$00,$CC,$00,$CB,$00,$CB,$00,$CB,$00,$CB,$00,$CB,$00,$CB,$00
+0141+  1781 CB 00 CB 00 
+0141+  1785 CB 00 CB 00 
+0141+  1789 CB 00 CB 00 
+0142+  178D CA 00 CA 00         .db     $CA,$00,$CA,$00,$CA,$00,$CA,$00,$CA,$00,$CA,$00,$C9,$00,$C9,$00
+0142+  1791 CA 00 CA 00 
+0142+  1795 CA 00 CA 00 
+0142+  1799 C9 00 C9 00 
+0143+  179D C9 00 C9 00         .db     $C9,$00,$C9,$00,$C9,$00,$C8,$00,$C8,$00,$C8,$00,$C8,$00,$C8,$00
+0143+  17A1 C9 00 C8 00 
+0143+  17A5 C8 00 C8 00 
+0143+  17A9 C8 00 C8 00 
+0144+  17AD C8 00 C7 00         .db     $C8,$00,$C7,$00,$C7,$00,$C7,$00,$C7,$00,$C7,$00,$C7,$00,$C6,$00
+0144+  17B1 C7 00 C7 00 
+0144+  17B5 C7 00 C7 00 
+0144+  17B9 C7 00 C6 00 
+0145+  17BD C6 00 C6 00         .db     $C6,$00,$C6,$00,$C6,$00,$C6,$00,$C6,$00,$C5,$00,$C5,$00,$C5,$00
+0145+  17C1 C6 00 C6 00 
+0145+  17C5 C6 00 C5 00 
+0145+  17C9 C5 00 C5 00 
+0146+  17CD C5 00 C5 00         .db     $C5,$00,$C5,$00,$C4,$00,$C4,$00,$C4,$00,$C4,$00,$C4,$00,$C4,$00
+0146+  17D1 C4 00 C4 00 
+0146+  17D5 C4 00 C4 00 
+0146+  17D9 C4 00 C4 00 
+0147+  17DD C3 00 C3 00         .db     $C3,$00,$C3,$00,$C3,$00,$C3,$00,$C3,$00,$C3,$00,$C2,$00,$C2,$00
+0147+  17E1 C3 00 C3 00 
+0147+  17E5 C3 00 C3 00 
+0147+  17E9 C2 00 C2 00 
+0148+  17ED C2 00 C2 00         .db     $C2,$00,$C2,$00,$C2,$00,$C2,$00,$C1,$00,$C1,$00,$C1,$00,$C1,$00
+0148+  17F1 C2 00 C2 00 
+0148+  17F5 C1 00 C1 00 
+0148+  17F9 C1 00 C1 00 
+0149+  17FD C1 00 C1 00         .db     $C1,$00,$C1,$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00,$C0,$00
+0149+  1801 C0 00 C0 00 
+0149+  1805 C0 00 C0 00 
+0149+  1809 C0 00 C0 00 
+0150+  180D C0 00 BF 00         .db     $C0,$00,$BF,$00,$BF,$00,$BF,$00,$BF,$00,$BF,$00,$BF,$00,$BE,$00
+0150+  1811 BF 00 BF 00 
+0150+  1815 BF 00 BF 00 
+0150+  1819 BF 00 BE 00 
+0151+  181D BE 00 BE 00         .db     $BE,$00,$BE,$00,$BE,$00,$BE,$00,$BE,$00,$BD,$00,$BD,$00,$BD,$00
+0151+  1821 BE 00 BE 00 
+0151+  1825 BE 00 BD 00 
+0151+  1829 BD 00 BD 00 
+0152+  182D BD 00 BD 00         .db     $BD,$00,$BD,$00,$BD,$00,$BD,$00,$BC,$00,$BC,$00,$BC,$00,$BC,$00
+0152+  1831 BD 00 BD 00 
+0152+  1835 BC 00 BC 00 
+0152+  1839 BC 00 BC 00 
+0153+  183D BC 00 BC 00         .db     $BC,$00,$BC,$00,$BB,$00,$BB,$00,$BB,$00,$BB,$00,$BB,$00,$BB,$00
+0153+  1841 BB 00 BB 00 
+0153+  1845 BB 00 BB 00 
+0153+  1849 BB 00 BB 00 
+0154+  184D BB 00 BA 00         .db     $BB,$00,$BA,$00,$BA,$00,$BA,$00,$BA,$00,$BA,$00,$BA,$00,$B9,$00
+0154+  1851 BA 00 BA 00 
+0154+  1855 BA 00 BA 00 
+0154+  1859 BA 00 B9 00 
+0155+  185D B9 00 B9 00         .db     $B9,$00,$B9,$00,$B9,$00,$B9,$00,$B9,$00,$B9,$00,$B8,$00,$B8,$00
+0155+  1861 B9 00 B9 00 
+0155+  1865 B9 00 B9 00 
+0155+  1869 B8 00 B8 00 
+0156+  186D B8 00 B8 00         .db     $B8,$00,$B8,$00,$B8,$00,$B8,$00,$B8,$00,$B7,$00,$B7,$00,$B7,$00
+0156+  1871 B8 00 B8 00 
+0156+  1875 B8 00 B7 00 
+0156+  1879 B7 00 B7 00 
+0157+  187D B7 00 B7 00         .db     $B7,$00,$B7,$00,$B7,$00,$B6,$00,$B6,$00,$B6,$00,$B6,$00,$B6,$00
+0157+  1881 B7 00 B6 00 
+0157+  1885 B6 00 B6 00 
+0157+  1889 B6 00 B6 00 
+0158+  188D B6 00 B6 00         .db     $B6,$00,$B6,$00,$B5,$00,$B5,$00,$B5,$00,$B5,$00,$B5,$00,$B5,$00
+0158+  1891 B5 00 B5 00 
+0158+  1895 B5 00 B5 00 
+0158+  1899 B5 00 B5 00 
+0159+  189D B5 00 B4 00         .db     $B5,$00,$B4,$00,$B4,$00,$B4,$00,$B4,$00,$B4,$00,$B4,$00,$B4,$00
+0159+  18A1 B4 00 B4 00 
+0159+  18A5 B4 00 B4 00 
+0159+  18A9 B4 00 B4 00 
+0160+  18AD B3 00 B3 00         .db     $B3,$00,$B3,$00,$B3,$00,$B3,$00,$B3,$00,$B3,$00,$B3,$00,$B2,$00
+0160+  18B1 B3 00 B3 00 
+0160+  18B5 B3 00 B3 00 
+0160+  18B9 B3 00 B2 00 
+0161+  18BD B2 00 B2 00         .db     $B2,$00,$B2,$00,$B2,$00,$B2,$00,$B2,$00,$B2,$00,$B2,$00,$B1,$00
+0161+  18C1 B2 00 B2 00 
+0161+  18C5 B2 00 B2 00 
+0161+  18C9 B2 00 B1 00 
+0162+  18CD B1 00 B1 00         .db     $B1,$00,$B1,$00,$B1,$00,$B1,$00,$B1,$00,$B1,$00,$B0,$00,$B0,$00
+0162+  18D1 B1 00 B1 00 
+0162+  18D5 B1 00 B1 00 
+0162+  18D9 B0 00 B0 00 
+0163+  18DD B0 00 B0 00         .db     $B0,$00,$B0,$00,$B0,$00,$B0,$00,$B0,$00,$AF,$00,$AF,$00,$AF,$00
+0163+  18E1 B0 00 B0 00 
+0163+  18E5 B0 00 AF 00 
+0163+  18E9 AF 00 AF 00 
+0164+  18ED AF 00 AF 00         .db     $AF,$00,$AF,$00,$AF,$00,$AF,$00,$AF,$00,$AE,$00,$AE,$00,$AE,$00
+0164+  18F1 AF 00 AF 00 
+0164+  18F5 AF 00 AE 00 
+0164+  18F9 AE 00 AE 00 
+0165+  18FD AE 00 AE 00         .db     $AE,$00,$AE,$00,$AE,$00,$AE,$00,$AD,$00,$AD,$00,$AD,$00,$AD,$00
+0165+  1901 AE 00 AE 00 
+0165+  1905 AD 00 AD 00 
+0165+  1909 AD 00 AD 00 
+0166+  190D AD 00 AD 00         .db     $AD,$00,$AD,$00,$AD,$00,$AD,$00,$AC,$00,$AC,$00,$AC,$00,$AC,$00
+0166+  1911 AD 00 AD 00 
+0166+  1915 AC 00 AC 00 
+0166+  1919 AC 00 AC 00 
+0167+  191D AC 00 AC 00         .db     $AC,$00,$AC,$00,$AC,$00,$AB,$00,$AB,$00,$AB,$00,$AB,$00,$AB,$00
+0167+  1921 AC 00 AB 00 
+0167+  1925 AB 00 AB 00 
+0167+  1929 AB 00 AB 00 
+0168+  192D AB 00 AB 00         .db     $AB,$00,$AB,$00,$AB,$00,$AA,$00,$AA,$00,$AA,$00,$AA,$00,$AA,$00
+0168+  1931 AB 00 AA 00 
+0168+  1935 AA 00 AA 00 
+0168+  1939 AA 00 AA 00 
+0169+  193D AA 00 AA 00         .db     $AA,$00,$AA,$00,$AA,$00,$A9,$00,$A9,$00,$A9,$00,$A9,$00,$A9,$00
+0169+  1941 AA 00 A9 00 
+0169+  1945 A9 00 A9 00 
+0169+  1949 A9 00 A9 00 
+0170+  194D A9 00 A9 00         .db     $A9,$00,$A9,$00,$A9,$00,$A8,$00,$A8,$00,$A8,$00,$A8,$00,$A8,$00
+0170+  1951 A9 00 A8 00 
+0170+  1955 A8 00 A8 00 
+0170+  1959 A8 00 A8 00 
+0171+  195D A8 00 A8 00         .db     $A8,$00,$A8,$00,$A8,$00,$A7,$00,$A7,$00,$A7,$00,$A7,$00,$A7,$00
+0171+  1961 A8 00 A7 00 
+0171+  1965 A7 00 A7 00 
+0171+  1969 A7 00 A7 00 
+0172+  196D A7 00 A7 00         .db     $A7,$00,$A7,$00,$A7,$00,$A6,$00,$A6,$00,$A6,$00,$A6,$00,$A6,$00
+0172+  1971 A7 00 A6 00 
+0172+  1975 A6 00 A6 00 
+0172+  1979 A6 00 A6 00 
+0173+  197D A6 00 A6 00         .db     $A6,$00,$A6,$00,$A6,$00,$A6,$00,$A5,$00,$A5,$00,$A5,$00,$A5,$00
+0173+  1981 A6 00 A6 00 
+0173+  1985 A5 00 A5 00 
+0173+  1989 A5 00 A5 00 
+0174+  198D A5 00 A5 00         .db     $A5,$00,$A5,$00,$A5,$00,$A5,$00,$A4,$00,$A4,$00,$A4,$00,$A4,$00
+0174+  1991 A5 00 A5 00 
+0174+  1995 A4 00 A4 00 
+0174+  1999 A4 00 A4 00 
+0175+  199D A4 00 A4 00         .db     $A4,$00,$A4,$00,$A4,$00,$A4,$00,$A3,$00,$A3,$00,$A3,$00,$A3,$00
+0175+  19A1 A4 00 A4 00 
+0175+  19A5 A3 00 A3 00 
+0175+  19A9 A3 00 A3 00 
+0176+  19AD A3 00 A3 00         .db     $A3,$00,$A3,$00,$A3,$00,$A3,$00,$A3,$00,$A2,$00,$A2,$00,$A2,$00
+0176+  19B1 A3 00 A3 00 
+0176+  19B5 A3 00 A2 00 
+0176+  19B9 A2 00 A2 00 
+0177+  19BD A2 00 A2 00         .db     $A2,$00,$A2,$00,$A2,$00,$A2,$00,$A2,$00,$A2,$00,$A1,$00,$A1,$00
+0177+  19C1 A2 00 A2 00 
+0177+  19C5 A2 00 A2 00 
+0177+  19C9 A1 00 A1 00 
+0178+  19CD A1 00 A1 00         .db     $A1,$00,$A1,$00,$A1,$00,$A1,$00,$A1,$00,$A1,$00,$A0,$00,$A0,$00
+0178+  19D1 A1 00 A1 00 
+0178+  19D5 A1 00 A1 00 
+0178+  19D9 A0 00 A0 00 
+0179+  19DD A0 00 A0 00         .db     $A0,$00,$A0,$00,$A0,$00,$A0,$00,$A0,$00,$A0,$00,$A0,$00,$9F,$00
+0179+  19E1 A0 00 A0 00 
+0179+  19E5 A0 00 A0 00 
+0179+  19E9 A0 00 9F 00 
+0180+  19ED 9F 00 9F 00         .db     $9F,$00,$9F,$00,$9F,$00,$9F,$00,$9F,$00,$9F,$00,$9F,$00,$9F,$00
+0180+  19F1 9F 00 9F 00 
+0180+  19F5 9F 00 9F 00 
+0180+  19F9 9F 00 9F 00 
+0181+  19FD 9E 00 9E 00         .db     $9E,$00,$9E,$00,$9E,$00,$9E,$00,$9E,$00,$9E,$00,$9E,$00,$9E,$00
+0181+  1A01 9E 00 9E 00 
+0181+  1A05 9E 00 9E 00 
+0181+  1A09 9E 00 9E 00 
+0182+  1A0D 9E 00 9D 00         .db     $9E,$00,$9D,$00,$9D,$00,$9D,$00,$9D,$00,$9D,$00,$9D,$00,$9D,$00
+0182+  1A11 9D 00 9D 00 
+0182+  1A15 9D 00 9D 00 
+0182+  1A19 9D 00 9D 00 
+0183+  1A1D 9D 00 9D 00         .db     $9D,$00,$9D,$00,$9D,$00,$9C,$00,$9C,$00,$9C,$00,$9C,$00,$9C,$00
+0183+  1A21 9D 00 9C 00 
+0183+  1A25 9C 00 9C 00 
+0183+  1A29 9C 00 9C 00 
+0184+  1A2D 9C 00 9C 00         .db     $9C,$00,$9C,$00,$9C,$00,$9C,$00,$9B,$00,$9B,$00,$9B,$00,$9B,$00
+0184+  1A31 9C 00 9C 00 
+0184+  1A35 9B 00 9B 00 
+0184+  1A39 9B 00 9B 00 
+0185+  1A3D 9B 00 9B 00         .db     $9B,$00,$9B,$00,$9B,$00,$9B,$00,$9B,$00,$9A,$00,$9A,$00,$9A,$00
+0185+  1A41 9B 00 9B 00 
+0185+  1A45 9B 00 9A 00 
+0185+  1A49 9A 00 9A 00 
+0186+  1A4D 9A 00 9A 00         .db     $9A,$00,$9A,$00,$9A,$00,$9A,$00,$9A,$00,$9A,$00,$9A,$00,$99,$00
+0186+  1A51 9A 00 9A 00 
+0186+  1A55 9A 00 9A 00 
+0186+  1A59 9A 00 99 00 
+0187+  1A5D 99 00 99 00         .db     $99,$00,$99,$00,$99,$00,$99,$00,$99,$00,$99,$00,$99,$00,$99,$00
+0187+  1A61 99 00 99 00 
+0187+  1A65 99 00 99 00 
+0187+  1A69 99 00 99 00 
+0188+  1A6D 99 00 98 00         .db     $99,$00,$98,$00,$98,$00,$98,$00,$98,$00,$98,$00,$98,$00,$98,$00
+0188+  1A71 98 00 98 00 
+0188+  1A75 98 00 98 00 
+0188+  1A79 98 00 98 00 
+0189+  1A7D 98 00 98 00         .db     $98,$00,$98,$00,$98,$00,$97,$00,$97,$00,$97,$00,$97,$00,$97,$00
+0189+  1A81 98 00 97 00 
+0189+  1A85 97 00 97 00 
+0189+  1A89 97 00 97 00 
+0190+  1A8D 97 00 97 00         .db     $97,$00,$97,$00,$97,$00,$97,$00,$97,$00,$96,$00,$96,$00,$96,$00
+0190+  1A91 97 00 97 00 
+0190+  1A95 97 00 96 00 
+0190+  1A99 96 00 96 00 
+0191+  1A9D 96 00 96 00         .db     $96,$00,$96,$00,$96,$00,$96,$00,$96,$00,$96,$00,$96,$00,$95,$00
+0191+  1AA1 96 00 96 00 
+0191+  1AA5 96 00 96 00 
+0191+  1AA9 96 00 95 00 
+0192+  1AAD 95 00 95 00         .db     $95,$00,$95,$00,$95,$00,$95,$00,$95,$00,$95,$00,$95,$00,$95,$00
+0192+  1AB1 95 00 95 00 
+0192+  1AB5 95 00 95 00 
+0192+  1AB9 95 00 95 00 
+0193+  1ABD 95 00 94 00         .db     $95,$00,$94,$00,$94,$00,$94,$00,$94,$00,$94,$00,$94,$00,$94,$00
+0193+  1AC1 94 00 94 00 
+0193+  1AC5 94 00 94 00 
+0193+  1AC9 94 00 94 00 
+0194+  1ACD 94 00 94 00         .db     $94,$00,$94,$00,$94,$00,$93,$00,$93,$00,$93,$00,$93,$00,$93,$00
+0194+  1AD1 94 00 93 00 
+0194+  1AD5 93 00 93 00 
+0194+  1AD9 93 00 93 00 
+0195+  1ADD 93 00 93 00         .db     $93,$00,$93,$00,$93,$00,$93,$00,$93,$00,$93,$00,$92,$00,$92,$00
+0195+  1AE1 93 00 93 00 
+0195+  1AE5 93 00 93 00 
+0195+  1AE9 92 00 92 00 
+0196+  1AED 92 00 92 00         .db     $92,$00,$92,$00,$92,$00,$92,$00,$92,$00,$92,$00,$92,$00,$92,$00
+0196+  1AF1 92 00 92 00 
+0196+  1AF5 92 00 92 00 
+0196+  1AF9 92 00 92 00 
+0197+  1AFD 92 00 91 00         .db     $92,$00,$91,$00,$91,$00,$91,$00,$91,$00,$91,$00,$91,$00,$91,$00
+0197+  1B01 91 00 91 00 
+0197+  1B05 91 00 91 00 
+0197+  1B09 91 00 91 00 
+0198+  1B0D 91 00 91 00         .db     $91,$00,$91,$00,$91,$00,$90,$00,$90,$00,$90,$00,$90,$00,$90,$00
+0198+  1B11 91 00 90 00 
+0198+  1B15 90 00 90 00 
+0198+  1B19 90 00 90 00 
+0199+  1B1D 90 00 90 00         .db     $90,$00,$90,$00,$90,$00,$90,$00,$90,$00,$90,$00,$8F,$00,$8F,$00
+0199+  1B21 90 00 90 00 
+0199+  1B25 90 00 90 00 
+0199+  1B29 8F 00 8F 00 
+0200+  1B2D 8F 00 8F 00         .db     $8F,$00,$8F,$00,$8F,$00,$8F,$00,$8F,$00,$8F,$00,$8F,$00,$8F,$00
+0200+  1B31 8F 00 8F 00 
+0200+  1B35 8F 00 8F 00 
+0200+  1B39 8F 00 8F 00 
+0201+  1B3D 8F 00 8F 00         .db     $8F,$00,$8F,$00,$8E,$00,$8E,$00,$8E,$00,$8E,$00,$8E,$00,$8E,$00
+0201+  1B41 8E 00 8E 00 
+0201+  1B45 8E 00 8E 00 
+0201+  1B49 8E 00 8E 00 
+0202+  1B4D 8E 00 8E 00         .db     $8E,$00,$8E,$00,$8E,$00,$8E,$00,$8E,$00,$8D,$00,$8D,$00,$8D,$00
+0202+  1B51 8E 00 8E 00 
+0202+  1B55 8E 00 8D 00 
+0202+  1B59 8D 00 8D 00 
+0203+  1B5D 8D 00 8D 00         .db     $8D,$00,$8D,$00,$8D,$00,$8D,$00,$8D,$00,$8D,$00,$8D,$00,$8D,$00
+0203+  1B61 8D 00 8D 00 
+0203+  1B65 8D 00 8D 00 
+0203+  1B69 8D 00 8D 00 
+0204+  1B6D 8C 00 8C 00         .db     $8C,$00,$8C,$00,$8C,$00,$8C,$00,$8C,$00,$8C,$00,$8C,$00,$8C,$00
+0204+  1B71 8C 00 8C 00 
+0204+  1B75 8C 00 8C 00 
+0204+  1B79 8C 00 8C 00 
+0205+  1B7D 8C 00 8C 00         .db     $8C,$00,$8C,$00,$8C,$00,$8C,$00,$8B,$00,$8B,$00,$8B,$00,$8B,$00
+0205+  1B81 8C 00 8C 00 
+0205+  1B85 8B 00 8B 00 
+0205+  1B89 8B 00 8B 00 
+0206+  1B8D 8B 00 8B 00         .db     $8B,$00,$8B,$00,$8B,$00,$8B,$00,$8B,$00,$8B,$00,$8B,$00,$8B,$00
+0206+  1B91 8B 00 8B 00 
+0206+  1B95 8B 00 8B 00 
+0206+  1B99 8B 00 8B 00 
+0207+  1B9D 8A 00 8A 00         .db     $8A,$00,$8A,$00,$8A,$00,$8A,$00,$8A,$00,$8A,$00,$8A,$00,$8A,$00
+0207+  1BA1 8A 00 8A 00 
+0207+  1BA5 8A 00 8A 00 
+0207+  1BA9 8A 00 8A 00 
+0208+  1BAD 8A 00 8A 00         .db     $8A,$00,$8A,$00,$8A,$00,$8A,$00,$89,$00,$89,$00,$89,$00,$89,$00
+0208+  1BB1 8A 00 8A 00 
+0208+  1BB5 89 00 89 00 
+0208+  1BB9 89 00 89 00 
+0209+  1BBD 89 00 89 00         .db     $89,$00,$89,$00,$89,$00,$89,$00,$89,$00,$89,$00,$89,$00,$89,$00
+0209+  1BC1 89 00 89 00 
+0209+  1BC5 89 00 89 00 
+0209+  1BC9 89 00 89 00 
+0210+  1BCD 88 00 88 00         .db     $88,$00,$88,$00,$88,$00,$88,$00,$88,$00,$88,$00,$88,$00,$88,$00
+0210+  1BD1 88 00 88 00 
+0210+  1BD5 88 00 88 00 
+0210+  1BD9 88 00 88 00 
+0211+  1BDD 88 00 88 00         .db     $88,$00,$88,$00,$88,$00,$88,$00,$87,$00,$87,$00,$87,$00,$87,$00
+0211+  1BE1 88 00 88 00 
+0211+  1BE5 87 00 87 00 
+0211+  1BE9 87 00 87 00 
+0212+  1BED 87 00 87 00         .db     $87,$00,$87,$00,$87,$00,$87,$00,$87,$00,$87,$00,$87,$00,$87,$00
+0212+  1BF1 87 00 87 00 
+0212+  1BF5 87 00 87 00 
+0212+  1BF9 87 00 87 00 
+0213+  1BFD 86 00 86 00         .db     $86,$00,$86,$00,$86,$00,$86,$00,$86,$00,$86,$00,$86,$00,$86,$00
+0213+  1C01 86 00 86 00 
+0213+  1C05 86 00 86 00 
+0213+  1C09 86 00 86 00 
+0214+  1C0D 86 00 86 00         .db     $86,$00,$86,$00,$86,$00,$86,$00,$86,$00,$85,$00,$85,$00,$85,$00
+0214+  1C11 86 00 86 00 
+0214+  1C15 86 00 85 00 
+0214+  1C19 85 00 85 00 
+0215+  1C1D 85 00 85 00         .db     $85,$00,$85,$00,$85,$00,$85,$00,$85,$00,$85,$00,$85,$00,$85,$00
+0215+  1C21 85 00 85 00 
+0215+  1C25 85 00 85 00 
+0215+  1C29 85 00 85 00 
+0216+  1C2D 85 00 85 00         .db     $85,$00,$85,$00,$84,$00,$84,$00,$84,$00,$84,$00,$84,$00,$84,$00
+0216+  1C31 84 00 84 00 
+0216+  1C35 84 00 84 00 
+0216+  1C39 84 00 84 00 
+0217+  1C3D 84 00 84 00         .db     $84,$00,$84,$00,$84,$00,$84,$00,$84,$00,$84,$00,$84,$00,$83,$00
+0217+  1C41 84 00 84 00 
+0217+  1C45 84 00 84 00 
+0217+  1C49 84 00 83 00 
+0218+  1C4D 83 00 83 00         .db     $83,$00,$83,$00,$83,$00,$83,$00,$83,$00,$83,$00,$83,$00,$83,$00
+0218+  1C51 83 00 83 00 
+0218+  1C55 83 00 83 00 
+0218+  1C59 83 00 83 00 
+0219+  1C5D 83 00 83 00         .db     $83,$00,$83,$00,$83,$00,$83,$00,$82,$00,$82,$00,$82,$00,$82,$00
+0219+  1C61 83 00 83 00 
+0219+  1C65 82 00 82 00 
+0219+  1C69 82 00 82 00 
+0220+  1C6D 82 00 82 00         .db     $82,$00,$82,$00,$82,$00,$82,$00,$82,$00,$82,$00,$82,$00,$82,$00
+0220+  1C71 82 00 82 00 
+0220+  1C75 82 00 82 00 
+0220+  1C79 82 00 82 00 
+0221+  1C7D 82 00 82 00         .db     $82,$00,$82,$00,$81,$00,$81,$00,$81,$00,$81,$00,$81,$00,$81,$00
+0221+  1C81 81 00 81 00 
+0221+  1C85 81 00 81 00 
+0221+  1C89 81 00 81 00 
+0222+  1C8D 81 00 81 00         .db     $81,$00,$81,$00,$81,$00,$81,$00,$81,$00,$81,$00,$81,$00,$80,$00
+0222+  1C91 81 00 81 00 
+0222+  1C95 81 00 81 00 
+0222+  1C99 81 00 80 00 
+0223+  1C9D 80 00 80 00         .db     $80,$00,$80,$00,$80,$00,$80,$00,$80,$00,$80,$00,$80,$00,$80,$00
+0223+  1CA1 80 00 80 00 
+0223+  1CA5 80 00 80 00 
+0223+  1CA9 80 00 80 00 
+0224+  1CAD 80 00 80 00         .db     $80,$00,$80,$00,$80,$00,$80,$00,$80,$00,$7F,$00,$7F,$00,$7F,$00
+0224+  1CB1 80 00 80 00 
+0224+  1CB5 80 00 7F 00 
+0224+  1CB9 7F 00 7F 00 
+0225+  1CBD 7F 00 7F 00         .db     $7F,$00,$7F,$00,$7F,$00,$7F,$00,$7F,$00,$7F,$00,$7F,$00,$7F,$00
+0225+  1CC1 7F 00 7F 00 
+0225+  1CC5 7F 00 7F 00 
+0225+  1CC9 7F 00 7F 00 
+0226+  1CCD 7F 00 7F 00         .db     $7F,$00,$7F,$00,$7F,$00,$7E,$00,$7E,$00,$7E,$00,$7E,$00,$7E,$00
+0226+  1CD1 7F 00 7E 00 
+0226+  1CD5 7E 00 7E 00 
+0226+  1CD9 7E 00 7E 00 
+0227+  1CDD 7E 00 7E 00         .db     $7E,$00,$7E,$00,$7E,$00,$7E,$00,$7E,$00,$7E,$00,$7E,$00,$7E,$00
+0227+  1CE1 7E 00 7E 00 
+0227+  1CE5 7E 00 7E 00 
+0227+  1CE9 7E 00 7E 00 
+0228+  1CED 7E 00 7E 00         .db     $7E,$00,$7E,$00,$7D,$00,$7D,$00,$7D,$00,$7D,$00,$7D,$00,$7D,$00
+0228+  1CF1 7D 00 7D 00 
+0228+  1CF5 7D 00 7D 00 
+0228+  1CF9 7D 00 7D 00 
+0229+  1CFD 7D 00 7D 00         .db     $7D,$00,$7D,$00,$7D,$00,$7D,$00,$7D,$00,$7D,$00,$7D,$00,$7D,$00
+0229+  1D01 7D 00 7D 00 
+0229+  1D05 7D 00 7D 00 
+0229+  1D09 7D 00 7D 00 
+0230+  1D0D 7C 00 7C 00         .db     $7C,$00,$7C,$00,$7C,$00,$7C,$00,$7C,$00,$7C,$00,$7C,$00,$7C,$00
+0230+  1D11 7C 00 7C 00 
+0230+  1D15 7C 00 7C 00 
+0230+  1D19 7C 00 7C 00 
+0231+  1D1D 7C 00 7C 00         .db     $7C,$00,$7C,$00,$7C,$00,$7C,$00,$7C,$00,$7C,$00,$7C,$00,$7B,$00
+0231+  1D21 7C 00 7C 00 
+0231+  1D25 7C 00 7C 00 
+0231+  1D29 7C 00 7B 00 
+0232+  1D2D 7B 00 7B 00         .db     $7B,$00,$7B,$00,$7B,$00,$7B,$00,$7B,$00,$7B,$00,$7B,$00,$7B,$00
+0232+  1D31 7B 00 7B 00 
+0232+  1D35 7B 00 7B 00 
+0232+  1D39 7B 00 7B 00 
+0233+  1D3D 7B 00 7B 00         .db     $7B,$00,$7B,$00,$7B,$00,$7B,$00,$7B,$00,$7B,$00,$7A,$00,$7A,$00
+0233+  1D41 7B 00 7B 00 
+0233+  1D45 7B 00 7B 00 
+0233+  1D49 7A 00 7A 00 
+0234+  1D4D 7A 00 7A 00         .db     $7A,$00,$7A,$00,$7A,$00,$7A,$00,$7A,$00,$7A,$00,$7A,$00,$7A,$00
+0234+  1D51 7A 00 7A 00 
+0234+  1D55 7A 00 7A 00 
+0234+  1D59 7A 00 7A 00 
+0235+  1D5D 7A 00 7A 00         .db     $7A,$00,$7A,$00,$7A,$00,$7A,$00,$7A,$00,$79,$00,$79,$00,$79,$00
+0235+  1D61 7A 00 7A 00 
+0235+  1D65 7A 00 79 00 
+0235+  1D69 79 00 79 00 
+0236+  1D6D 79 00 79 00         .db     $79,$00,$79,$00,$79,$00,$79,$00,$79,$00,$79,$00,$79,$00,$79,$00
+0236+  1D71 79 00 79 00 
+0236+  1D75 79 00 79 00 
+0236+  1D79 79 00 79 00 
+0237+  1D7D 79 00 79 00         .db     $79,$00,$79,$00,$79,$00,$79,$00,$79,$00,$78,$00,$78,$00,$78,$00
+0237+  1D81 79 00 79 00 
+0237+  1D85 79 00 78 00 
+0237+  1D89 78 00 78 00 
+0238+  1D8D 78 00 78 00         .db     $78,$00,$78,$00,$78,$00,$78,$00,$78,$00,$78,$00,$78,$00,$78,$00
+0238+  1D91 78 00 78 00 
+0238+  1D95 78 00 78 00 
+0238+  1D99 78 00 78 00 
+0239+  1D9D 78 00 78 00         .db     $78,$00,$78,$00,$78,$00,$78,$00,$78,$00,$77,$00,$77,$00,$77,$00
+0239+  1DA1 78 00 78 00 
+0239+  1DA5 78 00 77 00 
+0239+  1DA9 77 00 77 00 
+0240+  1DAD 77 00 77 00         .db     $77,$00,$77,$00,$77,$00,$77,$00,$77,$00,$77,$00,$77,$00,$77,$00
+0240+  1DB1 77 00 77 00 
+0240+  1DB5 77 00 77 00 
+0240+  1DB9 77 00 77 00 
+0241+  1DBD 77 00 77 00         .db     $77,$00,$77,$00,$77,$00,$77,$00,$77,$00,$76,$00,$76,$00,$76,$00
+0241+  1DC1 77 00 77 00 
+0241+  1DC5 77 00 76 00 
+0241+  1DC9 76 00 76 00 
+0242+  1DCD 76 00 76 00         .db     $76,$00,$76,$00,$76,$00,$76,$00,$76,$00,$76,$00,$76,$00,$76,$00
+0242+  1DD1 76 00 76 00 
+0242+  1DD5 76 00 76 00 
+0242+  1DD9 76 00 76 00 
+0243+  1DDD 76 00 76 00         .db     $76,$00,$76,$00,$76,$00,$76,$00,$76,$00,$75,$00,$75,$00,$75,$00
+0243+  1DE1 76 00 76 00 
+0243+  1DE5 76 00 75 00 
+0243+  1DE9 75 00 75 00 
+0244+  1DED 75 00 75 00         .db     $75,$00,$75,$00,$75,$00,$75,$00,$75,$00,$75,$00,$75,$00,$75,$00
+0244+  1DF1 75 00 75 00 
+0244+  1DF5 75 00 75 00 
+0244+  1DF9 75 00 75 00 
+0245+  1DFD 75 00 75 00         .db     $75,$00,$75,$00,$75,$00,$75,$00,$75,$00,$75,$00,$74,$00,$74,$00
+0245+  1E01 75 00 75 00 
+0245+  1E05 75 00 75 00 
+0245+  1E09 74 00 74 00 
+0246+  1E0D 74 00 74 00         .db     $74,$00,$74,$00,$74,$00,$74,$00,$74,$00,$74,$00,$74,$00,$74,$00
+0246+  1E11 74 00 74 00 
+0246+  1E15 74 00 74 00 
+0246+  1E19 74 00 74 00 
+0247+  1E1D 74 00 74 00         .db     $74,$00,$74,$00,$74,$00,$74,$00,$74,$00,$74,$00,$73,$00,$73,$00
+0247+  1E21 74 00 74 00 
+0247+  1E25 74 00 74 00 
+0247+  1E29 73 00 73 00 
+0248+  1E2D 73 00 73 00         .db     $73,$00,$73,$00,$73,$00,$73,$00,$73,$00,$73,$00,$73,$00,$73,$00
+0248+  1E31 73 00 73 00 
+0248+  1E35 73 00 73 00 
+0248+  1E39 73 00 73 00 
+0249+  1E3D 73 00 73 00         .db     $73,$00,$73,$00,$73,$00,$73,$00,$73,$00,$73,$00,$73,$00,$73,$00
+0249+  1E41 73 00 73 00 
+0249+  1E45 73 00 73 00 
+0249+  1E49 73 00 73 00 
+0250+  1E4D 72 00 72 00         .db     $72,$00,$72,$00,$72,$00,$72,$00,$72,$00,$72,$00,$72,$00,$72,$00
+0250+  1E51 72 00 72 00 
+0250+  1E55 72 00 72 00 
+0250+  1E59 72 00 72 00 
+0251+  1E5D 72 00 72 00         .db     $72,$00,$72,$00,$72,$00,$72,$00,$72,$00,$72,$00,$72,$00,$72,$00
+0251+  1E61 72 00 72 00 
+0251+  1E65 72 00 72 00 
+0251+  1E69 72 00 72 00 
+0252+  1E6D 72 00 71 00         .db     $72,$00,$71,$00,$71,$00,$71,$00,$71,$00,$71,$00,$71,$00,$71,$00
+0252+  1E71 71 00 71 00 
+0252+  1E75 71 00 71 00 
+0252+  1E79 71 00 71 00 
+0253+  1E7D 71 00 71 00         .db     $71,$00,$71,$00,$71,$00,$71,$00,$71,$00,$71,$00,$71,$00,$71,$00
+0253+  1E81 71 00 71 00 
+0253+  1E85 71 00 71 00 
+0253+  1E89 71 00 71 00 
+0254+  1E8D 71 00 71 00         .db     $71,$00,$71,$00,$71,$00,$70,$00,$70,$00,$70,$00,$70,$00,$70,$00
+0254+  1E91 71 00 70 00 
+0254+  1E95 70 00 70 00 
+0254+  1E99 70 00 70 00 
+0255+  1E9D 70 00 70 00         .db     $70,$00,$70,$00,$70,$00,$70,$00,$70,$00,$70,$00,$70,$00,$70,$00
+0255+  1EA1 70 00 70 00 
+0255+  1EA5 70 00 70 00 
+0255+  1EA9 70 00 70 00 
+0256+  1EAD 70 00 70 00         .db     $70,$00,$70,$00,$70,$00,$70,$00,$70,$00,$6F,$00,$6F,$00,$6F,$00
+0256+  1EB1 70 00 70 00 
+0256+  1EB5 70 00 6F 00 
+0256+  1EB9 6F 00 6F 00 
+1914   1EBD             tritable: .include "tritabl2.asm"
+0001+  1EBD 00 00 00 00         .db     $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+0001+  1EC1 00 00 00 00 
+0001+  1EC5 00 00 00 00 
+0001+  1EC9 00 00 00 00 
+0002+  1ECD 00 00 00 00         .db     $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+0002+  1ED1 00 00 00 00 
+0002+  1ED5 00 00 00 00 
+0002+  1ED9 00 00 00 00 
+0003+  1EDD 00 00 00 00         .db     $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+0003+  1EE1 00 00 00 00 
+0003+  1EE5 00 00 00 00 
+0003+  1EE9 00 00 00 00 
+0004+  1EED 00 00 00 00         .db     $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+0004+  1EF1 00 00 00 00 
+0004+  1EF5 00 00 00 00 
+0004+  1EF9 00 00 00 00 
+0005+  1EFD 00 00 00 00         .db     $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+0005+  1F01 00 00 00 00 
+0005+  1F05 00 00 00 00 
+0005+  1F09 00 00 00 00 
+0006+  1F0D 00 00 00 00         .db     $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+0006+  1F11 00 00 00 00 
+0006+  1F15 00 00 00 00 
+0006+  1F19 00 00 00 00 
+0007+  1F1D 00 00 00 00         .db     $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$EB,$3F
+0007+  1F21 00 00 00 00 
+0007+  1F25 00 00 00 00 
+0007+  1F29 00 00 EB 3F 
+0008+  1F2D CC 3E B7 3D         .db     $CC,$3E,$B7,$3D,$AB,$3C,$A8,$3B,$AE,$3A,$BB,$39,$D1,$38,$EE,$37
+0008+  1F31 AB 3C A8 3B 
+0008+  1F35 AE 3A BB 39 
+0008+  1F39 D1 38 EE 37 
+0009+  1F3D 11 37 3C 36         .db     $11,$37,$3C,$36,$6C,$35,$A3,$34,$E0,$33,$22,$33,$6A,$32,$B7,$31
+0009+  1F41 6C 35 A3 34 
+0009+  1F45 E0 33 22 33 
+0009+  1F49 6A 32 B7 31 
+0010+  1F4D 08 31 5F 30         .db     $08,$31,$5F,$30,$BA,$2F,$19,$2F,$7C,$2E,$E4,$2D,$4F,$2D,$BE,$2C
+0010+  1F51 BA 2F 19 2F 
+0010+  1F55 7C 2E E4 2D 
+0010+  1F59 4F 2D BE 2C 
+0011+  1F5D 31 2C A7 2B         .db     $31,$2C,$A7,$2B,$20,$2B,$9D,$2A,$1C,$2A,$9F,$29,$24,$29,$AD,$28
+0011+  1F61 20 2B 9D 2A 
+0011+  1F65 1C 2A 9F 29 
+0011+  1F69 24 29 AD 28 
+0012+  1F6D 38 28 C5 27         .db     $38,$28,$C5,$27,$55,$27,$E8,$26,$7D,$26,$14,$26,$AD,$25,$49,$25
+0012+  1F71 55 27 E8 26 
+0012+  1F75 7D 26 14 26 
+0012+  1F79 AD 25 49 25 
+0013+  1F7D E6 24 86 24         .db     $E6,$24,$86,$24,$28,$24,$CB,$23,$70,$23,$17,$23,$C0,$22,$6B,$22
+0013+  1F81 28 24 CB 23 
+0013+  1F85 70 23 17 23 
+0013+  1F89 C0 22 6B 22 
+0014+  1F8D 17 22 C4 21         .db     $17,$22,$C4,$21,$74,$21,$24,$21,$D6,$20,$8A,$20,$3F,$20,$F5,$1F
+0014+  1F91 74 21 24 21 
+0014+  1F95 D6 20 8A 20 
+0014+  1F99 3F 20 F5 1F 
+0015+  1F9D AD 1F 66 1F         .db     $AD,$1F,$66,$1F,$20,$1F,$DB,$1E,$98,$1E,$55,$1E,$14,$1E,$D4,$1D
+0015+  1FA1 20 1F DB 1E 
+0015+  1FA5 98 1E 55 1E 
+0015+  1FA9 14 1E D4 1D 
+0016+  1FAD 95 1D 57 1D         .db     $95,$1D,$57,$1D,$1A,$1D,$DD,$1C,$A2,$1C,$68,$1C,$2F,$1C,$F7,$1B
+0016+  1FB1 1A 1D DD 1C 
+0016+  1FB5 A2 1C 68 1C 
+0016+  1FB9 2F 1C F7 1B 
+0017+  1FBD BF 1B 88 1B         .db     $BF,$1B,$88,$1B,$53,$1B,$1E,$1B,$E9,$1A,$B6,$1A,$83,$1A,$51,$1A
+0017+  1FC1 53 1B 1E 1B 
+0017+  1FC5 E9 1A B6 1A 
+0017+  1FC9 83 1A 51 1A 
+0018+  1FCD 20 1A F0 19         .db     $20,$1A,$F0,$19,$C0,$19,$91,$19,$62,$19,$35,$19,$08,$19,$DB,$18
+0018+  1FD1 C0 19 91 19 
+0018+  1FD5 62 19 35 19 
+0018+  1FD9 08 19 DB 18 
+0019+  1FDD AF 18 84 18         .db     $AF,$18,$84,$18,$59,$18,$2F,$18,$06,$18,$DD,$17,$B4,$17,$8C,$17
+0019+  1FE1 59 18 2F 18 
+0019+  1FE5 06 18 DD 17 
+0019+  1FE9 B4 17 8C 17 
+0020+  1FED 65 17 3E 17         .db     $65,$17,$3E,$17,$17,$17,$F2,$16,$CC,$16,$A7,$16,$83,$16,$5F,$16
+0020+  1FF1 17 17 F2 16 
+0020+  1FF5 CC 16 A7 16 
+0020+  1FF9 83 16 5F 16 
+0021+  1FFD 3B 16 18 16         .db     $3B,$16,$18,$16,$F5,$15,$D3,$15,$B1,$15,$90,$15,$6F,$15,$4E,$15
+0021+  2001 F5 15 D3 15 
+0021+  2005 B1 15 90 15 
+0021+  2009 6F 15 4E 15 
+0022+  200D 2E 15 0E 15         .db     $2E,$15,$0E,$15,$EE,$14,$CF,$14,$B0,$14,$92,$14,$74,$14,$56,$14
+0022+  2011 EE 14 CF 14 
+0022+  2015 B0 14 92 14 
+0022+  2019 74 14 56 14 
+0023+  201D 39 14 1C 14         .db     $39,$14,$1C,$14,$FF,$13,$E2,$13,$C6,$13,$AA,$13,$8F,$13,$74,$13
+0023+  2021 FF 13 E2 13 
+0023+  2025 C6 13 AA 13 
+0023+  2029 8F 13 74 13 
+0024+  202D 59 13 3E 13         .db     $59,$13,$3E,$13,$24,$13,$0A,$13,$F0,$12,$D6,$12,$BD,$12,$A4,$12
+0024+  2031 24 13 0A 13 
+0024+  2035 F0 12 D6 12 
+0024+  2039 BD 12 A4 12 
+0025+  203D 8B 12 73 12         .db     $8B,$12,$73,$12,$5B,$12,$43,$12,$2B,$12,$14,$12,$FC,$11,$E5,$11
+0025+  2041 5B 12 43 12 
+0025+  2045 2B 12 14 12 
+0025+  2049 FC 11 E5 11 
+0026+  204D CE 11 B8 11         .db     $CE,$11,$B8,$11,$A2,$11,$8B,$11,$76,$11,$60,$11,$4A,$11,$35,$11
+0026+  2051 A2 11 8B 11 
+0026+  2055 76 11 60 11 
+0026+  2059 4A 11 35 11 
+0027+  205D 20 11 0B 11         .db     $20,$11,$0B,$11,$F6,$10,$E2,$10,$CE,$10,$BA,$10,$A6,$10,$92,$10
+0027+  2061 F6 10 E2 10 
+0027+  2065 CE 10 BA 10 
+0027+  2069 A6 10 92 10 
+0028+  206D 7E 10 6B 10         .db     $7E,$10,$6B,$10,$58,$10,$45,$10,$32,$10,$1F,$10,$0D,$10,$FA,$0F
+0028+  2071 58 10 45 10 
+0028+  2075 32 10 1F 10 
+0028+  2079 0D 10 FA 0F 
+0029+  207D E8 0F D6 0F         .db     $E8,$0F,$D6,$0F,$C4,$0F,$B3,$0F,$A1,$0F,$90,$0F,$7E,$0F,$6D,$0F
+0029+  2081 C4 0F B3 0F 
+0029+  2085 A1 0F 90 0F 
+0029+  2089 7E 0F 6D 0F 
+0030+  208D 5C 0F 4C 0F         .db     $5C,$0F,$4C,$0F,$3B,$0F,$2A,$0F,$1A,$0F,$0A,$0F,$FA,$0E,$EA,$0E
+0030+  2091 3B 0F 2A 0F 
+0030+  2095 1A 0F 0A 0F 
+0030+  2099 FA 0E EA 0E 
+0031+  209D DA 0E CA 0E         .db     $DA,$0E,$CA,$0E,$BB,$0E,$AB,$0E,$9C,$0E,$8D,$0E,$7D,$0E,$6E,$0E
+0031+  20A1 BB 0E AB 0E 
+0031+  20A5 9C 0E 8D 0E 
+0031+  20A9 7D 0E 6E 0E 
+0032+  20AD 60 0E 51 0E         .db     $60,$0E,$51,$0E,$42,$0E,$34,$0E,$25,$0E,$17,$0E,$09,$0E,$FB,$0D
+0032+  20B1 42 0E 34 0E 
+0032+  20B5 25 0E 17 0E 
+0032+  20B9 09 0E FB 0D 
+0033+  20BD ED 0D DF 0D         .db     $ED,$0D,$DF,$0D,$D2,$0D,$C4,$0D,$B6,$0D,$A9,$0D,$9C,$0D,$8F,$0D
+0033+  20C1 D2 0D C4 0D 
+0033+  20C5 B6 0D A9 0D 
+0033+  20C9 9C 0D 8F 0D 
+0034+  20CD 81 0D 74 0D         .db     $81,$0D,$74,$0D,$68,$0D,$5B,$0D,$4E,$0D,$41,$0D,$35,$0D,$28,$0D
+0034+  20D1 68 0D 5B 0D 
+0034+  20D5 4E 0D 41 0D 
+0034+  20D9 35 0D 28 0D 
+0035+  20DD 1C 0D 10 0D         .db     $1C,$0D,$10,$0D,$04,$0D,$F8,$0C,$EC,$0C,$E0,$0C,$D4,$0C,$C8,$0C
+0035+  20E1 04 0D F8 0C 
+0035+  20E5 EC 0C E0 0C 
+0035+  20E9 D4 0C C8 0C 
+0036+  20ED BD 0C B1 0C         .db     $BD,$0C,$B1,$0C,$A6,$0C,$9A,$0C,$8F,$0C,$84,$0C,$78,$0C,$6D,$0C
+0036+  20F1 A6 0C 9A 0C 
+0036+  20F5 8F 0C 84 0C 
+0036+  20F9 78 0C 6D 0C 
+0037+  20FD 62 0C 57 0C         .db     $62,$0C,$57,$0C,$4C,$0C,$42,$0C,$37,$0C,$2C,$0C,$22,$0C,$17,$0C
+0037+  2101 4C 0C 42 0C 
+0037+  2105 37 0C 2C 0C 
+0037+  2109 22 0C 17 0C 
+0038+  210D 0D 0C 03 0C         .db     $0D,$0C,$03,$0C,$F8,$0B,$EE,$0B,$E4,$0B,$DA,$0B,$D0,$0B,$C6,$0B
+0038+  2111 F8 0B EE 0B 
+0038+  2115 E4 0B DA 0B 
+0038+  2119 D0 0B C6 0B 
+0039+  211D BC 0B B2 0B         .db     $BC,$0B,$B2,$0B,$A8,$0B,$9F,$0B,$95,$0B,$8B,$0B,$82,$0B,$79,$0B
+0039+  2121 A8 0B 9F 0B 
+0039+  2125 95 0B 8B 0B 
+0039+  2129 82 0B 79 0B 
+0040+  212D 6F 0B 66 0B         .db     $6F,$0B,$66,$0B,$5D,$0B,$53,$0B,$4A,$0B,$41,$0B,$38,$0B,$2F,$0B
+0040+  2131 5D 0B 53 0B 
+0040+  2135 4A 0B 41 0B 
+0040+  2139 38 0B 2F 0B 
+0041+  213D 26 0B 1D 0B         .db     $26,$0B,$1D,$0B,$15,$0B,$0C,$0B,$03,$0B,$FA,$0A,$F2,$0A,$E9,$0A
+0041+  2141 15 0B 0C 0B 
+0041+  2145 03 0B FA 0A 
+0041+  2149 F2 0A E9 0A 
+0042+  214D E1 0A D8 0A         .db     $E1,$0A,$D8,$0A,$D0,$0A,$C8,$0A,$BF,$0A,$B7,$0A,$AF,$0A,$A7,$0A
+0042+  2151 D0 0A C8 0A 
+0042+  2155 BF 0A B7 0A 
+0042+  2159 AF 0A A7 0A 
+0043+  215D 9F 0A 97 0A         .db     $9F,$0A,$97,$0A,$8F,$0A,$87,$0A,$7F,$0A,$77,$0A,$6F,$0A,$67,$0A
+0043+  2161 8F 0A 87 0A 
+0043+  2165 7F 0A 77 0A 
+0043+  2169 6F 0A 67 0A 
+0044+  216D 60 0A 58 0A         .db     $60,$0A,$58,$0A,$50,$0A,$49,$0A,$41,$0A,$3A,$0A,$32,$0A,$2B,$0A
+0044+  2171 50 0A 49 0A 
+0044+  2175 41 0A 3A 0A 
+0044+  2179 32 0A 2B 0A 
+0045+  217D 23 0A 1C 0A         .db     $23,$0A,$1C,$0A,$15,$0A,$0E,$0A,$06,$0A,$FF,$09,$F8,$09,$F1,$09
+0045+  2181 15 0A 0E 0A 
+0045+  2185 06 0A FF 09 
+0045+  2189 F8 09 F1 09 
+0046+  218D EA 09 E3 09         .db     $EA,$09,$E3,$09,$DC,$09,$D5,$09,$CE,$09,$C7,$09,$C0,$09,$BA,$09
+0046+  2191 DC 09 D5 09 
+0046+  2195 CE 09 C7 09 
+0046+  2199 C0 09 BA 09 
+0047+  219D B3 09 AC 09         .db     $B3,$09,$AC,$09,$A5,$09,$9F,$09,$98,$09,$92,$09,$8B,$09,$85,$09
+0047+  21A1 A5 09 9F 09 
+0047+  21A5 98 09 92 09 
+0047+  21A9 8B 09 85 09 
+0048+  21AD 7E 09 78 09         .db     $7E,$09,$78,$09,$71,$09,$6B,$09,$65,$09,$5E,$09,$58,$09,$52,$09
+0048+  21B1 71 09 6B 09 
+0048+  21B5 65 09 5E 09 
+0048+  21B9 58 09 52 09 
+0049+  21BD 4C 09 45 09         .db     $4C,$09,$45,$09,$3F,$09,$39,$09,$33,$09,$2D,$09,$27,$09,$21,$09
+0049+  21C1 3F 09 39 09 
+0049+  21C5 33 09 2D 09 
+0049+  21C9 27 09 21 09 
+0050+  21CD 1B 09 15 09         .db     $1B,$09,$15,$09,$0F,$09,$0A,$09,$04,$09,$FE,$08,$F8,$08,$F2,$08
+0050+  21D1 0F 09 0A 09 
+0050+  21D5 04 09 FE 08 
+0050+  21D9 F8 08 F2 08 
+0051+  21DD ED 08 E7 08         .db     $ED,$08,$E7,$08,$E1,$08,$DC,$08,$D6,$08,$D1,$08,$CB,$08,$C5,$08
+0051+  21E1 E1 08 DC 08 
+0051+  21E5 D6 08 D1 08 
+0051+  21E9 CB 08 C5 08 
+0052+  21ED C0 08 BB 08         .db     $C0,$08,$BB,$08,$B5,$08,$B0,$08,$AA,$08,$A5,$08,$A0,$08,$9A,$08
+0052+  21F1 B5 08 B0 08 
+0052+  21F5 AA 08 A5 08 
+0052+  21F9 A0 08 9A 08 
+0053+  21FD 95 08 90 08         .db     $95,$08,$90,$08,$8B,$08,$85,$08,$80,$08,$7B,$08,$76,$08,$71,$08
+0053+  2201 8B 08 85 08 
+0053+  2205 80 08 7B 08 
+0053+  2209 76 08 71 08 
+0054+  220D 6C 08 67 08         .db     $6C,$08,$67,$08,$62,$08,$5D,$08,$58,$08,$53,$08,$4E,$08,$49,$08
+0054+  2211 62 08 5D 08 
+0054+  2215 58 08 53 08 
+0054+  2219 4E 08 49 08 
+0055+  221D 44 08 3F 08         .db     $44,$08,$3F,$08,$3A,$08,$35,$08,$30,$08,$2C,$08,$27,$08,$22,$08
+0055+  2221 3A 08 35 08 
+0055+  2225 30 08 2C 08 
+0055+  2229 27 08 22 08 
+0056+  222D 1D 08 19 08         .db     $1D,$08,$19,$08,$14,$08,$0F,$08,$0B,$08,$06,$08,$02,$08,$FD,$07
+0056+  2231 14 08 0F 08 
+0056+  2235 0B 08 06 08 
+0056+  2239 02 08 FD 07 
+0057+  223D F8 07 F4 07         .db     $F8,$07,$F4,$07,$EF,$07,$EB,$07,$E6,$07,$E2,$07,$DD,$07,$D9,$07
+0057+  2241 EF 07 EB 07 
+0057+  2245 E6 07 E2 07 
+0057+  2249 DD 07 D9 07 
+0058+  224D D5 07 D0 07         .db     $D5,$07,$D0,$07,$CC,$07,$C8,$07,$C3,$07,$BF,$07,$BB,$07,$B6,$07
+0058+  2251 CC 07 C8 07 
+0058+  2255 C3 07 BF 07 
+0058+  2259 BB 07 B6 07 
+0059+  225D B2 07 AE 07         .db     $B2,$07,$AE,$07,$AA,$07,$A6,$07,$A1,$07,$9D,$07,$99,$07,$95,$07
+0059+  2261 AA 07 A6 07 
+0059+  2265 A1 07 9D 07 
+0059+  2269 99 07 95 07 
+0060+  226D 91 07 8D 07         .db     $91,$07,$8D,$07,$89,$07,$85,$07,$81,$07,$7D,$07,$79,$07,$75,$07
+0060+  2271 89 07 85 07 
+0060+  2275 81 07 7D 07 
+0060+  2279 79 07 75 07 
+0061+  227D 71 07 6D 07         .db     $71,$07,$6D,$07,$69,$07,$65,$07,$61,$07,$5D,$07,$59,$07,$55,$07
+0061+  2281 69 07 65 07 
+0061+  2285 61 07 5D 07 
+0061+  2289 59 07 55 07 
+0062+  228D 51 07 4E 07         .db     $51,$07,$4E,$07,$4A,$07,$46,$07,$42,$07,$3E,$07,$3B,$07,$37,$07
+0062+  2291 4A 07 46 07 
+0062+  2295 42 07 3E 07 
+0062+  2299 3B 07 37 07 
+0063+  229D 33 07 30 07         .db     $33,$07,$30,$07,$2C,$07,$28,$07,$25,$07,$21,$07,$1D,$07,$1A,$07
+0063+  22A1 2C 07 28 07 
+0063+  22A5 25 07 21 07 
+0063+  22A9 1D 07 1A 07 
+0064+  22AD 16 07 12 07         .db     $16,$07,$12,$07,$0F,$07,$0B,$07,$08,$07,$04,$07,$01,$07,$FD,$06
+0064+  22B1 0F 07 0B 07 
+0064+  22B5 08 07 04 07 
+0064+  22B9 01 07 FD 06 
+0065+  22BD FA 06 F6 06         .db     $FA,$06,$F6,$06,$F3,$06,$EF,$06,$EC,$06,$E9,$06,$E5,$06,$E2,$06
+0065+  22C1 F3 06 EF 06 
+0065+  22C5 EC 06 E9 06 
+0065+  22C9 E5 06 E2 06 
+0066+  22CD DE 06 DB 06         .db     $DE,$06,$DB,$06,$D8,$06,$D4,$06,$D1,$06,$CE,$06,$CA,$06,$C7,$06
+0066+  22D1 D8 06 D4 06 
+0066+  22D5 D1 06 CE 06 
+0066+  22D9 CA 06 C7 06 
+0067+  22DD C4 06 C0 06         .db     $C4,$06,$C0,$06,$BD,$06,$BA,$06,$B7,$06,$B4,$06,$B0,$06,$AD,$06
+0067+  22E1 BD 06 BA 06 
+0067+  22E5 B7 06 B4 06 
+0067+  22E9 B0 06 AD 06 
+0068+  22ED AA 06 A7 06         .db     $AA,$06,$A7,$06,$A4,$06,$A0,$06,$9D,$06,$9A,$06,$97,$06,$94,$06
+0068+  22F1 A4 06 A0 06 
+0068+  22F5 9D 06 9A 06 
+0068+  22F9 97 06 94 06 
+0069+  22FD 91 06 8E 06         .db     $91,$06,$8E,$06,$8B,$06,$88,$06,$85,$06,$82,$06,$7F,$06,$7C,$06
+0069+  2301 8B 06 88 06 
+0069+  2305 85 06 82 06 
+0069+  2309 7F 06 7C 06 
+0070+  230D 79 06 76 06         .db     $79,$06,$76,$06,$73,$06,$70,$06,$6D,$06,$6A,$06,$67,$06,$64,$06
+0070+  2311 73 06 70 06 
+0070+  2315 6D 06 6A 06 
+0070+  2319 67 06 64 06 
+0071+  231D 61 06 5E 06         .db     $61,$06,$5E,$06,$5B,$06,$58,$06,$55,$06,$53,$06,$50,$06,$4D,$06
+0071+  2321 5B 06 58 06 
+0071+  2325 55 06 53 06 
+0071+  2329 50 06 4D 06 
+0072+  232D 4A 06 47 06         .db     $4A,$06,$47,$06,$44,$06,$42,$06,$3F,$06,$3C,$06,$39,$06,$36,$06
+0072+  2331 44 06 42 06 
+0072+  2335 3F 06 3C 06 
+0072+  2339 39 06 36 06 
+0073+  233D 34 06 31 06         .db     $34,$06,$31,$06,$2E,$06,$2B,$06,$29,$06,$26,$06,$23,$06,$21,$06
+0073+  2341 2E 06 2B 06 
+0073+  2345 29 06 26 06 
+0073+  2349 23 06 21 06 
+0074+  234D 1E 06 1B 06         .db     $1E,$06,$1B,$06,$19,$06,$16,$06,$13,$06,$11,$06,$0E,$06,$0B,$06
+0074+  2351 19 06 16 06 
+0074+  2355 13 06 11 06 
+0074+  2359 0E 06 0B 06 
+0075+  235D 09 06 06 06         .db     $09,$06,$06,$06,$04,$06,$01,$06,$FE,$05,$FC,$05,$F9,$05,$F7,$05
+0075+  2361 04 06 01 06 
+0075+  2365 FE 05 FC 05 
+0075+  2369 F9 05 F7 05 
+0076+  236D F4 05 F2 05         .db     $F4,$05,$F2,$05,$EF,$05,$ED,$05,$EA,$05,$E8,$05,$E5,$05,$E3,$05
+0076+  2371 EF 05 ED 05 
+0076+  2375 EA 05 E8 05 
+0076+  2379 E5 05 E3 05 
+0077+  237D E0 05 DE 05         .db     $E0,$05,$DE,$05,$DB,$05,$D9,$05,$D6,$05,$D4,$05,$D2,$05,$CF,$05
+0077+  2381 DB 05 D9 05 
+0077+  2385 D6 05 D4 05 
+0077+  2389 D2 05 CF 05 
+0078+  238D CD 05 CA 05         .db     $CD,$05,$CA,$05,$C8,$05,$C5,$05,$C3,$05,$C1,$05,$BE,$05,$BC,$05
+0078+  2391 C8 05 C5 05 
+0078+  2395 C3 05 C1 05 
+0078+  2399 BE 05 BC 05 
+0079+  239D BA 05 B7 05         .db     $BA,$05,$B7,$05,$B5,$05,$B3,$05,$B0,$05,$AE,$05,$AC,$05,$A9,$05
+0079+  23A1 B5 05 B3 05 
+0079+  23A5 B0 05 AE 05 
+0079+  23A9 AC 05 A9 05 
+0080+  23AD A7 05 A5 05         .db     $A7,$05,$A5,$05,$A3,$05,$A0,$05,$9E,$05,$9C,$05,$9A,$05,$97,$05
+0080+  23B1 A3 05 A0 05 
+0080+  23B5 9E 05 9C 05 
+0080+  23B9 9A 05 97 05 
+0081+  23BD 95 05 93 05         .db     $95,$05,$93,$05,$91,$05,$8E,$05,$8C,$05,$8A,$05,$88,$05,$86,$05
+0081+  23C1 91 05 8E 05 
+0081+  23C5 8C 05 8A 05 
+0081+  23C9 88 05 86 05 
+0082+  23CD 83 05 81 05         .db     $83,$05,$81,$05,$7F,$05,$7D,$05,$7B,$05,$79,$05,$77,$05,$74,$05
+0082+  23D1 7F 05 7D 05 
+0082+  23D5 7B 05 79 05 
+0082+  23D9 77 05 74 05 
+0083+  23DD 72 05 70 05         .db     $72,$05,$70,$05,$6E,$05,$6C,$05,$6A,$05,$68,$05,$66,$05,$64,$05
+0083+  23E1 6E 05 6C 05 
+0083+  23E5 6A 05 68 05 
+0083+  23E9 66 05 64 05 
+0084+  23ED 61 05 5F 05         .db     $61,$05,$5F,$05,$5D,$05,$5B,$05,$59,$05,$57,$05,$55,$05,$53,$05
+0084+  23F1 5D 05 5B 05 
+0084+  23F5 59 05 57 05 
+0084+  23F9 55 05 53 05 
+0085+  23FD 51 05 4F 05         .db     $51,$05,$4F,$05,$4D,$05,$4B,$05,$49,$05,$47,$05,$45,$05,$43,$05
+0085+  2401 4D 05 4B 05 
+0085+  2405 49 05 47 05 
+0085+  2409 45 05 43 05 
+0086+  240D 41 05 3F 05         .db     $41,$05,$3F,$05,$3D,$05,$3B,$05,$39,$05,$37,$05,$35,$05,$33,$05
+0086+  2411 3D 05 3B 05 
+0086+  2415 39 05 37 05 
+0086+  2419 35 05 33 05 
+0087+  241D 31 05 30 05         .db     $31,$05,$30,$05,$2E,$05,$2C,$05,$2A,$05,$28,$05,$26,$05,$24,$05
+0087+  2421 2E 05 2C 05 
+0087+  2425 2A 05 28 05 
+0087+  2429 26 05 24 05 
+0088+  242D 22 05 20 05         .db     $22,$05,$20,$05,$1E,$05,$1D,$05,$1B,$05,$19,$05,$17,$05,$15,$05
+0088+  2431 1E 05 1D 05 
+0088+  2435 1B 05 19 05 
+0088+  2439 17 05 15 05 
+0089+  243D 13 05 11 05         .db     $13,$05,$11,$05,$10,$05,$0E,$05,$0C,$05,$0A,$05,$08,$05,$07,$05
+0089+  2441 10 05 0E 05 
+0089+  2445 0C 05 0A 05 
+0089+  2449 08 05 07 05 
+0090+  244D 05 05 03 05         .db     $05,$05,$03,$05,$01,$05,$FF,$04,$FE,$04,$FC,$04,$FA,$04,$F8,$04
+0090+  2451 01 05 FF 04 
+0090+  2455 FE 04 FC 04 
+0090+  2459 FA 04 F8 04 
+0091+  245D F6 04 F5 04         .db     $F6,$04,$F5,$04,$F3,$04,$F1,$04,$EF,$04,$EE,$04,$EC,$04,$EA,$04
+0091+  2461 F3 04 F1 04 
+0091+  2465 EF 04 EE 04 
+0091+  2469 EC 04 EA 04 
+0092+  246D E9 04 E7 04         .db     $E9,$04,$E7,$04,$E5,$04,$E3,$04,$E2,$04,$E0,$04,$DE,$04,$DD,$04
+0092+  2471 E5 04 E3 04 
+0092+  2475 E2 04 E0 04 
+0092+  2479 DE 04 DD 04 
+0093+  247D DB 04 D9 04         .db     $DB,$04,$D9,$04,$D7,$04,$D6,$04,$D4,$04,$D2,$04,$D1,$04,$CF,$04
+0093+  2481 D7 04 D6 04 
+0093+  2485 D4 04 D2 04 
+0093+  2489 D1 04 CF 04 
+0094+  248D CE 04 CC 04         .db     $CE,$04,$CC,$04,$CA,$04,$C9,$04,$C7,$04,$C5,$04,$C4,$04,$C2,$04
+0094+  2491 CA 04 C9 04 
+0094+  2495 C7 04 C5 04 
+0094+  2499 C4 04 C2 04 
+0095+  249D C0 04 BF 04         .db     $C0,$04,$BF,$04,$BD,$04,$BC,$04,$BA,$04,$B8,$04,$B7,$04,$B5,$04
+0095+  24A1 BD 04 BC 04 
+0095+  24A5 BA 04 B8 04 
+0095+  24A9 B7 04 B5 04 
+0096+  24AD B4 04 B2 04         .db     $B4,$04,$B2,$04,$B0,$04,$AF,$04,$AD,$04,$AC,$04,$AA,$04,$A9,$04
+0096+  24B1 B0 04 AF 04 
+0096+  24B5 AD 04 AC 04 
+0096+  24B9 AA 04 A9 04 
+0097+  24BD A7 04 A6 04         .db     $A7,$04,$A6,$04,$A4,$04,$A2,$04,$A1,$04,$9F,$04,$9E,$04,$9C,$04
+0097+  24C1 A4 04 A2 04 
+0097+  24C5 A1 04 9F 04 
+0097+  24C9 9E 04 9C 04 
+0098+  24CD 9B 04 99 04         .db     $9B,$04,$99,$04,$98,$04,$96,$04,$95,$04,$93,$04,$92,$04,$90,$04
+0098+  24D1 98 04 96 04 
+0098+  24D5 95 04 93 04 
+0098+  24D9 92 04 90 04 
+0099+  24DD 8F 04 8D 04         .db     $8F,$04,$8D,$04,$8C,$04,$8A,$04,$89,$04,$87,$04,$86,$04,$85,$04
+0099+  24E1 8C 04 8A 04 
+0099+  24E5 89 04 87 04 
+0099+  24E9 86 04 85 04 
+0100+  24ED 83 04 82 04         .db     $83,$04,$82,$04,$80,$04,$7F,$04,$7D,$04,$7C,$04,$7A,$04,$79,$04
+0100+  24F1 80 04 7F 04 
+0100+  24F5 7D 04 7C 04 
+0100+  24F9 7A 04 79 04 
+0101+  24FD 78 04 76 04         .db     $78,$04,$76,$04,$75,$04,$73,$04,$72,$04,$70,$04,$6F,$04,$6E,$04
+0101+  2501 75 04 73 04 
+0101+  2505 72 04 70 04 
+0101+  2509 6F 04 6E 04 
+0102+  250D 6C 04 6B 04         .db     $6C,$04,$6B,$04,$69,$04,$68,$04,$67,$04,$65,$04,$64,$04,$62,$04
+0102+  2511 69 04 68 04 
+0102+  2515 67 04 65 04 
+0102+  2519 64 04 62 04 
+0103+  251D 61 04 60 04         .db     $61,$04,$60,$04,$5E,$04,$5D,$04,$5C,$04,$5A,$04,$59,$04,$58,$04
+0103+  2521 5E 04 5D 04 
+0103+  2525 5C 04 5A 04 
+0103+  2529 59 04 58 04 
+0104+  252D 56 04 55 04         .db     $56,$04,$55,$04,$54,$04,$52,$04,$51,$04,$50,$04,$4E,$04,$4D,$04
+0104+  2531 54 04 52 04 
+0104+  2535 51 04 50 04 
+0104+  2539 4E 04 4D 04 
+0105+  253D 4C 04 4A 04         .db     $4C,$04,$4A,$04,$49,$04,$48,$04,$46,$04,$45,$04,$44,$04,$42,$04
+0105+  2541 49 04 48 04 
+0105+  2545 46 04 45 04 
+0105+  2549 44 04 42 04 
+0106+  254D 41 04 40 04         .db     $41,$04,$40,$04,$3F,$04,$3D,$04,$3C,$04,$3B,$04,$39,$04,$38,$04
+0106+  2551 3F 04 3D 04 
+0106+  2555 3C 04 3B 04 
+0106+  2559 39 04 38 04 
+0107+  255D 37 04 36 04         .db     $37,$04,$36,$04,$34,$04,$33,$04,$32,$04,$31,$04,$2F,$04,$2E,$04
+0107+  2561 34 04 33 04 
+0107+  2565 32 04 31 04 
+0107+  2569 2F 04 2E 04 
+0108+  256D 2D 04 2C 04         .db     $2D,$04,$2C,$04,$2A,$04,$29,$04,$28,$04,$27,$04,$25,$04,$24,$04
+0108+  2571 2A 04 29 04 
+0108+  2575 28 04 27 04 
+0108+  2579 25 04 24 04 
+0109+  257D 23 04 22 04         .db     $23,$04,$22,$04,$20,$04,$1F,$04,$1E,$04,$1D,$04,$1C,$04,$1A,$04
+0109+  2581 20 04 1F 04 
+0109+  2585 1E 04 1D 04 
+0109+  2589 1C 04 1A 04 
+0110+  258D 19 04 18 04         .db     $19,$04,$18,$04,$17,$04,$16,$04,$14,$04,$13,$04,$12,$04,$11,$04
+0110+  2591 17 04 16 04 
+0110+  2595 14 04 13 04 
+0110+  2599 12 04 11 04 
+0111+  259D 10 04 0E 04         .db     $10,$04,$0E,$04,$0D,$04,$0C,$04,$0B,$04,$0A,$04,$09,$04,$07,$04
+0111+  25A1 0D 04 0C 04 
+0111+  25A5 0B 04 0A 04 
+0111+  25A9 09 04 07 04 
+0112+  25AD 06 04 05 04         .db     $06,$04,$05,$04,$04,$04,$03,$04,$02,$04,$01,$04,$FF,$03,$FE,$03
+0112+  25B1 04 04 03 04 
+0112+  25B5 02 04 01 04 
+0112+  25B9 FF 03 FE 03 
+0113+  25BD FD 03 FC 03         .db     $FD,$03,$FC,$03,$FB,$03,$FA,$03,$F9,$03,$F7,$03,$F6,$03,$F5,$03
+0113+  25C1 FB 03 FA 03 
+0113+  25C5 F9 03 F7 03 
+0113+  25C9 F6 03 F5 03 
+0114+  25CD F4 03 F3 03         .db     $F4,$03,$F3,$03,$F2,$03,$F1,$03,$F0,$03,$EE,$03,$ED,$03,$EC,$03
+0114+  25D1 F2 03 F1 03 
+0114+  25D5 F0 03 EE 03 
+0114+  25D9 ED 03 EC 03 
+0115+  25DD EB 03 EA 03         .db     $EB,$03,$EA,$03,$E9,$03,$E8,$03,$E7,$03,$E6,$03,$E5,$03,$E4,$03
+0115+  25E1 E9 03 E8 03 
+0115+  25E5 E7 03 E6 03 
+0115+  25E9 E5 03 E4 03 
+0116+  25ED E2 03 E1 03         .db     $E2,$03,$E1,$03,$E0,$03,$DF,$03,$DE,$03,$DD,$03,$DC,$03,$DB,$03
+0116+  25F1 E0 03 DF 03 
+0116+  25F5 DE 03 DD 03 
+0116+  25F9 DC 03 DB 03 
+0117+  25FD DA 03 D9 03         .db     $DA,$03,$D9,$03,$D8,$03,$D7,$03,$D6,$03,$D5,$03,$D4,$03,$D3,$03
+0117+  2601 D8 03 D7 03 
+0117+  2605 D6 03 D5 03 
+0117+  2609 D4 03 D3 03 
+0118+  260D D1 03 D0 03         .db     $D1,$03,$D0,$03,$CF,$03,$CE,$03,$CD,$03,$CC,$03,$CB,$03,$CA,$03
+0118+  2611 CF 03 CE 03 
+0118+  2615 CD 03 CC 03 
+0118+  2619 CB 03 CA 03 
+0119+  261D C9 03 C8 03         .db     $C9,$03,$C8,$03,$C7,$03,$C6,$03,$C5,$03,$C4,$03,$C3,$03,$C2,$03
+0119+  2621 C7 03 C6 03 
+0119+  2625 C5 03 C4 03 
+0119+  2629 C3 03 C2 03 
+0120+  262D C1 03 C0 03         .db     $C1,$03,$C0,$03,$BF,$03,$BE,$03,$BD,$03,$BC,$03,$BB,$03,$BA,$03
+0120+  2631 BF 03 BE 03 
+0120+  2635 BD 03 BC 03 
+0120+  2639 BB 03 BA 03 
+0121+  263D B9 03 B8 03         .db     $B9,$03,$B8,$03,$B7,$03,$B6,$03,$B5,$03,$B4,$03,$B3,$03,$B2,$03
+0121+  2641 B7 03 B6 03 
+0121+  2645 B5 03 B4 03 
+0121+  2649 B3 03 B2 03 
+0122+  264D B1 03 B0 03         .db     $B1,$03,$B0,$03,$AF,$03,$AE,$03,$AD,$03,$AC,$03,$AB,$03,$AA,$03
+0122+  2651 AF 03 AE 03 
+0122+  2655 AD 03 AC 03 
+0122+  2659 AB 03 AA 03 
+0123+  265D A9 03 A8 03         .db     $A9,$03,$A8,$03,$A8,$03,$A7,$03,$A6,$03,$A5,$03,$A4,$03,$A3,$03
+0123+  2661 A8 03 A7 03 
+0123+  2665 A6 03 A5 03 
+0123+  2669 A4 03 A3 03 
+0124+  266D A2 03 A1 03         .db     $A2,$03,$A1,$03,$A0,$03,$9F,$03,$9E,$03,$9D,$03,$9C,$03,$9B,$03
+0124+  2671 A0 03 9F 03 
+0124+  2675 9E 03 9D 03 
+0124+  2679 9C 03 9B 03 
+0125+  267D 9A 03 99 03         .db     $9A,$03,$99,$03,$98,$03,$98,$03,$97,$03,$96,$03,$95,$03,$94,$03
+0125+  2681 98 03 98 03 
+0125+  2685 97 03 96 03 
+0125+  2689 95 03 94 03 
+0126+  268D 93 03 92 03         .db     $93,$03,$92,$03,$91,$03,$90,$03,$8F,$03,$8E,$03,$8D,$03,$8D,$03
+0126+  2691 91 03 90 03 
+0126+  2695 8F 03 8E 03 
+0126+  2699 8D 03 8D 03 
+0127+  269D 8C 03 8B 03         .db     $8C,$03,$8B,$03,$8A,$03,$89,$03,$88,$03,$87,$03,$86,$03,$85,$03
+0127+  26A1 8A 03 89 03 
+0127+  26A5 88 03 87 03 
+0127+  26A9 86 03 85 03 
+0128+  26AD 85 03 84 03         .db     $85,$03,$84,$03,$83,$03,$82,$03,$81,$03,$80,$03,$7F,$03,$7E,$03
+0128+  26B1 83 03 82 03 
+0128+  26B5 81 03 80 03 
+0128+  26B9 7F 03 7E 03 
+0129+  26BD 7E 03 7D 03         .db     $7E,$03,$7D,$03,$7C,$03,$7B,$03,$7A,$03,$79,$03,$78,$03,$77,$03
+0129+  26C1 7C 03 7B 03 
+0129+  26C5 7A 03 79 03 
+0129+  26C9 78 03 77 03 
+0130+  26CD 77 03 76 03         .db     $77,$03,$76,$03,$75,$03,$74,$03,$73,$03,$72,$03,$71,$03,$71,$03
+0130+  26D1 75 03 74 03 
+0130+  26D5 73 03 72 03 
+0130+  26D9 71 03 71 03 
+0131+  26DD 70 03 6F 03         .db     $70,$03,$6F,$03,$6E,$03,$6D,$03,$6C,$03,$6C,$03,$6B,$03,$6A,$03
+0131+  26E1 6E 03 6D 03 
+0131+  26E5 6C 03 6C 03 
+0131+  26E9 6B 03 6A 03 
+0132+  26ED 69 03 68 03         .db     $69,$03,$68,$03,$67,$03,$67,$03,$66,$03,$65,$03,$64,$03,$63,$03
+0132+  26F1 67 03 67 03 
+0132+  26F5 66 03 65 03 
+0132+  26F9 64 03 63 03 
+0133+  26FD 62 03 62 03         .db     $62,$03,$62,$03,$61,$03,$60,$03,$5F,$03,$5E,$03,$5E,$03,$5D,$03
+0133+  2701 61 03 60 03 
+0133+  2705 5F 03 5E 03 
+0133+  2709 5E 03 5D 03 
+0134+  270D 5C 03 5B 03         .db     $5C,$03,$5B,$03,$5A,$03,$5A,$03,$59,$03,$58,$03,$57,$03,$56,$03
+0134+  2711 5A 03 5A 03 
+0134+  2715 59 03 58 03 
+0134+  2719 57 03 56 03 
+0135+  271D 56 03 55 03         .db     $56,$03,$55,$03,$54,$03,$53,$03,$52,$03,$52,$03,$51,$03,$50,$03
+0135+  2721 54 03 53 03 
+0135+  2725 52 03 52 03 
+0135+  2729 51 03 50 03 
+0136+  272D 4F 03 4E 03         .db     $4F,$03,$4E,$03,$4E,$03,$4D,$03,$4C,$03,$4B,$03,$4B,$03,$4A,$03
+0136+  2731 4E 03 4D 03 
+0136+  2735 4C 03 4B 03 
+0136+  2739 4B 03 4A 03 
+0137+  273D 49 03 48 03         .db     $49,$03,$48,$03,$47,$03,$47,$03,$46,$03,$45,$03,$44,$03,$44,$03
+0137+  2741 47 03 47 03 
+0137+  2745 46 03 45 03 
+0137+  2749 44 03 44 03 
+0138+  274D 43 03 42 03         .db     $43,$03,$42,$03,$41,$03,$41,$03,$40,$03,$3F,$03,$3E,$03,$3E,$03
+0138+  2751 41 03 41 03 
+0138+  2755 40 03 3F 03 
+0138+  2759 3E 03 3E 03 
+0139+  275D 3D 03 3C 03         .db     $3D,$03,$3C,$03,$3B,$03,$3B,$03,$3A,$03,$39,$03,$38,$03,$38,$03
+0139+  2761 3B 03 3B 03 
+0139+  2765 3A 03 39 03 
+0139+  2769 38 03 38 03 
+0140+  276D 37 03 36 03         .db     $37,$03,$36,$03,$35,$03,$35,$03,$34,$03,$33,$03,$32,$03,$32,$03
+0140+  2771 35 03 35 03 
+0140+  2775 34 03 33 03 
+0140+  2779 32 03 32 03 
+0141+  277D 31 03 30 03         .db     $31,$03,$30,$03,$2F,$03,$2F,$03,$2E,$03,$2D,$03,$2D,$03,$2C,$03
+0141+  2781 2F 03 2F 03 
+0141+  2785 2E 03 2D 03 
+0141+  2789 2D 03 2C 03 
+0142+  278D 2B 03 2A 03         .db     $2B,$03,$2A,$03,$2A,$03,$29,$03,$28,$03,$28,$03,$27,$03,$26,$03
+0142+  2791 2A 03 29 03 
+0142+  2795 28 03 28 03 
+0142+  2799 27 03 26 03 
+0143+  279D 25 03 25 03         .db     $25,$03,$25,$03,$24,$03,$23,$03,$23,$03,$22,$03,$21,$03,$21,$03
+0143+  27A1 24 03 23 03 
+0143+  27A5 23 03 22 03 
+0143+  27A9 21 03 21 03 
+0144+  27AD 20 03 1F 03         .db     $20,$03,$1F,$03,$1E,$03,$1E,$03,$1D,$03,$1C,$03,$1C,$03,$1B,$03
+0144+  27B1 1E 03 1E 03 
+0144+  27B5 1D 03 1C 03 
+0144+  27B9 1C 03 1B 03 
+0145+  27BD 1A 03 1A 03         .db     $1A,$03,$1A,$03,$19,$03,$18,$03,$18,$03,$17,$03,$16,$03,$15,$03
+0145+  27C1 19 03 18 03 
+0145+  27C5 18 03 17 03 
+0145+  27C9 16 03 15 03 
+0146+  27CD 15 03 14 03         .db     $15,$03,$14,$03,$13,$03,$13,$03,$12,$03,$11,$03,$11,$03,$10,$03
+0146+  27D1 13 03 13 03 
+0146+  27D5 12 03 11 03 
+0146+  27D9 11 03 10 03 
+0147+  27DD 0F 03 0F 03         .db     $0F,$03,$0F,$03,$0E,$03,$0D,$03,$0D,$03,$0C,$03,$0B,$03,$0B,$03
+0147+  27E1 0E 03 0D 03 
+0147+  27E5 0D 03 0C 03 
+0147+  27E9 0B 03 0B 03 
+0148+  27ED 0A 03 09 03         .db     $0A,$03,$09,$03,$09,$03,$08,$03,$07,$03,$07,$03,$06,$03,$05,$03
+0148+  27F1 09 03 08 03 
+0148+  27F5 07 03 07 03 
+0148+  27F9 06 03 05 03 
+0149+  27FD 05 03 04 03         .db     $05,$03,$04,$03,$03,$03,$03,$03,$02,$03,$02,$03,$01,$03,$00,$03
+0149+  2801 03 03 03 03 
+0149+  2805 02 03 02 03 
+0149+  2809 01 03 00 03 
+0150+  280D 00 03 FF 02         .db     $00,$03,$FF,$02,$FE,$02,$FE,$02,$FD,$02,$FC,$02,$FC,$02,$FB,$02
+0150+  2811 FE 02 FE 02 
+0150+  2815 FD 02 FC 02 
+0150+  2819 FC 02 FB 02 
+0151+  281D FA 02 FA 02         .db     $FA,$02,$FA,$02,$F9,$02,$F9,$02,$F8,$02,$F7,$02,$F7,$02,$F6,$02
+0151+  2821 F9 02 F9 02 
+0151+  2825 F8 02 F7 02 
+0151+  2829 F7 02 F6 02 
+0152+  282D F5 02 F5 02         .db     $F5,$02,$F5,$02,$F4,$02,$F4,$02,$F3,$02,$F2,$02,$F2,$02,$F1,$02
+0152+  2831 F4 02 F4 02 
+0152+  2835 F3 02 F2 02 
+0152+  2839 F2 02 F1 02 
+0153+  283D F0 02 F0 02         .db     $F0,$02,$F0,$02,$EF,$02,$EF,$02,$EE,$02,$ED,$02,$ED,$02,$EC,$02
+0153+  2841 EF 02 EF 02 
+0153+  2845 EE 02 ED 02 
+0153+  2849 ED 02 EC 02 
+0154+  284D EC 02 EB 02         .db     $EC,$02,$EB,$02,$EA,$02,$EA,$02,$E9,$02,$E9,$02,$E8,$02,$E7,$02
+0154+  2851 EA 02 EA 02 
+0154+  2855 E9 02 E9 02 
+0154+  2859 E8 02 E7 02 
+0155+  285D E7 02 E6 02         .db     $E7,$02,$E6,$02,$E5,$02,$E5,$02,$E4,$02,$E4,$02,$E3,$02,$E2,$02
+0155+  2861 E5 02 E5 02 
+0155+  2865 E4 02 E4 02 
+0155+  2869 E3 02 E2 02 
+0156+  286D E2 02 E1 02         .db     $E2,$02,$E1,$02,$E1,$02,$E0,$02,$E0,$02,$DF,$02,$DE,$02,$DE,$02
+0156+  2871 E1 02 E0 02 
+0156+  2875 E0 02 DF 02 
+0156+  2879 DE 02 DE 02 
+0157+  287D DD 02 DD 02         .db     $DD,$02,$DD,$02,$DC,$02,$DB,$02,$DB,$02,$DA,$02,$DA,$02,$D9,$02
+0157+  2881 DC 02 DB 02 
+0157+  2885 DB 02 DA 02 
+0157+  2889 DA 02 D9 02 
+0158+  288D D9 02 D8 02         .db     $D9,$02,$D8,$02,$D7,$02,$D7,$02,$D6,$02,$D6,$02,$D5,$02,$D4,$02
+0158+  2891 D7 02 D7 02 
+0158+  2895 D6 02 D6 02 
+0158+  2899 D5 02 D4 02 
+0159+  289D D4 02 D3 02         .db     $D4,$02,$D3,$02,$D3,$02,$D2,$02,$D2,$02,$D1,$02,$D0,$02,$D0,$02
+0159+  28A1 D3 02 D2 02 
+0159+  28A5 D2 02 D1 02 
+0159+  28A9 D0 02 D0 02 
+0160+  28AD CF 02 CF 02         .db     $CF,$02,$CF,$02,$CE,$02,$CE,$02,$CD,$02,$CD,$02,$CC,$02,$CB,$02
+0160+  28B1 CE 02 CE 02 
+0160+  28B5 CD 02 CD 02 
+0160+  28B9 CC 02 CB 02 
+0161+  28BD CB 02 CA 02         .db     $CB,$02,$CA,$02,$CA,$02,$C9,$02,$C9,$02,$C8,$02,$C8,$02,$C7,$02
+0161+  28C1 CA 02 C9 02 
+0161+  28C5 C9 02 C8 02 
+0161+  28C9 C8 02 C7 02 
+0162+  28CD C6 02 C6 02         .db     $C6,$02,$C6,$02,$C5,$02,$C5,$02,$C4,$02,$C4,$02,$C3,$02,$C3,$02
+0162+  28D1 C5 02 C5 02 
+0162+  28D5 C4 02 C4 02 
+0162+  28D9 C3 02 C3 02 
+0163+  28DD C2 02 C1 02         .db     $C2,$02,$C1,$02,$C1,$02,$C0,$02,$C0,$02,$BF,$02,$BF,$02,$BE,$02
+0163+  28E1 C1 02 C0 02 
+0163+  28E5 C0 02 BF 02 
+0163+  28E9 BF 02 BE 02 
+0164+  28ED BE 02 BD 02         .db     $BE,$02,$BD,$02,$BD,$02,$BC,$02,$BC,$02,$BB,$02,$BA,$02,$BA,$02
+0164+  28F1 BD 02 BC 02 
+0164+  28F5 BC 02 BB 02 
+0164+  28F9 BA 02 BA 02 
+0165+  28FD B9 02 B9 02         .db     $B9,$02,$B9,$02,$B8,$02,$B8,$02,$B7,$02,$B7,$02,$B6,$02,$B6,$02
+0165+  2901 B8 02 B8 02 
+0165+  2905 B7 02 B7 02 
+0165+  2909 B6 02 B6 02 
+0166+  290D B5 02 B5 02         .db     $B5,$02,$B5,$02,$B4,$02,$B4,$02,$B3,$02,$B3,$02,$B2,$02,$B2,$02
+0166+  2911 B4 02 B4 02 
+0166+  2915 B3 02 B3 02 
+0166+  2919 B2 02 B2 02 
+0167+  291D B1 02 B0 02         .db     $B1,$02,$B0,$02,$B0,$02,$AF,$02,$AF,$02,$AE,$02,$AE,$02,$AD,$02
+0167+  2921 B0 02 AF 02 
+0167+  2925 AF 02 AE 02 
+0167+  2929 AE 02 AD 02 
+0168+  292D AD 02 AC 02         .db     $AD,$02,$AC,$02,$AC,$02,$AB,$02,$AB,$02,$AA,$02,$AA,$02,$A9,$02
+0168+  2931 AC 02 AB 02 
+0168+  2935 AB 02 AA 02 
+0168+  2939 AA 02 A9 02 
+0169+  293D A9 02 A8 02         .db     $A9,$02,$A8,$02,$A8,$02,$A7,$02,$A7,$02,$A6,$02,$A6,$02,$A5,$02
+0169+  2941 A8 02 A7 02 
+0169+  2945 A7 02 A6 02 
+0169+  2949 A6 02 A5 02 
+0170+  294D A5 02 A4 02         .db     $A5,$02,$A4,$02,$A4,$02,$A3,$02,$A3,$02,$A2,$02,$A2,$02,$A1,$02
+0170+  2951 A4 02 A3 02 
+0170+  2955 A3 02 A2 02 
+0170+  2959 A2 02 A1 02 
+0171+  295D A1 02 A0 02         .db     $A1,$02,$A0,$02,$A0,$02,$9F,$02,$9F,$02,$9E,$02,$9E,$02,$9D,$02
+0171+  2961 A0 02 9F 02 
+0171+  2965 9F 02 9E 02 
+0171+  2969 9E 02 9D 02 
+0172+  296D 9D 02 9C 02         .db     $9D,$02,$9C,$02,$9C,$02,$9B,$02,$9B,$02,$9A,$02,$9A,$02,$99,$02
+0172+  2971 9C 02 9B 02 
+0172+  2975 9B 02 9A 02 
+0172+  2979 9A 02 99 02 
+0173+  297D 99 02 98 02         .db     $99,$02,$98,$02,$98,$02,$98,$02,$97,$02,$97,$02,$96,$02,$96,$02
+0173+  2981 98 02 98 02 
+0173+  2985 97 02 97 02 
+0173+  2989 96 02 96 02 
+0174+  298D 95 02 95 02         .db     $95,$02,$95,$02,$94,$02,$94,$02,$93,$02,$93,$02,$92,$02,$92,$02
+0174+  2991 94 02 94 02 
+0174+  2995 93 02 93 02 
+0174+  2999 92 02 92 02 
+0175+  299D 91 02 91 02         .db     $91,$02,$91,$02,$90,$02,$90,$02,$8F,$02,$8F,$02,$8F,$02,$8E,$02
+0175+  29A1 90 02 90 02 
+0175+  29A5 8F 02 8F 02 
+0175+  29A9 8F 02 8E 02 
+0176+  29AD 8E 02 8D 02         .db     $8E,$02,$8D,$02,$8D,$02,$8C,$02,$8C,$02,$8B,$02,$8B,$02,$8A,$02
+0176+  29B1 8D 02 8C 02 
+0176+  29B5 8C 02 8B 02 
+0176+  29B9 8B 02 8A 02 
+0177+  29BD 8A 02 89 02         .db     $8A,$02,$89,$02,$89,$02,$88,$02,$88,$02,$88,$02,$87,$02,$87,$02
+0177+  29C1 89 02 88 02 
+0177+  29C5 88 02 88 02 
+0177+  29C9 87 02 87 02 
+0178+  29CD 86 02 86 02         .db     $86,$02,$86,$02,$85,$02,$85,$02,$84,$02,$84,$02,$83,$02,$83,$02
+0178+  29D1 85 02 85 02 
+0178+  29D5 84 02 84 02 
+0178+  29D9 83 02 83 02 
+0179+  29DD 83 02 82 02         .db     $83,$02,$82,$02,$82,$02,$81,$02,$81,$02,$80,$02,$80,$02,$7F,$02
+0179+  29E1 82 02 81 02 
+0179+  29E5 81 02 80 02 
+0179+  29E9 80 02 7F 02 
+0180+  29ED 7F 02 7F 02         .db     $7F,$02,$7F,$02,$7E,$02,$7E,$02,$7D,$02,$7D,$02,$7C,$02,$7C,$02
+0180+  29F1 7E 02 7E 02 
+0180+  29F5 7D 02 7D 02 
+0180+  29F9 7C 02 7C 02 
+0181+  29FD 7B 02 7B 02         .db     $7B,$02,$7B,$02,$7B,$02,$7A,$02,$7A,$02,$79,$02,$79,$02,$78,$02
+0181+  2A01 7B 02 7A 02 
+0181+  2A05 7A 02 79 02 
+0181+  2A09 79 02 78 02 
+0182+  2A0D 78 02 77 02         .db     $78,$02,$77,$02,$77,$02,$77,$02,$76,$02,$76,$02,$75,$02,$75,$02
+0182+  2A11 77 02 77 02 
+0182+  2A15 76 02 76 02 
+0182+  2A19 75 02 75 02 
+0183+  2A1D 74 02 74 02         .db     $74,$02,$74,$02,$74,$02,$73,$02,$73,$02,$72,$02,$72,$02,$71,$02
+0183+  2A21 74 02 73 02 
+0183+  2A25 73 02 72 02 
+0183+  2A29 72 02 71 02 
+0184+  2A2D 71 02 71 02         .db     $71,$02,$71,$02,$70,$02,$70,$02,$6F,$02,$6F,$02,$6E,$02,$6E,$02
+0184+  2A31 70 02 70 02 
+0184+  2A35 6F 02 6F 02 
+0184+  2A39 6E 02 6E 02 
+0185+  2A3D 6E 02 6D 02         .db     $6E,$02,$6D,$02,$6D,$02,$6C,$02,$6C,$02,$6B,$02,$6B,$02,$6B,$02
+0185+  2A41 6D 02 6C 02 
+0185+  2A45 6C 02 6B 02 
+0185+  2A49 6B 02 6B 02 
+0186+  2A4D 6A 02 6A 02         .db     $6A,$02,$6A,$02,$69,$02,$69,$02,$69,$02,$68,$02,$68,$02,$67,$02
+0186+  2A51 69 02 69 02 
+0186+  2A55 69 02 68 02 
+0186+  2A59 68 02 67 02 
+0187+  2A5D 67 02 67 02         .db     $67,$02,$67,$02,$66,$02,$66,$02,$65,$02,$65,$02,$64,$02,$64,$02
+0187+  2A61 66 02 66 02 
+0187+  2A65 65 02 65 02 
+0187+  2A69 64 02 64 02 
+0188+  2A6D 64 02 63 02         .db     $64,$02,$63,$02,$63,$02,$62,$02,$62,$02,$62,$02,$61,$02,$61,$02
+0188+  2A71 63 02 62 02 
+0188+  2A75 62 02 62 02 
+0188+  2A79 61 02 61 02 
+0189+  2A7D 60 02 60 02         .db     $60,$02,$60,$02,$60,$02,$5F,$02,$5F,$02,$5E,$02,$5E,$02,$5E,$02
+0189+  2A81 60 02 5F 02 
+0189+  2A85 5F 02 5E 02 
+0189+  2A89 5E 02 5E 02 
+0190+  2A8D 5D 02 5D 02         .db     $5D,$02,$5D,$02,$5C,$02,$5C,$02,$5C,$02,$5B,$02,$5B,$02,$5A,$02
+0190+  2A91 5C 02 5C 02 
+0190+  2A95 5C 02 5B 02 
+0190+  2A99 5B 02 5A 02 
+0191+  2A9D 5A 02 5A 02         .db     $5A,$02,$5A,$02,$59,$02,$59,$02,$58,$02,$58,$02,$58,$02,$57,$02
+0191+  2AA1 59 02 59 02 
+0191+  2AA5 58 02 58 02 
+0191+  2AA9 58 02 57 02 
+0192+  2AAD 57 02 56 02         .db     $57,$02,$56,$02,$56,$02,$56,$02,$55,$02,$55,$02,$54,$02,$54,$02
+0192+  2AB1 56 02 56 02 
+0192+  2AB5 55 02 55 02 
+0192+  2AB9 54 02 54 02 
+0193+  2ABD 54 02 53 02         .db     $54,$02,$53,$02,$53,$02,$53,$02,$52,$02,$52,$02,$51,$02,$51,$02
+0193+  2AC1 53 02 53 02 
+0193+  2AC5 52 02 52 02 
+0193+  2AC9 51 02 51 02 
+0194+  2ACD 51 02 50 02         .db     $51,$02,$50,$02,$50,$02,$4F,$02,$4F,$02,$4F,$02,$4E,$02,$4E,$02
+0194+  2AD1 50 02 4F 02 
+0194+  2AD5 4F 02 4F 02 
+0194+  2AD9 4E 02 4E 02 
+0195+  2ADD 4E 02 4D 02         .db     $4E,$02,$4D,$02,$4D,$02,$4C,$02,$4C,$02,$4C,$02,$4B,$02,$4B,$02
+0195+  2AE1 4D 02 4C 02 
+0195+  2AE5 4C 02 4C 02 
+0195+  2AE9 4B 02 4B 02 
+0196+  2AED 4B 02 4A 02         .db     $4B,$02,$4A,$02,$4A,$02,$49,$02,$49,$02,$49,$02,$48,$02,$48,$02
+0196+  2AF1 4A 02 49 02 
+0196+  2AF5 49 02 49 02 
+0196+  2AF9 48 02 48 02 
+0197+  2AFD 48 02 47 02         .db     $48,$02,$47,$02,$47,$02,$46,$02,$46,$02,$46,$02,$45,$02,$45,$02
+0197+  2B01 47 02 46 02 
+0197+  2B05 46 02 46 02 
+0197+  2B09 45 02 45 02 
+0198+  2B0D 45 02 44 02         .db     $45,$02,$44,$02,$44,$02,$43,$02,$43,$02,$43,$02,$42,$02,$42,$02
+0198+  2B11 44 02 43 02 
+0198+  2B15 43 02 43 02 
+0198+  2B19 42 02 42 02 
+0199+  2B1D 42 02 41 02         .db     $42,$02,$41,$02,$41,$02,$41,$02,$40,$02,$40,$02,$3F,$02,$3F,$02
+0199+  2B21 41 02 41 02 
+0199+  2B25 40 02 40 02 
+0199+  2B29 3F 02 3F 02 
+0200+  2B2D 3F 02 3E 02         .db     $3F,$02,$3E,$02,$3E,$02,$3E,$02,$3D,$02,$3D,$02,$3D,$02,$3C,$02
+0200+  2B31 3E 02 3E 02 
+0200+  2B35 3D 02 3D 02 
+0200+  2B39 3D 02 3C 02 
+0201+  2B3D 3C 02 3C 02         .db     $3C,$02,$3C,$02,$3B,$02,$3B,$02,$3A,$02,$3A,$02,$3A,$02,$39,$02
+0201+  2B41 3B 02 3B 02 
+0201+  2B45 3A 02 3A 02 
+0201+  2B49 3A 02 39 02 
+0202+  2B4D 39 02 39 02         .db     $39,$02,$39,$02,$38,$02,$38,$02,$38,$02,$37,$02,$37,$02,$37,$02
+0202+  2B51 38 02 38 02 
+0202+  2B55 38 02 37 02 
+0202+  2B59 37 02 37 02 
+0203+  2B5D 36 02 36 02         .db     $36,$02,$36,$02,$36,$02,$35,$02,$35,$02,$34,$02,$34,$02,$34,$02
+0203+  2B61 36 02 35 02 
+0203+  2B65 35 02 34 02 
+0203+  2B69 34 02 34 02 
+0204+  2B6D 33 02 33 02         .db     $33,$02,$33,$02,$33,$02,$32,$02,$32,$02,$32,$02,$31,$02,$31,$02
+0204+  2B71 33 02 32 02 
+0204+  2B75 32 02 32 02 
+0204+  2B79 31 02 31 02 
+0205+  2B7D 31 02 30 02         .db     $31,$02,$30,$02,$30,$02,$30,$02,$2F,$02,$2F,$02,$2F,$02,$2E,$02
+0205+  2B81 30 02 30 02 
+0205+  2B85 2F 02 2F 02 
+0205+  2B89 2F 02 2E 02 
+0206+  2B8D 2E 02 2E 02         .db     $2E,$02,$2E,$02,$2D,$02,$2D,$02,$2D,$02,$2C,$02,$2C,$02,$2C,$02
+0206+  2B91 2D 02 2D 02 
+0206+  2B95 2D 02 2C 02 
+0206+  2B99 2C 02 2C 02 
+0207+  2B9D 2B 02 2B 02         .db     $2B,$02,$2B,$02,$2B,$02,$2A,$02,$2A,$02,$2A,$02,$29,$02,$29,$02
+0207+  2BA1 2B 02 2A 02 
+0207+  2BA5 2A 02 2A 02 
+0207+  2BA9 29 02 29 02 
+0208+  2BAD 29 02 28 02         .db     $29,$02,$28,$02,$28,$02,$28,$02,$27,$02,$27,$02,$27,$02,$26,$02
+0208+  2BB1 28 02 28 02 
+0208+  2BB5 27 02 27 02 
+0208+  2BB9 27 02 26 02 
+0209+  2BBD 26 02 26 02         .db     $26,$02,$26,$02,$25,$02,$25,$02,$25,$02,$24,$02,$24,$02,$24,$02
+0209+  2BC1 25 02 25 02 
+0209+  2BC5 25 02 24 02 
+0209+  2BC9 24 02 24 02 
+0210+  2BCD 23 02 23 02         .db     $23,$02,$23,$02,$23,$02,$22,$02,$22,$02,$22,$02,$21,$02,$21,$02
+0210+  2BD1 23 02 22 02 
+0210+  2BD5 22 02 22 02 
+0210+  2BD9 21 02 21 02 
+0211+  2BDD 21 02 20 02         .db     $21,$02,$20,$02,$20,$02,$20,$02,$1F,$02,$1F,$02,$1F,$02,$1E,$02
+0211+  2BE1 20 02 20 02 
+0211+  2BE5 1F 02 1F 02 
+0211+  2BE9 1F 02 1E 02 
+0212+  2BED 1E 02 1E 02         .db     $1E,$02,$1E,$02,$1D,$02,$1D,$02,$1D,$02,$1C,$02,$1C,$02,$1C,$02
+0212+  2BF1 1D 02 1D 02 
+0212+  2BF5 1D 02 1C 02 
+0212+  2BF9 1C 02 1C 02 
+0213+  2BFD 1B 02 1B 02         .db     $1B,$02,$1B,$02,$1B,$02,$1B,$02,$1A,$02,$1A,$02,$1A,$02,$19,$02
+0213+  2C01 1B 02 1B 02 
+0213+  2C05 1A 02 1A 02 
+0213+  2C09 1A 02 19 02 
+0214+  2C0D 19 02 19 02         .db     $19,$02,$19,$02,$18,$02,$18,$02,$18,$02,$17,$02,$17,$02,$17,$02
+0214+  2C11 18 02 18 02 
+0214+  2C15 18 02 17 02 
+0214+  2C19 17 02 17 02 
+0215+  2C1D 16 02 16 02         .db     $16,$02,$16,$02,$16,$02,$16,$02,$15,$02,$15,$02,$15,$02,$14,$02
+0215+  2C21 16 02 16 02 
+0215+  2C25 15 02 15 02 
+0215+  2C29 15 02 14 02 
+0216+  2C2D 14 02 14 02         .db     $14,$02,$14,$02,$13,$02,$13,$02,$13,$02,$12,$02,$12,$02,$12,$02
+0216+  2C31 13 02 13 02 
+0216+  2C35 13 02 12 02 
+0216+  2C39 12 02 12 02 
+0217+  2C3D 11 02 11 02         .db     $11,$02,$11,$02,$11,$02,$11,$02,$10,$02,$10,$02,$10,$02,$0F,$02
+0217+  2C41 11 02 11 02 
+0217+  2C45 10 02 10 02 
+0217+  2C49 10 02 0F 02 
+0218+  2C4D 0F 02 0F 02         .db     $0F,$02,$0F,$02,$0E,$02,$0E,$02,$0E,$02,$0E,$02,$0D,$02,$0D,$02
+0218+  2C51 0E 02 0E 02 
+0218+  2C55 0E 02 0E 02 
+0218+  2C59 0D 02 0D 02 
+0219+  2C5D 0D 02 0C 02         .db     $0D,$02,$0C,$02,$0C,$02,$0C,$02,$0B,$02,$0B,$02,$0B,$02,$0B,$02
+0219+  2C61 0C 02 0C 02 
+0219+  2C65 0B 02 0B 02 
+0219+  2C69 0B 02 0B 02 
+0220+  2C6D 0A 02 0A 02         .db     $0A,$02,$0A,$02,$0A,$02,$09,$02,$09,$02,$09,$02,$08,$02,$08,$02
+0220+  2C71 0A 02 09 02 
+0220+  2C75 09 02 09 02 
+0220+  2C79 08 02 08 02 
+0221+  2C7D 08 02 08 02         .db     $08,$02,$08,$02,$07,$02,$07,$02,$07,$02,$06,$02,$06,$02,$06,$02
+0221+  2C81 07 02 07 02 
+0221+  2C85 07 02 06 02 
+0221+  2C89 06 02 06 02 
+0222+  2C8D 06 02 05 02         .db     $06,$02,$05,$02,$05,$02,$05,$02,$04,$02,$04,$02,$04,$02,$03,$02
+0222+  2C91 05 02 05 02 
+0222+  2C95 04 02 04 02 
+0222+  2C99 04 02 03 02 
+0223+  2C9D 03 02 03 02         .db     $03,$02,$03,$02,$03,$02,$02,$02,$02,$02,$02,$02,$01,$02,$01,$02
+0223+  2CA1 03 02 02 02 
+0223+  2CA5 02 02 02 02 
+0223+  2CA9 01 02 01 02 
+0224+  2CAD 01 02 01 02         .db     $01,$02,$01,$02,$00,$02,$00,$02,$00,$02,$FF,$01,$FF,$01,$FF,$01
+0224+  2CB1 00 02 00 02 
+0224+  2CB5 00 02 FF 01 
+0224+  2CB9 FF 01 FF 01 
+0225+  2CBD FF 01 FE 01         .db     $FF,$01,$FE,$01,$FE,$01,$FE,$01,$FD,$01,$FD,$01,$FD,$01,$FD,$01
+0225+  2CC1 FE 01 FE 01 
+0225+  2CC5 FD 01 FD 01 
+0225+  2CC9 FD 01 FD 01 
+0226+  2CCD FC 01 FC 01         .db     $FC,$01,$FC,$01,$FC,$01,$FB,$01,$FB,$01,$FB,$01,$FB,$01,$FA,$01
+0226+  2CD1 FC 01 FB 01 
+0226+  2CD5 FB 01 FB 01 
+0226+  2CD9 FB 01 FA 01 
+0227+  2CDD FA 01 FA 01         .db     $FA,$01,$FA,$01,$F9,$01,$F9,$01,$F9,$01,$F9,$01,$F8,$01,$F8,$01
+0227+  2CE1 F9 01 F9 01 
+0227+  2CE5 F9 01 F9 01 
+0227+  2CE9 F8 01 F8 01 
+0228+  2CED F8 01 F8 01         .db     $F8,$01,$F8,$01,$F7,$01,$F7,$01,$F7,$01,$F6,$01,$F6,$01,$F6,$01
+0228+  2CF1 F7 01 F7 01 
+0228+  2CF5 F7 01 F6 01 
+0228+  2CF9 F6 01 F6 01 
+0229+  2CFD F6 01 F5 01         .db     $F6,$01,$F5,$01,$F5,$01,$F5,$01,$F5,$01,$F4,$01,$F4,$01,$F4,$01
+0229+  2D01 F5 01 F5 01 
+0229+  2D05 F5 01 F4 01 
+0229+  2D09 F4 01 F4 01 
+0230+  2D0D F3 01 F3 01         .db     $F3,$01,$F3,$01,$F3,$01,$F3,$01,$F2,$01,$F2,$01,$F2,$01,$F2,$01
+0230+  2D11 F3 01 F3 01 
+0230+  2D15 F2 01 F2 01 
+0230+  2D19 F2 01 F2 01 
+0231+  2D1D F1 01 F1 01         .db     $F1,$01,$F1,$01,$F1,$01,$F0,$01,$F0,$01,$F0,$01,$F0,$01,$EF,$01
+0231+  2D21 F1 01 F0 01 
+0231+  2D25 F0 01 F0 01 
+0231+  2D29 F0 01 EF 01 
+0232+  2D2D EF 01 EF 01         .db     $EF,$01,$EF,$01,$EF,$01,$EE,$01,$EE,$01,$EE,$01,$ED,$01,$ED,$01
+0232+  2D31 EF 01 EE 01 
+0232+  2D35 EE 01 EE 01 
+0232+  2D39 ED 01 ED 01 
+0233+  2D3D ED 01 ED 01         .db     $ED,$01,$ED,$01,$EC,$01,$EC,$01,$EC,$01,$EC,$01,$EB,$01,$EB,$01
+0233+  2D41 EC 01 EC 01 
+0233+  2D45 EC 01 EC 01 
+0233+  2D49 EB 01 EB 01 
+0234+  2D4D EB 01 EB 01         .db     $EB,$01,$EB,$01,$EA,$01,$EA,$01,$EA,$01,$EA,$01,$E9,$01,$E9,$01
+0234+  2D51 EA 01 EA 01 
+0234+  2D55 EA 01 EA 01 
+0234+  2D59 E9 01 E9 01 
+0235+  2D5D E9 01 E8 01         .db     $E9,$01,$E8,$01,$E8,$01,$E8,$01,$E8,$01,$E7,$01,$E7,$01,$E7,$01
+0235+  2D61 E8 01 E8 01 
+0235+  2D65 E8 01 E7 01 
+0235+  2D69 E7 01 E7 01 
+0236+  2D6D E7 01 E6 01         .db     $E7,$01,$E6,$01,$E6,$01,$E6,$01,$E6,$01,$E5,$01,$E5,$01,$E5,$01
+0236+  2D71 E6 01 E6 01 
+0236+  2D75 E6 01 E5 01 
+0236+  2D79 E5 01 E5 01 
+0237+  2D7D E5 01 E4 01         .db     $E5,$01,$E4,$01,$E4,$01,$E4,$01,$E4,$01,$E3,$01,$E3,$01,$E3,$01
+0237+  2D81 E4 01 E4 01 
+0237+  2D85 E4 01 E3 01 
+0237+  2D89 E3 01 E3 01 
+0238+  2D8D E3 01 E2 01         .db     $E3,$01,$E2,$01,$E2,$01,$E2,$01,$E2,$01,$E1,$01,$E1,$01,$E1,$01
+0238+  2D91 E2 01 E2 01 
+0238+  2D95 E2 01 E1 01 
+0238+  2D99 E1 01 E1 01 
+0239+  2D9D E1 01 E0 01         .db     $E1,$01,$E0,$01,$E0,$01,$E0,$01,$E0,$01,$DF,$01,$DF,$01,$DF,$01
+0239+  2DA1 E0 01 E0 01 
+0239+  2DA5 E0 01 DF 01 
+0239+  2DA9 DF 01 DF 01 
+0240+  2DAD DF 01 DE 01         .db     $DF,$01,$DE,$01,$DE,$01,$DE,$01,$DE,$01,$DD,$01,$DD,$01,$DD,$01
+0240+  2DB1 DE 01 DE 01 
+0240+  2DB5 DE 01 DD 01 
+0240+  2DB9 DD 01 DD 01 
+0241+  2DBD DD 01 DC 01         .db     $DD,$01,$DC,$01,$DC,$01,$DC,$01,$DC,$01,$DB,$01,$DB,$01,$DB,$01
+0241+  2DC1 DC 01 DC 01 
+0241+  2DC5 DC 01 DB 01 
+0241+  2DC9 DB 01 DB 01 
+0242+  2DCD DB 01 DA 01         .db     $DB,$01,$DA,$01,$DA,$01,$DA,$01,$DA,$01,$D9,$01,$D9,$01,$D9,$01
+0242+  2DD1 DA 01 DA 01 
+0242+  2DD5 DA 01 D9 01 
+0242+  2DD9 D9 01 D9 01 
+0243+  2DDD D9 01 D8 01         .db     $D9,$01,$D8,$01,$D8,$01,$D8,$01,$D8,$01,$D7,$01,$D7,$01,$D7,$01
+0243+  2DE1 D8 01 D8 01 
+0243+  2DE5 D8 01 D7 01 
+0243+  2DE9 D7 01 D7 01 
+0244+  2DED D7 01 D6 01         .db     $D7,$01,$D6,$01,$D6,$01,$D6,$01,$D6,$01,$D5,$01,$D5,$01,$D5,$01
+0244+  2DF1 D6 01 D6 01 
+0244+  2DF5 D6 01 D5 01 
+0244+  2DF9 D5 01 D5 01 
+0245+  2DFD D5 01 D4 01         .db     $D5,$01,$D4,$01,$D4,$01,$D4,$01,$D4,$01,$D4,$01,$D3,$01,$D3,$01
+0245+  2E01 D4 01 D4 01 
+0245+  2E05 D4 01 D4 01 
+0245+  2E09 D3 01 D3 01 
+0246+  2E0D D3 01 D3 01         .db     $D3,$01,$D3,$01,$D2,$01,$D2,$01,$D2,$01,$D2,$01,$D1,$01,$D1,$01
+0246+  2E11 D2 01 D2 01 
+0246+  2E15 D2 01 D2 01 
+0246+  2E19 D1 01 D1 01 
+0247+  2E1D D1 01 D1 01         .db     $D1,$01,$D1,$01,$D0,$01,$D0,$01,$D0,$01,$D0,$01,$CF,$01,$CF,$01
+0247+  2E21 D0 01 D0 01 
+0247+  2E25 D0 01 D0 01 
+0247+  2E29 CF 01 CF 01 
+0248+  2E2D CF 01 CF 01         .db     $CF,$01,$CF,$01,$CF,$01,$CE,$01,$CE,$01,$CE,$01,$CE,$01,$CD,$01
+0248+  2E31 CF 01 CE 01 
+0248+  2E35 CE 01 CE 01 
+0248+  2E39 CE 01 CD 01 
+0249+  2E3D CD 01 CD 01         .db     $CD,$01,$CD,$01,$CD,$01,$CC,$01,$CC,$01,$CC,$01,$CC,$01,$CC,$01
+0249+  2E41 CD 01 CC 01 
+0249+  2E45 CC 01 CC 01 
+0249+  2E49 CC 01 CC 01 
+0250+  2E4D CB 01 CB 01         .db     $CB,$01,$CB,$01,$CB,$01,$CB,$01,$CA,$01,$CA,$01,$CA,$01,$CA,$01
+0250+  2E51 CB 01 CB 01 
+0250+  2E55 CA 01 CA 01 
+0250+  2E59 CA 01 CA 01 
+0251+  2E5D C9 01 C9 01         .db     $C9,$01,$C9,$01,$C9,$01,$C9,$01,$C9,$01,$C8,$01,$C8,$01,$C8,$01
+0251+  2E61 C9 01 C9 01 
+0251+  2E65 C9 01 C8 01 
+0251+  2E69 C8 01 C8 01 
+0252+  2E6D C8 01 C7 01         .db     $C8,$01,$C7,$01,$C7,$01,$C7,$01,$C7,$01,$C6,$01,$C6,$01,$C6,$01
+0252+  2E71 C7 01 C7 01 
+0252+  2E75 C7 01 C6 01 
+0252+  2E79 C6 01 C6 01 
+0253+  2E7D C6 01 C6 01         .db     $C6,$01,$C6,$01,$C5,$01,$C5,$01,$C5,$01,$C5,$01,$C4,$01,$C4,$01
+0253+  2E81 C5 01 C5 01 
+0253+  2E85 C5 01 C5 01 
+0253+  2E89 C4 01 C4 01 
+0254+  2E8D C4 01 C4 01         .db     $C4,$01,$C4,$01,$C4,$01,$C3,$01,$C3,$01,$C3,$01,$C3,$01,$C2,$01
+0254+  2E91 C4 01 C3 01 
+0254+  2E95 C3 01 C3 01 
+0254+  2E99 C3 01 C2 01 
+0255+  2E9D C2 01 C2 01         .db     $C2,$01,$C2,$01,$C2,$01,$C2,$01,$C1,$01,$C1,$01,$C1,$01,$C1,$01
+0255+  2EA1 C2 01 C2 01 
+0255+  2EA5 C1 01 C1 01 
+0255+  2EA9 C1 01 C1 01 
+0256+  2EAD C0 01 C0 01         .db     $C0,$01,$C0,$01,$C0,$01,$C0,$01,$C0,$01,$BF,$01,$BF,$01,$BF,$01
+0256+  2EB1 C0 01 C0 01 
+0256+  2EB5 C0 01 BF 01 
+0256+  2EB9 BF 01 BF 01 
+1915   2EBD             
+1916   2EBD             
+1917   2EBD             
+1918   2EBD             ;        .include "sq2.asm"
+1919   2EBD             ;        .include "peeko1.asm"
+1920   2EBD             
+1921   2EBD             ;        .include "puls2y2.asm"
+1922   2EBD                     .include "pl2.asm"
+0001+  2EBD B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0001+  2EC1 44 44 44 44 
+0001+  2EC5 44 
+0002+  2EC6 B0 44 44 44 .db     $B0,$44,$44,$44,$44,$44,$44,$44,$44
+0002+  2ECA 44 44 44 44 
+0002+  2ECE 44 
+0003+  2ECF B0 BB BB BB .db     $B0,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0003+  2ED3 BB BB BB BB 
+0003+  2ED7 BB 
+0004+  2ED8 B3 BB BB BB .db     $B3,$BB,$BB,$BB,$BB,$BB,$BB,$BB,$BB
+0004+  2EDC BB BB BB BB 
+0004+  2EE0 BB 
+1923   2EE1             
+1924   2EE1             
+1925   2EE1             triang: .include "tri5.asm"
+0001+  2EE1 92 00 10 21         .db     $92,$00,$10,$21,$32,$43,$54,$65,$76
+0001+  2EE5 32 43 54 65 
+0001+  2EE9 76 
+0002+  2EEA A2 43 44 54         .db     $A2,$43,$44,$54,$55,$65,$66,$76,$77
+0002+  2EEE 55 65 66 76 
+0002+  2EF2 77 
+0003+  2EF3 B2 34 33 33         .db     $B2,$34,$33,$33,$33,$23,$22,$22,$22
+0003+  2EF7 33 23 22 22 
+0003+  2EFB 22 
+0004+  2EFC A2 34 33 23         .db     $A2,$34,$33,$23,$22,$12,$11,$01,$00
+0004+  2F00 22 12 11 01 
+0004+  2F04 00 
+0005+  2F05 92 F0 EF DE         .db     $92,$F0,$EF,$DE,$CD,$BC,$AB,$9A,$89
+0005+  2F09 CD BC AB 9A 
+0005+  2F0D 89 
+0006+  2F0E A2 BC BB AB         .db     $A2,$BC,$BB,$AB,$AA,$9A,$99,$89,$88
+0006+  2F12 AA 9A 99 89 
+0006+  2F16 88 
+0007+  2F17 B2 CB CC CC         .db     $B2,$CB,$CC,$CC,$CC,$DC,$DD,$DD,$DD
+0007+  2F1B CC DC DD DD 
+0007+  2F1F DD 
+0008+  2F20 A3 CB CC DC         .db     $A3,$CB,$CC,$DC,$DD,$ED,$EE,$FE,$FF
+0008+  2F24 DD ED EE FE 
+0008+  2F28 FF 
+1926   2F29             
+1927   2F29             .end
+tasm: Number of errors = 0

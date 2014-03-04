@@ -1,0 +1,809 @@
+;:ts=8
+R0	equ	1
+R1	equ	5
+R2	equ	9
+R3	equ	13
+;//#include <stdlib.h>
+;#include "data.h"
+;#include "pad.h"
+;#include "event.h"
+;#include "ressource.h"
+;#include "PPU.h"
+;#include "PPURegisters.h"
+;#include "debug.h"
+;#include "nsf_player.h"
+;#include "string.h"
+;
+;char oncePerVBlank;
+;padStatus pad1;
+;
+;// Events prototype
+;char NMIReadPad(word counter);
+;char oncePerVBlankReset(word counter);
+;char spcNsfPlayEvent(word counter);
+;
+;void initInternalRegisters(void) {
+	code
+	xdef	__initInternalRegisters
+	func
+__initInternalRegisters:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L2
+	tcs
+	phd
+	tcd
+;	initEvents();
+	jsr	__initEvents
+;	initDebug();
+	jsr	__initDebug
+;	initRegisters();
+	jsr	__initRegisters
+;	enablePad();
+	jsr	__enablePad
+;	clearPad(pad1);
+	sec
+	tsc
+	sbc	#2
+	tcs
+	ina
+	sta	<R0
+	pea	#<__pad1
+	pei	<R0
+	lda	#$2
+	xref	__~mov
+	jsr	__~mov
+	jsr	__clearPad
+;	//spc_sound_init();
+;}
+	pld
+	tsc
+	clc
+	adc	#L2
+	tcs
+	rts
+L2	equ	4
+L3	equ	5
+	ends
+	efunc
+;
+;void preInit(void) {
+	code
+	xdef	__preInit
+	func
+__preInit:
+	longa	on
+	longi	on
+;	// For testing purpose ...
+;	// Insert code here to be executed before register init
+;}
+	rts
+L5	equ	0
+L6	equ	1
+	ends
+	efunc
+;
+;void main(void) {
+	code
+	xdef	__main
+	func
+__main:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L8
+	tcs
+	phd
+	tcd
+;
+;	word counter, i;
+;	byte songNumber;
+;	byte far *valuePtr;
+;	char buffer[32];
+;	char far *songName;
+;	char far *composerName;
+;
+;	initInternalRegisters();
+counter_1	set	0
+i_1	set	2
+songNumber_1	set	4
+valuePtr_1	set	5
+buffer_1	set	9
+songName_1	set	41
+composerName_1	set	45
+	jsr	__initInternalRegisters
+;
+;	// Init the song that we play by default
+;	songNumber = 1;
+	sep	#$20
+	longa	off
+	lda	#$1
+	sta	<L9+songNumber_1
+	rep	#$20
+	longa	on
+;	//spc_nsf_init(songNumber);
+;
+;	// Enable forced VBlank during DMA transfer
+;	setINIDSPDirectValue(0x80);
+	pea	#<$80
+	jsr	__setINIDSPDirectValue
+;
+;	// Screen map data @ VRAM location $1000
+;	setBG1SC(DEBUG_MAP_ADDR, (byte) 0x00);
+	pea	#<$0
+	pea	#<$1000
+	jsr	__setBG1SC
+;
+;	// Plane 0 Tile graphics @ $2000
+;	setBG12NBA(DEBUG_TILE_ADDR, PPU_NO_VALUE);
+	pea	#<$ffff
+	pea	#<$2000
+	jsr	__setBG12NBA
+;
+;	// Debug tile and palette transfer to VRAM
+;	VRAMLoad2(debugFont_pic, DEBUG_TILE_ADDR, 0x0800);
+	pea	#<$800
+	pea	#<$2000
+	pea	#^__debugFont_pic
+	pea	#<__debugFont_pic
+	jsr	__VRAMLoad2
+;	CGRAMLoad2(debugFont_pal, (byte) 0x00, 0x20);
+	pea	#<$20
+	pea	#<$0
+	pea	#^__debugFont_pal
+	pea	#<__debugFont_pal
+	jsr	__CGRAMLoad2
+;
+;	// Sprite screen data transfer to VRAM
+;	setINIDSPDirectValue(0x80);		// make VBlank happens
+	pea	#<$80
+	jsr	__setINIDSPDirectValue
+;	setINIDSPDirectValue(0x00);		// free VBlank
+	pea	#<$0
+	jsr	__setINIDSPDirectValue
+;
+;	// TODO switch to mode 0 for trying
+;	setBGMODE(0, 0, 1);
+	pea	#<$1
+	pea	#<$0
+	pea	#<$0
+	jsr	__setBGMODE
+;	*(byte*) 0x212c = 0x01; // Plane 0 (bit one) enable register and OBJ disable
+	sep	#$20
+	longa	off
+	lda	#$1
+	sta	|8492
+;	*(byte*) 0x212d = 0x00;	// All subPlane disable
+	dea
+	sta	|8493
+;	//setINIDSP(0, 0xf);
+;
+;	// set Plane 0 scroll to 0
+;	*(byte*) 0x210d = (byte) 0;
+;	*(byte*) 0x210d = (byte) 0;
+	sta	|8461
+	rep	#$20
+	longa	on
+;
+;	counter = 0;
+	stz	<L9+counter_1
+;	oncePerVBlank = 0;
+	sep	#$20
+	longa	off
+	stz	|__oncePerVBlank
+	rep	#$20
+	longa	on
+;
+;	addEvent(&oncePerVBlankReset, 1);
+	pea	#<$1
+	pea	#<__oncePerVBlankReset
+	jsr	__addEvent
+;	addEventWithPriority(&NMIReadPad, 1, (char) 0x00);
+	pea	#<$0
+	pea	#<$1
+	pea	#<__NMIReadPad
+	jsr	__addEventWithPriority
+;
+;	setCursorDebug(0,0);
+	pea	#<$0
+	pea	#<$0
+	jsr	__setCursorDebug
+;	writeStringDebug("NSF REPLAYER USING WDC v0.0.1\n\0");
+	pea	#<L1
+	jsr	__writeStringDebug
+;
+;	addEvent(&displayDebugEvent, 1);
+	pea	#<$1
+	pea	#<__displayDebugEvent
+	jsr	__addEvent
+;
+;	// Enable screen and disable forced VBlank
+;	setINIDSPDirectValue(0x0F);
+	pea	#<$f
+	jsr	__setINIDSPDirectValue
+;
+;	// Press start to spc_sound_init()
+;	setCursorDebug(0,3);
+	pea	#<$3
+	pea	#<$0
+	jsr	__setCursorDebug
+;	//writeStringDebug("Press start => spc_sound_init()\n\0");
+;	writeStringDebug("spc_sound_init()\n\0");
+	pea	#<L1+32
+	jsr	__writeStringDebug
+;	//while(pad1.start != 1) {
+;		// Wait
+;	//}
+;	spc_sound_init();
+	jsr	__spc_sound_init
+;
+;	// Press start to spc_nsf_init(songNumber);
+;	setCursorDebug(0,5);
+	pea	#<$5
+	pea	#<$0
+	jsr	__setCursorDebug
+;	//writeStringDebug("Press start => spc_nsf_init()\n\0");
+;	writeStringDebug("spc_nsf_init()\n\0");
+	pea	#<L1+51
+	jsr	__writeStringDebug
+;	//while(pad1.start != 1) {
+;		// Wait
+;	//}
+;	spc_nsf_init(songNumber);
+	pei	<L9+songNumber_1
+	jsr	__spc_nsf_init
+;
+;	songName = (char far *) 0x7FDA0E;
+	lda	#$da0e
+	sta	<L9+songName_1
+	lda	#$7f
+	sta	<L9+songName_1+2
+;	composerName = (char far *) 0x7FDA4E;
+	lda	#$da4e
+	sta	<L9+composerName_1
+	lda	#$7f
+	sta	<L9+composerName_1+2
+;
+;	setCursorDebug(0,25);
+	pea	#<$19
+	pea	#<$0
+	jsr	__setCursorDebug
+;	writeStringDebug("Song Name : \0");
+	pea	#<L1+68
+	jsr	__writeStringDebug
+;	writeFarStringDebug(songName);
+	pei	<L9+songName_1+2
+	pei	<L9+songName_1
+	jsr	__writeFarStringDebug
+;	setCursorDebug(0,26);
+	pea	#<$1a
+	pea	#<$0
+	jsr	__setCursorDebug
+;	writeStringDebug("Composer Name : \0");
+	pea	#<L1+82
+	jsr	__writeStringDebug
+;	writeFarStringDebug(composerName);
+	pei	<L9+composerName_1+2
+	pei	<L9+composerName_1
+	jsr	__writeFarStringDebug
+;
+;	// Press start to infinite loop
+;	setCursorDebug(0,7);
+	pea	#<$7
+	pea	#<$0
+	jsr	__setCursorDebug
+;	//writeStringDebug("Press start => spc_nsf_play()\n\0");
+;	writeStringDebug("spc_nsf_play()\n\0");
+	pea	#<L1+100
+	jsr	__writeStringDebug
+;	//while(pad1.start != 1) {
+;		// Wait
+;	//}
+;	addEvent(&spcNsfPlayEvent, 1);
+	pea	#<$1
+	pea	#<__spcNsfPlayEvent
+	jsr	__addEvent
+;
+;	// Loop forever
+;	while(1) {
+L10001:
+;		if(oncePerVBlank) {
+	lda	|__oncePerVBlank
+	and	#$ff
+	beq	L10001
+;			counter++;
+	inc	<L9+counter_1
+;
+;			if(pad1.right == 1 && songNumber < 10) {
+	lda	|__pad1
+	bit	#$1
+	beq	L10004
+	sep	#$20
+	longa	off
+	lda	<L9+songNumber_1
+	cmp	#<$a
+	rep	#$20
+	longa	on
+	bcs	L10004
+;				songNumber++;
+	sep	#$20
+	longa	off
+	inc	<L9+songNumber_1
+	rep	#$20
+	longa	on
+;				spc_nsf_init(songNumber);
+	pei	<L9+songNumber_1
+	jsr	__spc_nsf_init
+;				setCursorDebug(13,12);
+	pea	#<$c
+	pea	#<$d
+	jsr	__setCursorDebug
+;				writeStringDebug("   \0");
+	pea	#<L1+117
+	jsr	__writeStringDebug
+;			}
+;
+;			if(pad1.left == 1 && songNumber > 0) {
+L10004:
+	lda	|__pad1
+	bit	#$2
+	beq	L10005
+	sep	#$20
+	longa	off
+	lda	#$0
+	cmp	<L9+songNumber_1
+	rep	#$20
+	longa	on
+	bcs	L10005
+;				songNumber--;
+	sep	#$20
+	longa	off
+	dec	<L9+songNumber_1
+	rep	#$20
+	longa	on
+;				spc_nsf_init(songNumber);
+	pei	<L9+songNumber_1
+	jsr	__spc_nsf_init
+;				setCursorDebug(13,12);
+	pea	#<$c
+	pea	#<$d
+	jsr	__setCursorDebug
+;				writeStringDebug("   \0");
+	pea	#<L1+122
+	jsr	__writeStringDebug
+;			}
+;
+;			if(pad1.select == 1) {
+L10005:
+	lda	|__pad1
+	bit	#$20
+	beq	L10006
+;				spc_nsf_init(songNumber);
+	pei	<L9+songNumber_1
+	jsr	__spc_nsf_init
+;			}
+;
+;			setCursorDebug(0,10);
+L10006:
+	pea	#<$a
+	pea	#<$0
+	jsr	__setCursorDebug
+;			writeStringDebug("Counter : \0");
+	pea	#<L1+127
+	jsr	__writeStringDebug
+;			itoa2(counter, buffer, 10);
+	pea	#<$a
+	clc
+	tdc
+	adc	#<L9+buffer_1
+	pha
+	pei	<L9+counter_1
+	jsr	__itoa2
+;			writeStringDebug(buffer);
+	clc
+	tdc
+	adc	#<L9+buffer_1
+	pha
+	jsr	__writeStringDebug
+;
+;			setCursorDebug(0,12);
+	pea	#<$c
+	pea	#<$0
+	jsr	__setCursorDebug
+;			writeStringDebug("SongNumber :\n\0");
+	pea	#<L1+139
+	jsr	__writeStringDebug
+;			setCursorDebug(13,12);
+	pea	#<$c
+	pea	#<$d
+	jsr	__setCursorDebug
+;			itoa2(songNumber, buffer, 10);
+	pea	#<$a
+	clc
+	tdc
+	adc	#<L9+buffer_1
+	pha
+	lda	<L9+songNumber_1
+	and	#$ff
+	pha
+	jsr	__itoa2
+;			writeStringDebug(buffer);
+	clc
+	tdc
+	adc	#<L9+buffer_1
+	pha
+	jsr	__writeStringDebug
+;
+;			setCursorDebug(0,14);
+	pea	#<$e
+	pea	#<$0
+	jsr	__setCursorDebug
+;			writeStringDebug("NSF REPLAYER REGISTERS 0x7F4100\n\0");
+	pea	#<L1+154
+	jsr	__writeStringDebug
+;
+;			setCursorDebug(0,16);
+	pea	#<$10
+	pea	#<$0
+	jsr	__setCursorDebug
+;			valuePtr = (byte*) 0x7F4100;
+	lda	#$4100
+	sta	<L9+valuePtr_1
+	lda	#$7f
+	sta	<L9+valuePtr_1+2
+;			for(i=0; i< 0x10; i++) {
+	stz	<L9+i_1
+	bra	L10010
+L10009:
+;				itoa2((word) *valuePtr, buffer, 16);
+	pea	#<$10
+	clc
+	tdc
+	adc	#<L9+buffer_1
+	pha
+	lda	[<L9+valuePtr_1]
+	and	#$ff
+	pha
+	jsr	__itoa2
+;				writeStringDebug(buffer);
+	clc
+	tdc
+	adc	#<L9+buffer_1
+	pha
+	jsr	__writeStringDebug
+;				valuePtr++;
+	inc	<L9+valuePtr_1
+;			}
+	inc	<L9+i_1
+L10010:
+	lda	<L9+i_1
+	cmp	#<$10
+	bcc	L10009
+;
+;			setCursorDebug(0,18);
+	pea	#<$12
+	pea	#<$0
+	jsr	__setCursorDebug
+;			writeStringDebug("Press RESET to reset song.\n\0");
+	pea	#<L1+188
+	jsr	__writeStringDebug
+;
+;			// reset oncePerVBlank
+;			oncePerVBlank = 0;
+	sep	#$20
+	longa	off
+	stz	|__oncePerVBlank
+	rep	#$20
+	longa	on
+;		}
+;	}
+	brl	L10001
+;}
+L8	equ	49
+L9	equ	1
+	ends
+	efunc
+	data
+L1:
+	db	$4E,$53,$46,$20,$52,$45,$50,$4C,$41,$59,$45,$52,$20,$55,$53
+	db	$49,$4E,$47,$20,$57,$44,$43,$20,$76,$30,$2E,$30,$2E,$31,$0A
+	db	$00,$00,$73,$70,$63,$5F,$73,$6F,$75,$6E,$64,$5F,$69,$6E,$69
+	db	$74,$28,$29,$0A,$00,$00,$73,$70,$63,$5F,$6E,$73,$66,$5F,$69
+	db	$6E,$69,$74,$28,$29,$0A,$00,$00,$53,$6F,$6E,$67,$20,$4E,$61
+	db	$6D,$65,$20,$3A,$20,$00,$00,$43,$6F,$6D,$70,$6F,$73,$65,$72
+	db	$20,$4E,$61,$6D,$65,$20,$3A,$20,$00,$00,$73,$70,$63,$5F,$6E
+	db	$73,$66,$5F,$70,$6C,$61,$79,$28,$29,$0A,$00,$00,$20,$20,$20
+	db	$00,$00,$20,$20,$20,$00,$00,$43,$6F,$75,$6E,$74,$65,$72,$20
+	db	$3A,$20,$00,$00,$53,$6F,$6E,$67,$4E,$75,$6D,$62,$65,$72,$20
+	db	$3A,$0A,$00,$00,$4E,$53,$46,$20,$52,$45,$50,$4C,$41,$59,$45
+	db	$52,$20,$52,$45,$47,$49,$53,$54,$45,$52,$53,$20,$30,$78,$37
+	db	$46,$34,$31,$30,$30,$0A,$00,$00,$50,$72,$65,$73,$73,$20,$52
+	db	$45,$53,$45,$54,$20,$74,$6F,$20,$72,$65,$73,$65,$74,$20,$73
+	db	$6F,$6E,$67,$2E,$0A,$00,$00
+	ends
+;
+;void IRQHandler(void) {
+	code
+	xdef	__IRQHandler
+	func
+__IRQHandler:
+	longa	on
+	longi	on
+;}
+	rts
+L18	equ	0
+L19	equ	1
+	ends
+	efunc
+;
+;void NMIHandler(void) {
+	code
+	xdef	__NMIHandler
+	func
+__NMIHandler:
+	longa	on
+	longi	on
+;	processEvents();
+	jsr	__processEvents
+;}
+	rts
+L21	equ	0
+L22	equ	1
+	ends
+	efunc
+;
+;char NMIReadPad(word counter) {
+	code
+	xdef	__NMIReadPad
+	func
+__NMIReadPad:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L24
+	tcs
+	phd
+	tcd
+counter_0	set	3
+;	static byte buttonB;
+;	static byte buttonX;
+;
+;	if(counter == 0) {
+	lda	<L24+counter_0
+	bne	L10013
+;		buttonB = 0;
+	sep	#$20
+	longa	off
+	stz	|L10011
+;		buttonX = 0;
+	stz	|L10012
+	rep	#$20
+	longa	on
+;	}
+;
+;	pad1 = readPad((byte) 0);
+L10013:
+	pea	#<$0
+	jsr	__readPad
+	sta	<R0
+	pha
+	pea	#<__pad1
+	lda	#$2
+	xref	__~mov
+	jsr	__~mov
+;
+;	// the buttons need to be unpressed before trigger
+;	if(buttonB && pad1.B) pad1.B = 0;
+	lda	|L10011
+	and	#$ff
+	beq	L10014
+	lda	|__pad1
+	bit	#$80
+	beq	L10014
+	sep	#$20
+	longa	off
+	lda	#$80
+	trb	__pad1
+	rep	#$20
+	longa	on
+;	else {
+	bra	L10015
+L10014:
+;		if(pad1.B) buttonB = 1;
+	lda	|__pad1
+	bit	#$80
+	beq	L10016
+	sep	#$20
+	longa	off
+	lda	#$1
+	sta	|L10011
+	rep	#$20
+	longa	on
+;		else buttonB = 0;
+	bra	L10015
+L10016:
+	sep	#$20
+	longa	off
+	stz	|L10011
+	rep	#$20
+	longa	on
+;	}
+L10015:
+;
+;	if(buttonX && pad1.X) pad1.X = 0;
+	lda	|L10012
+	and	#$ff
+	beq	L10018
+	lda	|__pad1+1
+	bit	#$40
+	beq	L10018
+	sep	#$20
+	longa	off
+	lda	#$40
+	trb	__pad1+1
+	rep	#$20
+	longa	on
+;	else {
+	bra	L10019
+L10018:
+;		if(pad1.X) buttonX = 1;
+	lda	|__pad1+1
+	bit	#$40
+	beq	L10020
+	sep	#$20
+	longa	off
+	lda	#$1
+	sta	|L10012
+	rep	#$20
+	longa	on
+;		else buttonX = 0;
+	bra	L10019
+L10020:
+	sep	#$20
+	longa	off
+	stz	|L10012
+	rep	#$20
+	longa	on
+;	}
+L10019:
+;
+;	return EVENT_CONTINUE;
+	lda	#$1
+	tay
+	lda	<L24+1
+	sta	<L24+1+2
+	pld
+	tsc
+	clc
+	adc	#L24+2
+	tcs
+	tya
+	rts
+;}
+L24	equ	4
+L25	equ	5
+	ends
+	efunc
+	udata
+L10011:
+	ds	1
+	ends
+	udata
+L10012:
+	ds	1
+	ends
+;
+;char oncePerVBlankReset(word counter) {
+	code
+	xdef	__oncePerVBlankReset
+	func
+__oncePerVBlankReset:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L34
+	tcs
+	phd
+	tcd
+counter_0	set	3
+;	oncePerVBlank = 1;
+	sep	#$20
+	longa	off
+	lda	#$1
+	sta	|__oncePerVBlank
+	rep	#$20
+	longa	on
+;	return EVENT_CONTINUE;
+	lda	#$1
+	tay
+	lda	<L34+1
+	sta	<L34+1+2
+	pld
+	tsc
+	clc
+	adc	#L34+2
+	tcs
+	tya
+	rts
+;}
+L34	equ	0
+L35	equ	1
+	ends
+	efunc
+;
+;char spcNsfPlayEvent(word counter) {
+	code
+	xdef	__spcNsfPlayEvent
+	func
+__spcNsfPlayEvent:
+	longa	on
+	longi	on
+	tsc
+	sec
+	sbc	#L37
+	tcs
+	phd
+	tcd
+counter_0	set	3
+;	counter++;
+	inc	<L37+counter_0
+;	spc_nsf_play();
+	jsr	__spc_nsf_play
+;	return EVENT_CONTINUE;
+	lda	#$1
+	tay
+	lda	<L37+1
+	sta	<L37+1+2
+	pld
+	tsc
+	clc
+	adc	#L37+2
+	tcs
+	tya
+	rts
+;}
+L37	equ	0
+L38	equ	1
+	ends
+	efunc
+;
+	xref	__itoa2
+	xref	__spc_nsf_play
+	xref	__spc_nsf_init
+	xref	__spc_sound_init
+	xref	__displayDebugEvent
+	xref	__writeFarStringDebug
+	xref	__writeStringDebug
+	xref	__setCursorDebug
+	xref	__initDebug
+	xref	__setBG12NBA
+	xref	__setBG1SC
+	xref	__setBGMODE
+	xref	__setINIDSPDirectValue
+	xref	__initRegisters
+	xref	__CGRAMLoad2
+	xref	__VRAMLoad2
+	xref	__processEvents
+	xref	__addEventWithPriority
+	xref	__addEvent
+	xref	__initEvents
+	xref	__readPad
+	xref	__clearPad
+	xref	__enablePad
+	udata
+	xdef	__pad1
+__pad1
+	ds	2
+	ends
+	udata
+	xdef	__oncePerVBlank
+__oncePerVBlank
+	ds	1
+	ends
+	xref	__debugFont_pal
+	xref	__debugFont_pic

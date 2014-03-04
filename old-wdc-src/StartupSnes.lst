@@ -1,0 +1,354 @@
+  Mon Apr 16 2012 12:35                                                Page 1
+
+
+                     ***************************************
+                     **      WDC 65C816 Macro Assembler   **
+                     **                                   **
+                     **     Version Evaluation- Mar 27 2006    **
+                     ***************************************
+
+     1                        ; SNES ROM startup code
+     2                        
+     3                        ;*************************************************
+                    *****************************
+     4                        ;*** Define a special section in case most of the 
+                    code is not in bank 0.    ***
+     5                        ;*************************************************
+                    *****************************
+     6                        
+     7                        ;STARTUP SECTION OFFSET $008000
+     8                        
+     9                        CODE
+    10                        
+    11                        	XDEF  	START
+    12                        START:
+    13                        	XREF  	__main
+    14                        
+    15 00:0000: 78           	sei             ; Disabled interrupts
+    16 00:0001: 18           	clc             ; clear carry to switch to nativ
+                    e mode
+    17 00:0002: FB               xce             ; Xchange carry & emulation bit
+                    . native mode
+    18 00:0003: C2 18            rep     #$18    ; Binary mode (decimal mode off
+                    ), X/Y 16 bit
+    19                        	LONGI	ON
+    20 00:0005: A2 FF 1F         ldx     #$1FFF  ; set stack to $1FFF
+    21 00:0008: 9A               txs
+    22                        
+    23 00:0009: C2 30        	rep 	#$30
+    24                        	longa	on
+    25                        	longi	on
+    26                        
+    27                        	; Init data used for heap
+    28                        	; see heap definition below
+    29                        	XREF ___heap_top
+    30                        	XREF ___mem_start
+    31 00:000B: 9C xx xx     	stz	___heap_top
+    32 00:000E: 9C xx xx     	stz	___mem_start
+    33                        
+    34                        	XREF	__preInit
+    35 00:0011: 22 xx xx xx      jsr   	>__preInit
+    36                        
+    37 00:0015: E2 30            sep     #$30    ; X,Y,A are 8 bit numbers
+    38                        	LONGA	OFF
+    39                        	LONGI	OFF
+    40 00:0017: A9 8F            lda     #$8F    ; screen off, full brightness
+    41 00:0019: 8D 00 21         sta     $2100   ; brightness + screen enable re
+                    gister
+    42 00:001C: 9C 01 21         stz     $2101   ; Sprite register (size + addre
+                    ss in VRAM)
+    43 00:001F: 9C 02 21         stz     $2102   ; Sprite registers (address of 
+                    sprite memory [OAM])
+  Mon Apr 16 2012 12:35                                                Page 2
+
+
+    44 00:0022: 9C 03 21     	stz     $2103   ;    ""                       ""
+    45 00:0025: 9C 05 21     	stz     $2105   ; Mode 0, = Graphic mode registe
+                    r
+    46 00:0028: 9C 06 21     	stz     $2106   ; noplanes, no mosaic, = Mosaic 
+                    register
+    47 00:002B: 9C 07 21     	stz     $2107   ; Plane 0 map VRAM location
+    48 00:002E: 9C 08 21     	stz     $2108   ; Plane 1 map VRAM location
+    49 00:0031: 9C 09 21     	stz     $2109   ; Plane 2 map VRAM location
+    50 00:0034: 9C 0A 21     	stz     $210A   ; Plane 3 map VRAM location
+    51 00:0037: 9C 0B 21     	stz     $210B   ; Plane 0+1 Tile data location
+    52 00:003A: 9C 0C 21     	stz     $210C   ; Plane 2+3 Tile data location
+    53 00:003D: 9C 0D 21     	stz     $210D   ; Plane 0 scroll x (first 8 bits
+                    )
+    54 00:0040: 9C 0D 21     	stz     $210D   ; Plane 0 scroll x (last 3 bits)
+                     #$0 - #$07ff
+    55 00:0043: 9C 0E 21     	stz     $210E   ; Plane 0 scroll y (first 8 bits
+                    )
+    56 00:0046: 9C 0E 21     	stz     $210E   ; Plane 0 scroll y (last 3 bits)
+                     #$0 - #$07ff
+    57 00:0049: 9C 0F 21     	stz     $210F   ; Plane 1 scroll x (first 8 bits
+                    )
+    58 00:004C: 9C 0F 21     	stz     $210F   ; Plane 1 scroll x (last 3 bits)
+                     #$0 - #$07ff
+    59 00:004F: 9C 10 21     	stz     $2110   ; Plane 1 scroll y (first 8 bits
+                    )
+    60 00:0052: 9C 10 21     	stz     $2110   ; Plane 1 scroll y (last 3 bits)
+                     #$0 - #$07ff
+    61 00:0055: 9C 11 21     	stz     $2111   ; Plane 2 scroll x (first 8 bits
+                    )
+    62 00:0058: 9C 11 21     	stz     $2111   ; Plane 2 scroll x (last 3 bits)
+                     #$0 - #$07ff
+    63 00:005B: 9C 12 21     	stz     $2112   ; Plane 2 scroll y (first 8 bits
+                    )
+    64 00:005E: 9C 12 21     	stz     $2112   ; Plane 2 scroll y (last 3 bits)
+                     #$0 - #$07ff
+    65 00:0061: 9C 13 21     	stz     $2113   ; Plane 3 scroll x (first 8 bits
+                    )
+    66 00:0064: 9C 13 21     	stz     $2113   ; Plane 3 scroll x (last 3 bits)
+                     #$0 - #$07ff
+    67 00:0067: 9C 14 21     	stz     $2114   ; Plane 3 scroll y (first 8 bits
+                    )
+    68 00:006A: 9C 14 21     	stz     $2114   ; Plane 3 scroll y (last 3 bits)
+                     #$0 - #$07ff
+    69 00:006D: A9 80        	lda     #$80    ; increase VRAM address after wr
+                    iting to $2119
+    70 00:006F: 8D 15 21     	sta     $2115   ; VRAM address increment registe
+                    r
+    71 00:0072: 9C 16 21     	stz     $2116   ; VRAM address low
+    72 00:0075: 9C 17 21     	stz     $2117   ; VRAM address high
+    73 00:0078: 9C 1A 21     	stz     $211A   ; Initial Mode 7 setting registe
+                    r
+    74 00:007B: 9C 1B 21     	stz     $211B   ; Mode 7 matrix parameter A regi
+                    ster (low)
+    75 00:007E: A9 01        	lda     #$01
+    76 00:0080: 8D 1B 21     	sta     $211B   ; Mode 7 matrix parameter A regi
+                    ster (high)
+    77 00:0083: 9C 1C 21     	stz     $211C   ; Mode 7 matrix parameter B regi
+                    ster (low)
+  Mon Apr 16 2012 12:35                                                Page 3
+
+
+    78 00:0086: 9C 1C 21     	stz     $211C   ; Mode 7 matrix parameter B regi
+                    ster (high)
+    79 00:0089: 9C 1D 21     	stz     $211D   ; Mode 7 matrix parameter C regi
+                    ster (low)
+    80 00:008C: 9C 1D 21     	stz     $211D   ; Mode 7 matrix parameter C regi
+                    ster (high)
+    81 00:008F: 9C 1E 21     	stz     $211E   ; Mode 7 matrix parameter D regi
+                    ster (low)
+    82 00:0092: 8D 1E 21     	sta     $211E   ; Mode 7 matrix parameter D regi
+                    ster (high)
+    83 00:0095: 9C 1F 21     	stz     $211F   ; Mode 7 center position X regis
+                    ter (low)
+    84 00:0098: 9C 1F 21     	stz     $211F   ; Mode 7 center position X regis
+                    ter (high)
+    85 00:009B: 9C 20 21     	stz     $2120   ; Mode 7 center position Y regis
+                    ter (low)
+    86 00:009E: 9C 20 21     	stz     $2120   ; Mode 7 center position Y regis
+                    ter (high)
+    87 00:00A1: 9C 21 21     	stz     $2121   ; Color number register ($0-ff)
+    88 00:00A4: 9C 23 21     	stz     $2123   ; BG1 & BG2 Window mask setting 
+                    register
+    89 00:00A7: 9C 24 21     	stz     $2124   ; BG3 & BG4 Window mask setting 
+                    register
+    90 00:00AA: 9C 25 21     	stz     $2125   ; OBJ & Color Window mask settin
+                    g register
+    91 00:00AD: 9C 26 21     	stz     $2126   ; Window 1 left position registe
+                    r
+    92 00:00B0: 9C 27 21     	stz     $2127   ; Window 2 left position registe
+                    r
+    93 00:00B3: 9C 28 21     	stz     $2128   ; Window 3 left position registe
+                    r
+    94 00:00B6: 9C 29 21     	stz     $2129   ; Window 4 left position registe
+                    r
+    95 00:00B9: 9C 2A 21     	stz     $212A   ; BG1, BG2, BG3, BG4 Window Logi
+                    c register
+    96 00:00BC: 9C 2B 21     	stz     $212B   ; OBJ, Color Window Logic Regist
+                    er (or,and,xor,xnor)
+    97 00:00BF: 8D 2C 21     	sta     $212C   ; Main Screen designation (plane
+                    s, sprites enable)
+    98 00:00C2: 9C 2D 21     	stz     $212D   ; Sub Screen designation
+    99 00:00C5: 9C 2E 21     	stz     $212E   ; Window mask for Main Screen
+   100 00:00C8: 9C 2F 21     	stz     $212F   ; Window mask for Sub Screen
+   101 00:00CB: A9 30        	lda     #$30
+   102 00:00CD: 8D 30 21     	sta     $2130   ; Color addition & screen additi
+                    on init setting
+   103 00:00D0: 9C 31 21     	stz     $2131   ; Add/Sub sub designation for sc
+                    reen, sprite, color
+   104 00:00D3: A9 E0        	lda     #$E0
+   105 00:00D5: 8D 32 21     	sta     $2132   ; color data for addition/subtra
+                    ction
+   106 00:00D8: 9C 33 21     	stz     $2133   ; Screen setting (interlace x,y/
+                    enable SFX data)
+   107 00:00DB: 9C 00 42     	stz     $4200   ; Enable V-blank, interrupt, Joy
+                    pad register
+   108 00:00DE: A9 FF        	lda     #$FF
+   109 00:00E0: 8D 01 42     	sta     $4201   ; Programmable I/O port
+   110 00:00E3: 9C 02 42     	stz     $4202   ; Multiplicand A
+   111 00:00E6: 9C 03 42     	stz     $4203   ; Multiplier B
+  Mon Apr 16 2012 12:35                                                Page 4
+
+
+   112 00:00E9: 9C 04 42     	stz     $4204   ; Multiplier C
+   113 00:00EC: 9C 05 42     	stz     $4205   ; Multiplicand C
+   114 00:00EF: 9C 06 42     	stz     $4206   ; Divisor B
+   115 00:00F2: 9C 07 42     	stz     $4207   ; Horizontal Count Timer
+   116 00:00F5: 9C 08 42     	stz     $4208   ; Horizontal Count Timer MSB (mo
+                    st significant bit)
+   117 00:00F8: 9C 09 42         stz     $4209   ; Vertical Count Timer
+   118 00:00FB: 9C 0A 42         stz     $420A   ; Vertical Count Timer MSB
+   119 00:00FE: 9C 0B 42         stz     $420B   ; General DMA enable (bits 0-7)
+   120 00:0101: 9C 0C 42         stz     $420C   ; Horizontal DMA (HDMA) enable 
+                    (bits 0-7)
+   121 00:0104: 9C 0D 42         stz     $420D   ; Access cycle designation (slo
+                    w/fast rom)
+   122 00:0107: 58               cli             ; Enable interrupts
+   123                        
+   124 00:0108: C2 30        	rep     #$30
+   125                        	LONGA	ON
+   126                        	LONGI	ON
+   127                        
+   128 00:010A: 22 xx xx xx      jsr   	>__main
+   129 00:010E: 00 00            brk
+   130                        
+   131                        	XDEF IRQ
+   132                        IRQ:
+   133                        	XREF __IRQHandler
+   134                        	LONGA	ON
+   135                        	LONGI	ON
+   136 00:0110: C2 30        	rep	#$30
+   137 00:0112: 48           	pha
+   138 00:0113: DA           	phx
+   139 00:0114: 5A           	phy
+   140 00:0115: 20 xx xx     	jsr	__IRQHandler
+   141 00:0118: 7A           	ply
+   142 00:0119: FA           	plx
+   143 00:011A: 68           	pla
+   144 00:011B: 40           	rti
+   145                        
+   146                        	XDEF	NMI
+   147                        NMI:
+   148                        	XREF	__NMIHandler
+   149                        	LONGA	ON
+   150                        	LONGI	ON
+   151 00:011C: C2 30        	rep	#$30
+   152 00:011E: 48           	pha
+   153 00:011F: DA           	phx
+   154 00:0120: 5A           	phy
+   155 00:0121: 0B           	phd
+   156 00:0122: 8B           	phb
+   157 00:0123: A9 00 00     	lda	#$0000
+   158 00:0126: E2 30        	sep     #$30    ; X,Y,A are 8 bit numbers
+   159                        	LONGA	OFF
+   160                        	LONGI	OFF
+   161 00:0128: AD 10 42     	lda     $4210		; Read NMI
+   162                        	LONGA	ON
+   163                        	LONGI	ON
+   164 00:012B: C2 30        	rep	#$30
+   165 00:012D: 20 xx xx     	jsr	__NMIHandler
+   166 00:0130: AB           	plb
+  Mon Apr 16 2012 12:35                                                Page 5
+
+
+   167 00:0131: 2B           	pld
+   168 00:0132: 7A           	ply
+   169 00:0133: FA           	plx
+   170 00:0134: 68           	pla
+   171 00:0135: 40           	rti
+   172                        
+   173                        DIRQ:
+   174 00:0136: 40           	rti
+   175                        
+   176                        ;	XDEF __debug
+   177                        ;__debug:
+   178                        ;	XREF __DEBUGHandler
+   179                        ;	XREF __registerA
+   180                        ;	XREF __registerX
+   181                        ;	XREF __registerY
+   182                        ;	sta	__registerA
+   183                        ;	stx __registerX
+   184                        ;	sty __registerY
+   185                        ;	jsr	__DEBUGHandler
+   186                        ;	rts
+   187                        
+   188                        ENDS
+   189                        
+   190                        ;*************************************************
+                    *****************************
+   191                        ;*** Heap definition                              
+                                              ***
+   192                        ;*************************************************
+                    *****************************
+   193                        
+   194                        	DATA
+   195                        
+   196                        	XDEF	__heap_start
+   197                        	XDEF	__heap_end
+   198                        
+   199                        __heap_start:
+   200 00:0000: 00 14        	WORD	$1400
+   201                        __heap_end:
+   202 00:0002: 00 16        	WORD	$1600
+   203                        
+   204                        ;*************************************************
+                    *****************************
+   205                        ;*** SNES ROM Registartion Data                   
+                                              ***
+   206                        ;*************************************************
+                    *****************************
+   207                        
+   208                        REGISTRATION_DATA SECTION
+   209                        
+   210 00:0000: 46 46        MAKER_CODE          FCC	/FF/
+   211 00:0002: 53 4D 57 4A  GAME_CODE		    FCC	/SMWJ/
+   212 00:0006: 00 00 00 00  FIXED_VALUE0		BYTE	$00, $00, $00, $
+                    00, $00, $00, $00
+       00:000A: 00 00 00 
+   213 00:000D: 00           EXPANSION_RAM_SIZE	BYTE	$00
+   214 00:000E: 00           SPECIAL_VERSION		BYTE	$00
+   215 00:000F: 00           CARTRIDGE_TYPE_SUB	BYTE	$00
+   216 00:0010: 4E 53 46 20  GAME_TITLE		    FCC	/NSF PLAYER POC       /
+  Mon Apr 16 2012 12:35                                                Page 6
+
+
+       00:0014: 50 4C 41 59 
+       00:0018: 45 52 20 50 
+       00:001C: 4F 43 20 20 
+       00:0020: 20 20 20 20 
+       00:0024: 20 
+   217                        				        ;012345678901234
+                    567890;
+   218 00:0025: 20           MAP_MODE            BYTE	$20
+   219 00:0026: 00           CARTRIDGE_SIZE		BYTE	$00
+   220 00:0027: 08           ROM_SIZE            BYTE	$08
+   221 00:0028: 00           RAM_SIZE            BYTE	$00
+   222 00:0029: 00           DESTINATION_CODE	BYTE	$00
+   223 00:002A: 33           FIXED_VALUE1		BYTE	$33
+   224 00:002B: 00           MASK_ROM_VERSION	BYTE	$00
+   225 00:002C: 00 00        COMPLEMENT_CHECK	BYTE	$00, $00
+   226 00:002E: 00 00        CHEKSUM             BYTE	$00, $00
+   227                        
+   228                        ;*************************************************
+                    *****************************
+   229                        ;*** SNES Interrupts and Reset vector             
+                                              ***
+   230                        ;*************************************************
+                    *****************************
+   231                        
+   232                        VECTORS	SECTION
+   233                        ; Native vector
+   234 00:0000: xx xx        N_COP   DW   DIRQ
+   235 00:0002: xx xx        N_BRK   DW   DIRQ
+   236 00:0004: xx xx        N_ABORT DW   DIRQ
+   237 00:0006: xx xx        N_NMI   DW   NMI
+   238 00:0008: xx xx        N_RSRVD DW   DIRQ
+   239 00:000A: xx xx        N_IRQ   DW   IRQ
+   240 00:000C:                      DS   4
+   241                        ; Emulation vector
+   242 00:0010: xx xx        E_COP   DW   DIRQ
+   243 00:0012: xx xx        E_RSRVD DW   DIRQ
+   244 00:0014: xx xx        E_ABORT DW   DIRQ
+   245 00:0016: xx xx        E_NMI   DW   DIRQ
+   246 00:0018: xx xx        E_RESET DW   START
+   247 00:001A: xx xx        E_IRQ   DW   DIRQ
+   248                        
+   249                        END
+
+
+      Lines assembled: 249
+      Errors: 0

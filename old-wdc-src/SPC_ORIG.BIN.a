@@ -1,0 +1,6032 @@
+0000: 20        clrp
+0001: cd f0     mov   x,#$f0
+0003: bd        mov   sp,x
+0004: e8 30     mov   a,#$30
+0006: c4 f1     mov   $f1,a
+0008: 3f aa 0b  call  $0baa
+000b: 3f f8 0b  call  $0bf8
+000e: 8f 5d f2  mov   $f2,#$5d
+0011: 8f 02 f3  mov   $f3,#$02
+0014: 8f 05 f2  mov   $f2,#$05
+0017: 8f 00 f3  mov   $f3,#$00
+001a: 8f 15 f2  mov   $f2,#$15
+001d: 8f 00 f3  mov   $f3,#$00
+0020: 8f 25 f2  mov   $f2,#$25
+0023: 8f 00 f3  mov   $f3,#$00
+0026: 8f 35 f2  mov   $f2,#$35
+0029: 8f 00 f3  mov   $f3,#$00
+002c: 8f 07 f2  mov   $f2,#$07
+002f: 8f 1f f3  mov   $f3,#$1f
+0032: 8f 17 f2  mov   $f2,#$17
+0035: 8f 1f f3  mov   $f3,#$1f
+0038: 8f 27 f2  mov   $f2,#$27
+003b: 8f 1f f3  mov   $f3,#$1f
+003e: 8f 37 f2  mov   $f2,#$37
+0041: 8f 1f f3  mov   $f3,#$1f
+0044: 8f 24 f2  mov   $f2,#$24
+0047: 8f 04 f3  mov   $f3,#$04
+004a: 8f 34 f2  mov   $f2,#$34
+004d: 8f 00 f3  mov   $f3,#$00
+0050: 8f 4c f2  mov   $f2,#$4c
+0053: 8f 0f f3  mov   $f3,#$0f
+0056: 8f 0c f2  mov   $f2,#$0c
+0059: 8f 7f f3  mov   $f3,#$7f
+005c: 8f 1c f2  mov   $f2,#$1c
+005f: 8f 7f f3  mov   $f3,#$7f
+0062: 8f 6c f2  mov   $f2,#$6c
+0065: 8f 20 f3  mov   $f3,#$20
+0068: 8f 3d f2  mov   $f2,#$3d
+006b: 8f 08 f3  mov   $f3,#$08
+006e: 3f 3d 07  call  $073d
+0071: 8f 7d f4  mov   $f4,#$7d
+0074: 3f 53 07  call  $0753
+0077: 3f 83 09  call  $0983
+007a: 3f a8 0a  call  $0aa8
+007d: e4 f4     mov   a,$f4
+007f: 68 d7     cmp   a,#$d7
+0081: d0 f1     bne   $0074
+0083: c4 f4     mov   $f4,a
+0085: cd 00     mov   x,#$00
+0087: 3e f4     cmp   x,$f4
+0089: d0 fc     bne   $0087
+008b: e4 f5     mov   a,$f5
+008d: d4 40     mov   $40+x,a
+008f: d8 f4     mov   $f4,x
+0091: 3d        inc   x
+0092: c8 17     cmp   x,#$17
+0094: d0 f1     bne   $0087
+0096: e4 55     mov   a,$55
+0098: 28 01     and   a,#$01
+009a: d0 0f     bne   $00ab
+009c: 8f 00 f2  mov   $f2,#$00
+009f: 8f 00 f3  mov   $f3,#$00
+00a2: 8f 01 f2  mov   $f2,#$01
+00a5: 8f 00 f3  mov   $f3,#$00
+00a8: 5f 78 05  jmp   $0578
+00ab: e4 40     mov   a,$40
+00ad: 28 c0     and   a,#$c0
+00af: 60        clrc
+00b0: 3c        rol   a
+00b1: 3c        rol   a
+00b2: 3c        rol   a
+00b3: c4 64     mov   $64,a
+00b5: 64 66     cmp   a,$66
+00b7: f0 0c     beq   $00c5
+00b9: 8f 04 f2  mov   $f2,#$04
+00bc: fa 64 f3  mov   ($f3),($64)
+00bf: 8f 4c f2  mov   $f2,#$4c
+00c2: 8f 01 f3  mov   $f3,#$01
+00c5: fa 64 66  mov   ($66),($64)
+00c8: e4 41     mov   a,$41
+00ca: 28 80     and   a,#$80
+00cc: f0 0b     beq   $00d9
+00ce: e4 41     mov   a,$41
+00d0: 28 07     and   a,#$07
+00d2: f0 05     beq   $00d9
+00d4: 3f 83 09  call  $0983
+00d7: 2f 4c     bra   $0125
+00d9: e4 43     mov   a,$43
+00db: 28 07     and   a,#$07
+00dd: d0 1c     bne   $00fb
+00df: e4 42     mov   a,$42
+00e1: f0 b9     beq   $009c
+00e3: 68 01     cmp   a,#$01
+00e5: f0 b5     beq   $009c
+00e7: 68 02     cmp   a,#$02
+00e9: f0 b1     beq   $009c
+00eb: 68 03     cmp   a,#$03
+00ed: f0 ad     beq   $009c
+00ef: 68 04     cmp   a,#$04
+00f1: f0 a9     beq   $009c
+00f3: 68 05     cmp   a,#$05
+00f5: f0 a5     beq   $009c
+00f7: 68 06     cmp   a,#$06
+00f9: f0 a1     beq   $009c
+00fb: 38 07 43  and   $43,#$07
+00fe: e4 42     mov   a,$42
+0100: 60        clrc
+0101: 3c        rol   a
+0102: 0d        push  psw
+0103: 60        clrc
+0104: 88 bd     adc   a,#$bd
+0106: 2b 6a     rol   $6a
+0108: c4 68     mov   $68,a
+010a: 8e        pop   psw
+010b: e4 43     mov   a,$43
+010d: 3c        rol   a
+010e: 6b 6a     ror   $6a
+0110: 88 0e     adc   a,#$0e
+0112: c4 69     mov   $69,a
+0114: 8d 00     mov   y,#$00
+0116: f7 68     mov   a,($68)+y
+0118: 8f 02 f2  mov   $f2,#$02
+011b: c4 f3     mov   $f3,a
+011d: fc        inc   y
+011e: f7 68     mov   a,($68)+y
+0120: 8f 03 f2  mov   $f2,#$03
+0123: c4 f3     mov   $f3,a
+0125: e4 40     mov   a,$40
+0127: 28 10     and   a,#$10
+0129: d0 1c     bne   $0147
+012b: 3f 53 07  call  $0753
+012e: e4 56     mov   a,$56
+0130: 28 01     and   a,#$01
+0132: f0 44     beq   $0178
+0134: 2f 42     bra   $0178
+0136: 03 06 09  bbs0  $06,$0141
+0139: 0c 0f 12  asl   $120f
+013c: 15 18 1b  or    a,$1b18+x
+013f: 1e 21 24  cmp   x,$2421
+0142: 28 2c     and   a,#$2c
+0144: 30 34     bmi   $017a
+0146: 38 8f 07  and   $07,#$8f
+0149: f2 8f     clr7  $8f
+014b: 1f f3 e4  jmp   ($e4f3+x)
+014e: 56 28 20  eor   a,$2028+y
+0151: f0 14     beq   $0167
+0153: e4 40     mov   a,$40
+0155: 28 0f     and   a,#$0f
+0157: 1c        asl   a
+0158: 1c        asl   a
+0159: 1c        asl   a
+015a: 8f 00 f2  mov   $f2,#$00
+015d: c4 f3     mov   $f3,a
+015f: 8f 01 f2  mov   $f2,#$01
+0162: 8f 00 f3  mov   $f3,#$00
+0165: 2f 11     bra   $0178
+0167: e4 40     mov   a,$40
+0169: 28 0f     and   a,#$0f
+016b: 1c        asl   a
+016c: 1c        asl   a
+016d: 1c        asl   a
+016e: 8f 00 f2  mov   $f2,#$00
+0171: c4 f3     mov   $f3,a
+0173: 8f 01 f2  mov   $f2,#$01
+0176: c4 f3     mov   $f3,a
+0178: e4 55     mov   a,$55
+017a: 28 02     and   a,#$02
+017c: d0 0f     bne   $018d
+017e: 8f 10 f2  mov   $f2,#$10
+0181: 8f 00 f3  mov   $f3,#$00
+0184: 8f 11 f2  mov   $f2,#$11
+0187: 8f 00 f3  mov   $f3,#$00
+018a: 5f 46 06  jmp   $0646
+018d: e4 44     mov   a,$44
+018f: 28 c0     and   a,#$c0
+0191: 60        clrc
+0192: 3c        rol   a
+0193: 3c        rol   a
+0194: 3c        rol   a
+0195: c4 65     mov   $65,a
+0197: 64 67     cmp   a,$67
+0199: f0 0c     beq   $01a7
+019b: 8f 14 f2  mov   $f2,#$14
+019e: fa 65 f3  mov   ($f3),($65)
+01a1: 8f 4c f2  mov   $f2,#$4c
+01a4: 8f 02 f3  mov   $f3,#$02
+01a7: fa 65 67  mov   ($67),($65)
+01aa: e4 45     mov   a,$45
+01ac: 28 80     and   a,#$80
+01ae: f0 0b     beq   $01bb
+01b0: e4 45     mov   a,$45
+01b2: 28 07     and   a,#$07
+01b4: f0 05     beq   $01bb
+01b6: 3f a8 0a  call  $0aa8
+01b9: 2f 4c     bra   $0207
+01bb: e4 47     mov   a,$47
+01bd: 28 07     and   a,#$07
+01bf: d0 1c     bne   $01dd
+01c1: e4 46     mov   a,$46
+01c3: f0 b9     beq   $017e
+01c5: 68 01     cmp   a,#$01
+01c7: f0 b5     beq   $017e
+01c9: 68 02     cmp   a,#$02
+01cb: f0 b1     beq   $017e
+01cd: 68 03     cmp   a,#$03
+01cf: f0 ad     beq   $017e
+01d1: 68 04     cmp   a,#$04
+01d3: f0 a9     beq   $017e
+01d5: 68 05     cmp   a,#$05
+01d7: f0 a5     beq   $017e
+01d9: 68 06     cmp   a,#$06
+01db: f0 a1     beq   $017e
+01dd: 38 07 47  and   $47,#$07
+01e0: e4 46     mov   a,$46
+01e2: 60        clrc
+01e3: 3c        rol   a
+01e4: 0d        push  psw
+01e5: 60        clrc
+01e6: 88 bd     adc   a,#$bd
+01e8: 2b 6a     rol   $6a
+01ea: c4 68     mov   $68,a
+01ec: 8e        pop   psw
+01ed: e4 47     mov   a,$47
+01ef: 3c        rol   a
+01f0: 6b 6a     ror   $6a
+01f2: 88 0e     adc   a,#$0e
+01f4: c4 69     mov   $69,a
+01f6: 8d 00     mov   y,#$00
+01f8: f7 68     mov   a,($68)+y
+01fa: 8f 12 f2  mov   $f2,#$12
+01fd: c4 f3     mov   $f3,a
+01ff: fc        inc   y
+0200: f7 68     mov   a,($68)+y
+0202: 8f 13 f2  mov   $f2,#$13
+0205: c4 f3     mov   $f3,a
+0207: e4 44     mov   a,$44
+0209: 28 10     and   a,#$10
+020b: d0 08     bne   $0215
+020d: e4 56     mov   a,$56
+020f: 28 02     and   a,#$02
+0211: f0 33     beq   $0246
+0213: 2f 31     bra   $0246
+0215: 8f 17 f2  mov   $f2,#$17
+0218: 8f 1f f3  mov   $f3,#$1f
+021b: e4 56     mov   a,$56
+021d: 28 20     and   a,#$20
+021f: f0 14     beq   $0235
+0221: e4 44     mov   a,$44
+0223: 28 0f     and   a,#$0f
+0225: 1c        asl   a
+0226: 1c        asl   a
+0227: 1c        asl   a
+0228: 8f 10 f2  mov   $f2,#$10
+022b: 8f 00 f3  mov   $f3,#$00
+022e: 8f 11 f2  mov   $f2,#$11
+0231: c4 f3     mov   $f3,a
+0233: 2f 11     bra   $0246
+0235: e4 44     mov   a,$44
+0237: 28 0f     and   a,#$0f
+0239: 1c        asl   a
+023a: 1c        asl   a
+023b: 1c        asl   a
+023c: 8f 10 f2  mov   $f2,#$10
+023f: c4 f3     mov   $f3,a
+0241: 8f 11 f2  mov   $f2,#$11
+0244: c4 f3     mov   $f3,a
+0246: e4 55     mov   a,$55
+0248: 28 04     and   a,#$04
+024a: d0 0f     bne   $025b
+024c: 8f 20 f2  mov   $f2,#$20
+024f: 8f 00 f3  mov   $f3,#$00
+0252: 8f 21 f2  mov   $f2,#$21
+0255: 8f 00 f3  mov   $f3,#$00
+0258: 5f e1 06  jmp   $06e1
+025b: e4 48     mov   a,$48
+025d: f0 ed     beq   $024c
+025f: 28 80     and   a,#$80
+0261: f0 31     beq   $0294
+0263: e4 48     mov   a,$48
+0265: 28 7f     and   a,#$7f
+0267: f0 e3     beq   $024c
+0269: e4 56     mov   a,$56
+026b: 28 20     and   a,#$20
+026d: f0 17     beq   $0286
+026f: e4 51     mov   a,$51
+0271: 5c        lsr   a
+0272: 5c        lsr   a
+0273: c4 8d     mov   $8d,a
+0275: e8 3f     mov   a,#$3f
+0277: 80        setc
+0278: a4 8d     sbc   a,$8d
+027a: 8f 20 f2  mov   $f2,#$20
+027d: c4 f3     mov   $f3,a
+027f: 8f 21 f2  mov   $f2,#$21
+0282: c4 f3     mov   $f3,a
+0284: 2f 21     bra   $02a7
+0286: 8f 20 f2  mov   $f2,#$20
+0289: 8f 7f f3  mov   $f3,#$7f
+028c: 8f 21 f3  mov   $f3,#$21
+028f: 8f 7f f3  mov   $f3,#$7f
+0292: 2f 13     bra   $02a7
+0294: e4 56     mov   a,$56
+0296: 28 04     and   a,#$04
+0298: f0 0d     beq   $02a7
+029a: e4 48     mov   a,$48
+029c: 28 7f     and   a,#$7f
+029e: 8d 03     mov   y,#$03
+02a0: cf        mul   ya
+02a1: cb 7e     mov   $7e,y
+02a3: c4 7d     mov   $7d,a
+02a5: e4 ff     mov   a,$ff
+02a7: 3f 53 07  call  $0753
+02aa: 38 07 4b  and   $4b,#$07
+02ad: e4 4a     mov   a,$4a
+02af: 60        clrc
+02b0: 3c        rol   a
+02b1: 0d        push  psw
+02b2: 60        clrc
+02b3: 88 bd     adc   a,#$bd
+02b5: 2b 6a     rol   $6a
+02b7: c4 68     mov   $68,a
+02b9: 8e        pop   psw
+02ba: e4 4b     mov   a,$4b
+02bc: 3c        rol   a
+02bd: 6b 6a     ror   $6a
+02bf: 88 1e     adc   a,#$1e
+02c1: c4 69     mov   $69,a
+02c3: 8d 00     mov   y,#$00
+02c5: f7 68     mov   a,($68)+y
+02c7: 8f 22 f2  mov   $f2,#$22
+02ca: 80        setc
+02cb: 68 00     cmp   a,#$00
+02cd: f0 06     beq   $02d5
+02cf: 68 01     cmp   a,#$01
+02d1: f0 02     beq   $02d5
+02d3: a8 02     sbc   a,#$02
+02d5: c4 f3     mov   $f3,a
+02d7: fc        inc   y
+02d8: f7 68     mov   a,($68)+y
+02da: 8f 23 f2  mov   $f2,#$23
+02dd: a8 00     sbc   a,#$00
+02df: c4 f3     mov   $f3,a
+02e1: e4 55     mov   a,$55
+02e3: 28 08     and   a,#$08
+02e5: d0 0e     bne   $02f5
+02e7: 8f 30 f2  mov   $f2,#$30
+02ea: 8f 00 f3  mov   $f3,#$00
+02ed: 8f 31 f2  mov   $f2,#$31
+02f0: 8f 00 f3  mov   $f3,#$00
+02f3: 2f 45     bra   $033a
+02f5: e4 4c     mov   a,$4c
+02f7: 28 10     and   a,#$10
+02f9: d0 02     bne   $02fd
+02fb: 2f 30     bra   $032d
+02fd: 8f 37 f2  mov   $f2,#$37
+0300: 8f 1f f3  mov   $f3,#$1f
+0303: e4 56     mov   a,$56
+0305: 28 20     and   a,#$20
+0307: f0 06     beq   $030f
+0309: e4 4c     mov   a,$4c
+030b: 28 0f     and   a,#$0f
+030d: 2f 14     bra   $0323
+030f: e4 4c     mov   a,$4c
+0311: 28 0f     and   a,#$0f
+0313: 1c        asl   a
+0314: 5d        mov   x,a
+0315: e4 51     mov   a,$51
+0317: 5c        lsr   a
+0318: 5c        lsr   a
+0319: c4 8d     mov   $8d,a
+031b: 7d        mov   a,x
+031c: 80        setc
+031d: a4 8d     sbc   a,$8d
+031f: b0 02     bcs   $0323
+0321: e8 00     mov   a,#$00
+0323: 8f 30 f2  mov   $f2,#$30
+0326: c4 f3     mov   $f3,a
+0328: 8f 31 f2  mov   $f2,#$31
+032b: c4 f3     mov   $f3,a
+032d: e4 4e     mov   a,$4e
+032f: 28 0f     and   a,#$0f
+0331: 5d        mov   x,a
+0332: f5 49 0c  mov   a,$0c49+x
+0335: 8f 6c f2  mov   $f2,#$6c
+0338: c4 f3     mov   $f3,a
+033a: 5f 71 04  jmp   $0471
+033d: 8f 00 f1  mov   $f1,#$00
+0340: 8f 59 fc  mov   $fc,#$59
+0343: 8f 16 fb  mov   $fb,#$16
+0346: 8f 16 fa  mov   $fa,#$16
+0349: e4 ff     mov   a,$ff
+034b: e4 fe     mov   a,$fe
+034d: e4 fd     mov   a,$fd
+034f: 8f 07 f1  mov   $f1,#$07
+0352: 6f        ret
+0353: e4 ff     mov   a,$ff
+0355: c4 85     mov   $85,a
+0357: e4 40     mov   a,$40
+0359: 28 10     and   a,#$10
+035b: f0 03     beq   $0360
+035d: 5f 07 08  jmp   $0807
+0360: e4 56     mov   a,$56
+0362: 28 01     and   a,#$01
+0364: f0 10     beq   $0376
+0366: e8 0f     mov   a,#$0f
+0368: c4 86     mov   $86,a
+036a: e8 00     mov   a,#$00
+036c: c4 87     mov   $87,a
+036e: e4 88     mov   a,$88
+0370: 08 01     or    a,#$01
+0372: c4 88     mov   $88,a
+0374: 2f 38     bra   $03ae
+0376: e4 88     mov   a,$88
+0378: 28 01     and   a,#$01
+037a: d0 03     bne   $037f
+037c: 5f 07 08  jmp   $0807
+037f: e4 40     mov   a,$40
+0381: 28 0f     and   a,#$0f
+0383: 5d        mov   x,a
+0384: e4 85     mov   a,$85
+0386: 60        clrc
+0387: 84 87     adc   a,$87
+0389: c4 87     mov   $87,a
+038b: 75 36 05  cmp   a,$0536+x
+038e: 90 77     bcc   $0407
+0390: e8 00     mov   a,#$00
+0392: c4 87     mov   $87,a
+0394: e4 86     mov   a,$86
+0396: d0 14     bne   $03ac
+0398: e4 40     mov   a,$40
+039a: 28 20     and   a,#$20
+039c: f0 06     beq   $03a4
+039e: e8 10     mov   a,#$10
+03a0: c4 86     mov   $86,a
+03a2: 2f 63     bra   $0407
+03a4: e4 88     mov   a,$88
+03a6: 28 fe     and   a,#$fe
+03a8: c4 88     mov   $88,a
+03aa: 2f 5b     bra   $0407
+03ac: 8b 86     dec   $86
+03ae: e4 86     mov   a,$86
+03b0: 1c        asl   a
+03b1: 1c        asl   a
+03b2: 1c        asl   a
+03b3: 5d        mov   x,a
+03b4: e4 55     mov   a,$55
+03b6: 28 01     and   a,#$01
+03b8: f0 2e     beq   $03e8
+03ba: e4 41     mov   a,$41
+03bc: 28 80     and   a,#$80
+03be: f0 08     beq   $03c8
+03c0: e4 41     mov   a,$41
+03c2: 28 07     and   a,#$07
+03c4: f0 02     beq   $03c8
+03c6: 2f 10     bra   $03d8
+03c8: e4 43     mov   a,$43
+03ca: 28 07     and   a,#$07
+03cc: d0 1c     bne   $03ea
+03ce: e4 42     mov   a,$42
+03d0: f0 16     beq   $03e8
+03d2: 68 07     cmp   a,#$07
+03d4: 90 12     bcc   $03e8
+03d6: 2f 12     bra   $03ea
+03d8: e4 7a     mov   a,$7a
+03da: 28 07     and   a,#$07
+03dc: d0 0c     bne   $03ea
+03de: e4 7b     mov   a,$7b
+03e0: f0 06     beq   $03e8
+03e2: 68 07     cmp   a,#$07
+03e4: 90 02     bcc   $03e8
+03e6: 2f 02     bra   $03ea
+03e8: cd 00     mov   x,#$00
+03ea: e4 56     mov   a,$56
+03ec: 28 20     and   a,#$20
+03ee: f0 0d     beq   $03fd
+03f0: 8f 00 f2  mov   $f2,#$00
+03f3: d8 f3     mov   $f3,x
+03f5: 8f 01 f2  mov   $f2,#$01
+03f8: 8f 00 f3  mov   $f3,#$00
+03fb: 2f 0a     bra   $0407
+03fd: 8f 00 f2  mov   $f2,#$00
+0400: d8 f3     mov   $f3,x
+0402: 8f 01 f2  mov   $f2,#$01
+0405: d8 f3     mov   $f3,x
+0407: e4 44     mov   a,$44
+0409: 28 10     and   a,#$10
+040b: f0 03     beq   $0410
+040d: 5f b7 08  jmp   $08b7
+0410: e4 56     mov   a,$56
+0412: 28 02     and   a,#$02
+0414: f0 10     beq   $0426
+0416: e8 0f     mov   a,#$0f
+0418: c4 89     mov   $89,a
+041a: e8 00     mov   a,#$00
+041c: c4 8a     mov   $8a,a
+041e: e4 88     mov   a,$88
+0420: 08 02     or    a,#$02
+0422: c4 88     mov   $88,a
+0424: 2f 38     bra   $045e
+0426: e4 88     mov   a,$88
+0428: 28 02     and   a,#$02
+042a: d0 03     bne   $042f
+042c: 5f b7 08  jmp   $08b7
+042f: e4 44     mov   a,$44
+0431: 28 0f     and   a,#$0f
+0433: 5d        mov   x,a
+0434: e4 85     mov   a,$85
+0436: 60        clrc
+0437: 84 8a     adc   a,$8a
+0439: c4 8a     mov   $8a,a
+043b: 75 36 05  cmp   a,$0536+x
+043e: 90 77     bcc   $04b7
+0440: e8 00     mov   a,#$00
+0442: c4 8a     mov   $8a,a
+0444: e4 89     mov   a,$89
+0446: d0 14     bne   $045c
+0448: e4 44     mov   a,$44
+044a: 28 20     and   a,#$20
+044c: f0 06     beq   $0454
+044e: e8 10     mov   a,#$10
+0450: c4 89     mov   $89,a
+0452: 2f 63     bra   $04b7
+0454: e4 88     mov   a,$88
+0456: 28 fd     and   a,#$fd
+0458: c4 88     mov   $88,a
+045a: 2f 5b     bra   $04b7
+045c: 8b 89     dec   $89
+045e: e4 89     mov   a,$89
+0460: 1c        asl   a
+0461: 1c        asl   a
+0462: 1c        asl   a
+0463: 5d        mov   x,a
+0464: e4 55     mov   a,$55
+0466: 28 02     and   a,#$02
+0468: f0 2e     beq   $0498
+046a: e4 45     mov   a,$45
+046c: 28 80     and   a,#$80
+046e: f0 08     beq   $0478
+0470: e4 45     mov   a,$45
+0472: 28 07     and   a,#$07
+0474: f0 02     beq   $0478
+0476: 2f 10     bra   $0488
+0478: e4 47     mov   a,$47
+047a: 28 07     and   a,#$07
+047c: d0 1c     bne   $049a
+047e: e4 46     mov   a,$46
+0480: f0 16     beq   $0498
+0482: 68 07     cmp   a,#$07
+0484: 90 12     bcc   $0498
+0486: 2f 12     bra   $049a
+0488: e4 83     mov   a,$83
+048a: 28 07     and   a,#$07
+048c: d0 0c     bne   $049a
+048e: e4 84     mov   a,$84
+0490: f0 06     beq   $0498
+0492: 68 07     cmp   a,#$07
+0494: 90 02     bcc   $0498
+0496: 2f 02     bra   $049a
+0498: cd 00     mov   x,#$00
+049a: e4 56     mov   a,$56
+049c: 28 20     and   a,#$20
+049e: f0 0d     beq   $04ad
+04a0: 8f 10 f2  mov   $f2,#$10
+04a3: 8f 00 f3  mov   $f3,#$00
+04a6: 8f 11 f2  mov   $f2,#$11
+04a9: d8 f3     mov   $f3,x
+04ab: 2f 0a     bra   $04b7
+04ad: 8f 10 f2  mov   $f2,#$10
+04b0: d8 f3     mov   $f3,x
+04b2: 8f 11 f2  mov   $f2,#$11
+04b5: d8 f3     mov   $f3,x
+04b7: e4 4c     mov   a,$4c
+04b9: 28 10     and   a,#$10
+04bb: d0 69     bne   $0526
+04bd: e4 55     mov   a,$55
+04bf: 28 08     and   a,#$08
+04c1: f0 63     beq   $0526
+04c3: e4 56     mov   a,$56
+04c5: 28 08     and   a,#$08
+04c7: f0 10     beq   $04d9
+04c9: e8 0f     mov   a,#$0f
+04cb: c4 8b     mov   $8b,a
+04cd: e8 00     mov   a,#$00
+04cf: c4 8c     mov   $8c,a
+04d1: e4 88     mov   a,$88
+04d3: 08 08     or    a,#$08
+04d5: c4 88     mov   $88,a
+04d7: 2f 3f     bra   $0518
+04d9: e4 88     mov   a,$88
+04db: 28 08     and   a,#$08
+04dd: f0 47     beq   $0526
+04df: e4 4c     mov   a,$4c
+04e1: 28 0f     and   a,#$0f
+04e3: 5d        mov   x,a
+04e4: e4 85     mov   a,$85
+04e6: 60        clrc
+04e7: 84 8c     adc   a,$8c
+04e9: c4 8c     mov   $8c,a
+04eb: 75 36 05  cmp   a,$0536+x
+04ee: 90 36     bcc   $0526
+04f0: e8 00     mov   a,#$00
+04f2: c4 8c     mov   $8c,a
+04f4: e4 8b     mov   a,$8b
+04f6: d0 14     bne   $050c
+04f8: e4 4c     mov   a,$4c
+04fa: 28 20     and   a,#$20
+04fc: f0 06     beq   $0504
+04fe: e8 10     mov   a,#$10
+0500: c4 8b     mov   $8b,a
+0502: 2f 22     bra   $0526
+0504: e4 88     mov   a,$88
+0506: 28 f7     and   a,#$f7
+0508: c4 88     mov   $88,a
+050a: 2f 1a     bra   $0526
+050c: 8b 8b     dec   $8b
+050e: e4 55     mov   a,$55
+0510: 28 08     and   a,#$08
+0512: d0 04     bne   $0518
+0514: cd 00     mov   x,#$00
+0516: 2f 04     bra   $051c
+0518: e4 8b     mov   a,$8b
+051a: 1c        asl   a
+051b: 5d        mov   x,a
+051c: 8f 30 f2  mov   $f2,#$30
+051f: d8 f3     mov   $f3,x
+0521: 8f 31 f2  mov   $f2,#$31
+0524: d8 f3     mov   $f3,x
+0526: e4 55     mov   a,$55
+0528: 28 04     and   a,#$04
+052a: f0 2c     beq   $0558
+052c: e4 7e     mov   a,$7e
+052e: d0 04     bne   $0534
+0530: e4 7d     mov   a,$7d
+0532: f0 23     beq   $0557
+0534: e4 85     mov   a,$85
+0536: 60        clrc
+0537: 84 7f     adc   a,$7f
+0539: c4 7f     mov   $7f,a
+053b: e8 00     mov   a,#$00
+053d: 84 80     adc   a,$80
+053f: c4 80     mov   $80,a
+0541: 64 7e     cmp   a,$7e
+0543: 90 06     bcc   $054b
+0545: e4 7f     mov   a,$7f
+0547: 64 7d     cmp   a,$7d
+0549: b0 0d     bcs   $0558
+054b: 8f 20 f2  mov   $f2,#$20
+054e: 8f 3f f3  mov   $f3,#$3f
+0551: 8f 21 f2  mov   $f2,#$21
+0554: 8f 3f f3  mov   $f3,#$3f
+0557: 6f        ret
+0558: 8f 20 f2  mov   $f2,#$20
+055b: 8f 00 f3  mov   $f3,#$00
+055e: 8f 21 f2  mov   $f2,#$21
+0561: 8f 00 f3  mov   $f3,#$00
+0564: 8f 00 7d  mov   $7d,#$00
+0567: 8f 00 7e  mov   $7e,#$00
+056a: 8f 00 7f  mov   $7f,#$00
+056d: 8f 00 80  mov   $80,#$00
+0570: 6f        ret
+0571: e4 48     mov   a,$48
+0573: 24 00     and   a,$00
+0575: 6f        ret
+0576: 8f 00 f2  mov   $f2,#$00
+0579: 8f 00 f3  mov   $f3,#$00
+057c: 8f 01 f2  mov   $f2,#$01
+057f: 8f 00 f3  mov   $f3,#$00
+0582: 6f        ret
+0583: e4 41     mov   a,$41
+0585: 28 80     and   a,#$80
+0587: f0 f9     beq   $0582
+0589: e4 41     mov   a,$41
+058b: 28 07     and   a,#$07
+058d: f0 f3     beq   $0582
+058f: e4 56     mov   a,$56
+0591: 28 40     and   a,#$40
+0593: f0 46     beq   $05db
+0595: 38 bf 56  and   $56,#$bf
+0598: e4 fd     mov   a,$fd
+059a: e4 42     mov   a,$42
+059c: c4 7a     mov   $7a,a
+059e: e4 43     mov   a,$43
+05a0: 28 07     and   a,#$07
+05a2: c4 7b     mov   $7b,a
+05a4: d0 08     bne   $05ae
+05a6: e4 7a     mov   a,$7a
+05a8: f0 cc     beq   $0576
+05aa: 68 07     cmp   a,#$07
+05ac: 90 c8     bcc   $0576
+05ae: e4 7b     mov   a,$7b
+05b0: 28 f8     and   a,#$f8
+05b2: d0 c2     bne   $0576
+05b4: e4 7a     mov   a,$7a
+05b6: 60        clrc
+05b7: 3c        rol   a
+05b8: 0d        push  psw
+05b9: 60        clrc
+05ba: 88 bd     adc   a,#$bd
+05bc: 2b 6a     rol   $6a
+05be: c4 68     mov   $68,a
+05c0: 8e        pop   psw
+05c1: e4 7b     mov   a,$7b
+05c3: 3c        rol   a
+05c4: 6b 6a     ror   $6a
+05c6: 88 0e     adc   a,#$0e
+05c8: c4 69     mov   $69,a
+05ca: 8d 00     mov   y,#$00
+05cc: f7 68     mov   a,($68)+y
+05ce: 8f 02 f2  mov   $f2,#$02
+05d1: c4 f3     mov   $f3,a
+05d3: fc        inc   y
+05d4: f7 68     mov   a,($68)+y
+05d6: 8f 03 f2  mov   $f2,#$03
+05d9: c4 f3     mov   $f3,a
+05db: e4 41     mov   a,$41
+05dd: 28 70     and   a,#$70
+05df: 5c        lsr   a
+05e0: 5c        lsr   a
+05e1: 5c        lsr   a
+05e2: 5c        lsr   a
+05e3: 5d        mov   x,a
+05e4: e4 fd     mov   a,$fd
+05e6: 60        clrc
+05e7: 84 81     adc   a,$81
+05e9: c4 81     mov   $81,a
+05eb: 75 93 0a  cmp   a,$0a93+x
+05ee: 90 92     bcc   $0582
+05f0: e8 00     mov   a,#$00
+05f2: c4 81     mov   $81,a
+05f4: e4 7a     mov   a,$7a
+05f6: c4 78     mov   $78,a
+05f8: e4 7b     mov   a,$7b
+05fa: c4 79     mov   $79,a
+05fc: e4 41     mov   a,$41
+05fe: 28 07     and   a,#$07
+0600: d0 01     bne   $0603
+0602: 6f        ret
+0603: 60        clrc
+0604: 6b 79     ror   $79
+0606: 6b 78     ror   $78
+0608: 9c        dec   a
+0609: d0 f8     bne   $0603
+060b: e4 78     mov   a,$78
+060d: 80        setc
+060e: a8 01     sbc   a,#$01
+0610: c4 78     mov   $78,a
+0612: e4 79     mov   a,$79
+0614: a8 00     sbc   a,#$00
+0616: c4 79     mov   $79,a
+0618: e4 7b     mov   a,$7b
+061a: d0 08     bne   $0624
+061c: e4 7a     mov   a,$7a
+061e: f0 66     beq   $0686
+0620: 68 07     cmp   a,#$07
+0622: 90 62     bcc   $0686
+0624: e4 7b     mov   a,$7b
+0626: 28 f8     and   a,#$f8
+0628: d0 5c     bne   $0686
+062a: e4 41     mov   a,$41
+062c: 28 08     and   a,#$08
+062e: d0 0f     bne   $063f
+0630: e4 7a     mov   a,$7a
+0632: 60        clrc
+0633: 84 78     adc   a,$78
+0635: c4 7a     mov   $7a,a
+0637: e4 7b     mov   a,$7b
+0639: 84 79     adc   a,$79
+063b: c4 7b     mov   $7b,a
+063d: 2f 0d     bra   $064c
+063f: e4 7a     mov   a,$7a
+0641: 80        setc
+0642: a4 78     sbc   a,$78
+0644: c4 7a     mov   $7a,a
+0646: e4 7b     mov   a,$7b
+0648: a4 79     sbc   a,$79
+064a: c4 7b     mov   $7b,a
+064c: e4 7b     mov   a,$7b
+064e: d0 08     bne   $0658
+0650: e4 7a     mov   a,$7a
+0652: f0 32     beq   $0686
+0654: 68 07     cmp   a,#$07
+0656: 90 2e     bcc   $0686
+0658: e4 7b     mov   a,$7b
+065a: 28 f8     and   a,#$f8
+065c: d0 28     bne   $0686
+065e: e4 7a     mov   a,$7a
+0660: 60        clrc
+0661: 3c        rol   a
+0662: 0d        push  psw
+0663: 60        clrc
+0664: 88 bd     adc   a,#$bd
+0666: 2b 6a     rol   $6a
+0668: c4 68     mov   $68,a
+066a: 8e        pop   psw
+066b: e4 7b     mov   a,$7b
+066d: 3c        rol   a
+066e: 6b 6a     ror   $6a
+0670: 88 0e     adc   a,#$0e
+0672: c4 69     mov   $69,a
+0674: 8d 00     mov   y,#$00
+0676: f7 68     mov   a,($68)+y
+0678: 8f 02 f2  mov   $f2,#$02
+067b: c4 f3     mov   $f3,a
+067d: fc        inc   y
+067e: f7 68     mov   a,($68)+y
+0680: 8f 03 f2  mov   $f2,#$03
+0683: c4 f3     mov   $f3,a
+0685: 6f        ret
+0686: 8f 00 f2  mov   $f2,#$00
+0689: 8f 00 f3  mov   $f3,#$00
+068c: 8f 01 f2  mov   $f2,#$01
+068f: 8f 00 f3  mov   $f3,#$00
+0692: 6f        ret
+0693: 03 06 09  bbs0  $06,$069e
+0696: 0c 0f 12  asl   $120f
+0699: 15 18 8f  or    a,$8f18+x
+069c: 10 f2     bpl   $0690
+069e: 8f 00 f3  mov   $f3,#$00
+06a1: 8f 11 f2  mov   $f2,#$11
+06a4: 8f 00 f3  mov   $f3,#$00
+06a7: 6f        ret
+06a8: e4 45     mov   a,$45
+06aa: 28 80     and   a,#$80
+06ac: f0 f9     beq   $06a7
+06ae: e4 45     mov   a,$45
+06b0: 28 07     and   a,#$07
+06b2: f0 f3     beq   $06a7
+06b4: e4 56     mov   a,$56
+06b6: 28 80     and   a,#$80
+06b8: f0 46     beq   $0700
+06ba: 38 7f 56  and   $56,#$7f
+06bd: e4 fe     mov   a,$fe
+06bf: e4 46     mov   a,$46
+06c1: c4 83     mov   $83,a
+06c3: e4 47     mov   a,$47
+06c5: 28 07     and   a,#$07
+06c7: c4 84     mov   $84,a
+06c9: d0 08     bne   $06d3
+06cb: e4 83     mov   a,$83
+06cd: f0 cc     beq   $069b
+06cf: 68 07     cmp   a,#$07
+06d1: 90 c8     bcc   $069b
+06d3: e4 84     mov   a,$84
+06d5: 28 f8     and   a,#$f8
+06d7: d0 c2     bne   $069b
+06d9: e4 83     mov   a,$83
+06db: 60        clrc
+06dc: 3c        rol   a
+06dd: 0d        push  psw
+06de: 60        clrc
+06df: 88 bd     adc   a,#$bd
+06e1: 2b 6a     rol   $6a
+06e3: c4 68     mov   $68,a
+06e5: 8e        pop   psw
+06e6: e4 84     mov   a,$84
+06e8: 3c        rol   a
+06e9: 6b 6a     ror   $6a
+06eb: 88 0e     adc   a,#$0e
+06ed: c4 69     mov   $69,a
+06ef: 8d 00     mov   y,#$00
+06f1: f7 68     mov   a,($68)+y
+06f3: 8f 12 f2  mov   $f2,#$12
+06f6: c4 f3     mov   $f3,a
+06f8: fc        inc   y
+06f9: f7 68     mov   a,($68)+y
+06fb: 8f 13 f2  mov   $f2,#$13
+06fe: c4 f3     mov   $f3,a
+0700: e4 45     mov   a,$45
+0702: 28 70     and   a,#$70
+0704: 5c        lsr   a
+0705: 5c        lsr   a
+0706: 5c        lsr   a
+0707: 5c        lsr   a
+0708: 5d        mov   x,a
+0709: e4 fe     mov   a,$fe
+070b: 60        clrc
+070c: 84 82     adc   a,$82
+070e: c4 82     mov   $82,a
+0710: 75 93 0a  cmp   a,$0a93+x
+0713: 90 92     bcc   $06a7
+0715: e8 00     mov   a,#$00
+0717: c4 82     mov   $82,a
+0719: e4 83     mov   a,$83
+071b: c4 78     mov   $78,a
+071d: e4 84     mov   a,$84
+071f: c4 79     mov   $79,a
+0721: e4 45     mov   a,$45
+0723: 28 07     and   a,#$07
+0725: f0 75     beq   $079c
+0727: 60        clrc
+0728: 6b 79     ror   $79
+072a: 6b 78     ror   $78
+072c: 9c        dec   a
+072d: d0 f8     bne   $0727
+072f: e4 84     mov   a,$84
+0731: d0 08     bne   $073b
+0733: e4 83     mov   a,$83
+0735: f0 66     beq   $079d
+0737: 68 07     cmp   a,#$07
+0739: 90 62     bcc   $079d
+073b: e4 84     mov   a,$84
+073d: 28 f8     and   a,#$f8
+073f: d0 5c     bne   $079d
+0741: e4 45     mov   a,$45
+0743: 28 08     and   a,#$08
+0745: d0 0f     bne   $0756
+0747: e4 83     mov   a,$83
+0749: 60        clrc
+074a: 84 78     adc   a,$78
+074c: c4 83     mov   $83,a
+074e: e4 84     mov   a,$84
+0750: 84 79     adc   a,$79
+0752: c4 84     mov   $84,a
+0754: 2f 0d     bra   $0763
+0756: e4 83     mov   a,$83
+0758: 80        setc
+0759: a4 78     sbc   a,$78
+075b: c4 83     mov   $83,a
+075d: e4 84     mov   a,$84
+075f: a4 79     sbc   a,$79
+0761: c4 84     mov   $84,a
+0763: e4 84     mov   a,$84
+0765: d0 08     bne   $076f
+0767: e4 83     mov   a,$83
+0769: f0 32     beq   $079d
+076b: 68 07     cmp   a,#$07
+076d: 90 2e     bcc   $079d
+076f: e4 84     mov   a,$84
+0771: 28 f8     and   a,#$f8
+0773: d0 28     bne   $079d
+0775: e4 83     mov   a,$83
+0777: 60        clrc
+0778: 3c        rol   a
+0779: 0d        push  psw
+077a: 60        clrc
+077b: 88 bd     adc   a,#$bd
+077d: 2b 6a     rol   $6a
+077f: c4 68     mov   $68,a
+0781: 8e        pop   psw
+0782: e4 84     mov   a,$84
+0784: 3c        rol   a
+0785: 6b 6a     ror   $6a
+0787: 88 0e     adc   a,#$0e
+0789: c4 69     mov   $69,a
+078b: 8d 00     mov   y,#$00
+078d: f7 68     mov   a,($68)+y
+078f: 8f 12 f2  mov   $f2,#$12
+0792: c4 f3     mov   $f3,a
+0794: fc        inc   y
+0795: f7 68     mov   a,($68)+y
+0797: 8f 13 f2  mov   $f2,#$13
+079a: c4 f3     mov   $f3,a
+079c: 6f        ret
+079d: 8f 10 f2  mov   $f2,#$10
+07a0: 8f 00 f3  mov   $f3,#$00
+07a3: 8f 11 f2  mov   $f2,#$11
+07a6: 8f 00 f3  mov   $f3,#$00
+07a9: 6f        ret
+07aa: 8d 00     mov   y,#$00
+07ac: cd 00     mov   x,#$00
+07ae: d8 f2     mov   $f2,x
+07b0: cb f3     mov   $f3,y
+07b2: 3d        inc   x
+07b3: 7d        mov   a,x
+07b4: 28 0f     and   a,#$0f
+07b6: 68 0a     cmp   a,#$0a
+07b8: d0 f4     bne   $07ae
+07ba: 7d        mov   a,x
+07bb: 28 f0     and   a,#$f0
+07bd: 60        clrc
+07be: 88 10     adc   a,#$10
+07c0: 5d        mov   x,a
+07c1: c8 80     cmp   x,#$80
+07c3: d0 e9     bne   $07ae
+07c5: e8 0c     mov   a,#$0c
+07c7: c4 f2     mov   $f2,a
+07c9: cb f3     mov   $f3,y
+07cb: 60        clrc
+07cc: 88 10     adc   a,#$10
+07ce: 68 8c     cmp   a,#$8c
+07d0: d0 f5     bne   $07c7
+07d2: e8 0d     mov   a,#$0d
+07d4: c4 f2     mov   $f2,a
+07d6: cb f3     mov   $f3,y
+07d8: 60        clrc
+07d9: 88 10     adc   a,#$10
+07db: 68 8d     cmp   a,#$8d
+07dd: d0 f5     bne   $07d4
+07df: e8 0f     mov   a,#$0f
+07e1: c4 f2     mov   $f2,a
+07e3: cb f3     mov   $f3,y
+07e5: 60        clrc
+07e6: 88 10     adc   a,#$10
+07e8: 68 8f     cmp   a,#$8f
+07ea: d0 f5     bne   $07e1
+07ec: e8 00     mov   a,#$00
+07ee: cd ef     mov   x,#$ef
+07f0: d4 00     mov   $00+x,a
+07f2: 1d        dec   x
+07f3: d0 fb     bne   $07f0
+07f5: c4 00     mov   $00,a
+07f7: 6f        ret
+07f8: e8 59     mov   a,#$59
+07fa: c5 00 02  mov   $0200,a
+07fd: c5 02 02  mov   $0202,a
+0800: e8 0c     mov   a,#$0c
+0802: c5 01 02  mov   $0201,a
+0805: c5 03 02  mov   $0203,a
+0808: e8 62     mov   a,#$62
+080a: c5 04 02  mov   $0204,a
+080d: c5 06 02  mov   $0206,a
+0810: e8 0c     mov   a,#$0c
+0812: c5 05 02  mov   $0205,a
+0815: c5 07 02  mov   $0207,a
+0818: e8 6b     mov   a,#$6b
+081a: c5 08 02  mov   $0208,a
+081d: c5 0a 02  mov   $020a,a
+0820: e8 0c     mov   a,#$0c
+0822: c5 09 02  mov   $0209,a
+0825: c5 0b 02  mov   $020b,a
+0828: e8 74     mov   a,#$74
+082a: c5 0c 02  mov   $020c,a
+082d: c5 0e 02  mov   $020e,a
+0830: e8 0c     mov   a,#$0c
+0832: c5 0d 02  mov   $020d,a
+0835: c5 0f 02  mov   $020f,a
+0838: e8 e1     mov   a,#$e1
+083a: c5 10 02  mov   $0210,a
+083d: c5 12 02  mov   $0212,a
+0840: e8 2e     mov   a,#$2e
+0842: c5 11 02  mov   $0211,a
+0845: c5 13 02  mov   $0213,a
+0848: 6f        ret
+0849: 3f 3f 3f  call  $3f3f
+084c: 3f 3f 3f  call  $3f3f
+084f: 3e 3e     cmp   x,$3e
+0851: 3e 3e     cmp   x,$3e
+0853: 3c        rol   a
+0854: 3b 39     rol   $39+x
+0856: 38 35 32  and   $32,#$35
+0859: b3 44 bb  bbc5  $44,$0816
+085c: bb bb     inc   $bb+x
+085e: bb bb     inc   $bb+x
+0860: bb bb     inc   $bb+x
+0862: b3 44 44  bbc5  $44,$08a8
+0865: bb bb     inc   $bb+x
+0867: bb bb     inc   $bb+x
+0869: bb bb     inc   $bb+x
+086b: b3 44 44  bbc5  $44,$08b1
+086e: 44 44     eor   a,$44
+0870: bb bb     inc   $bb+x
+0872: bb bb     inc   $bb+x
+0874: b3 bb bb  bbc5  $bb,$0831
+0877: bb bb     inc   $bb+x
+0879: bb bb     inc   $bb+x
+087b: 44 44     eor   a,$44
+087d: b0 44     bcs   $08c3
+087f: 44 44     eor   a,$44
+0881: 44 44     eor   a,$44
+0883: 44 44     eor   a,$44
+0885: 44 b0     eor   a,$b0
+0887: bb bb     inc   $bb+x
+0889: bb bb     inc   $bb+x
+088b: bb bb     inc   $bb+x
+088d: bb bb     inc   $bb+x
+088f: b0 bb     bcs   $084c
+0891: bb bb     inc   $bb+x
+0893: bb bb     inc   $bb+x
+0895: bb bb     inc   $bb+x
+0897: bb b0     inc   $b0+x
+0899: bb bb     inc   $bb+x
+089b: bb bb     inc   $bb+x
+089d: bb bb     inc   $bb+x
+089f: bb bb     inc   $bb+x
+08a1: b0 bb     bcs   $085e
+08a3: bb bb     inc   $bb+x
+08a5: bb bb     inc   $bb+x
+08a7: bb bb     inc   $bb+x
+08a9: bb b0     inc   $b0+x
+08ab: bb bb     inc   $bb+x
+08ad: bb bb     inc   $bb+x
+08af: bb bb     inc   $bb+x
+08b1: bb bb     inc   $bb+x
+08b3: b0 bb     bcs   $0870
+08b5: bb bb     inc   $bb+x
+08b7: bb bb     inc   $bb+x
+08b9: bb bb     inc   $bb+x
+08bb: bb b3     inc   $b3+x
+08bd: bb bb     inc   $bb+x
+08bf: bb bb     inc   $bb+x
+08c1: bb bb     inc   $bb+x
+08c3: bb bb     inc   $bb+x
+08c5: b0 44     bcs   $090b
+08c7: 44 44     eor   a,$44
+08c9: 44 44     eor   a,$44
+08cb: 44 44     eor   a,$44
+08cd: 44 b0     eor   a,$b0
+08cf: 44 44     eor   a,$44
+08d1: 44 44     eor   a,$44
+08d3: 44 44     eor   a,$44
+08d5: 44 44     eor   a,$44
+08d7: b0 bb     bcs   $0894
+08d9: bb bb     inc   $bb+x
+08db: bb bb     inc   $bb+x
+08dd: bb bb     inc   $bb+x
+08df: bb b0     inc   $b0+x
+08e1: bb bb     inc   $bb+x
+08e3: bb bb     inc   $bb+x
+08e5: bb bb     inc   $bb+x
+08e7: bb bb     inc   $bb+x
+08e9: b0 bb     bcs   $08a6
+08eb: bb bb     inc   $bb+x
+08ed: bb bb     inc   $bb+x
+08ef: bb bb     inc   $bb+x
+08f1: bb b0     inc   $b0+x
+08f3: bb bb     inc   $bb+x
+08f5: bb bb     inc   $bb+x
+08f7: bb bb     inc   $bb+x
+08f9: bb bb     inc   $bb+x
+08fb: b0 bb     bcs   $08b8
+08fd: bb bb     inc   $bb+x
+08ff: bb bb     inc   $bb+x
+0901: bb bb     inc   $bb+x
+0903: bb b3     inc   $b3+x
+0905: bb bb     inc   $bb+x
+0907: bb bb     inc   $bb+x
+0909: bb bb     inc   $bb+x
+090b: bb bb     inc   $bb+x
+090d: b0 44     bcs   $0953
+090f: 44 44     eor   a,$44
+0911: 44 44     eor   a,$44
+0913: 44 44     eor   a,$44
+0915: 44 b0     eor   a,$b0
+0917: 44 44     eor   a,$44
+0919: 44 44     eor   a,$44
+091b: 44 44     eor   a,$44
+091d: 44 44     eor   a,$44
+091f: b0 44     bcs   $0965
+0921: 44 44     eor   a,$44
+0923: 44 44     eor   a,$44
+0925: 44 44     eor   a,$44
+0927: 44 b0     eor   a,$b0
+0929: 44 44     eor   a,$44
+092b: 44 44     eor   a,$44
+092d: 44 44     eor   a,$44
+092f: 44 44     eor   a,$44
+0931: b0 bb     bcs   $08ee
+0933: bb bb     inc   $bb+x
+0935: bb bb     inc   $bb+x
+0937: bb bb     inc   $bb+x
+0939: bb b0     inc   $b0+x
+093b: bb bb     inc   $bb+x
+093d: bb bb     inc   $bb+x
+093f: bb bb     inc   $bb+x
+0941: bb bb     inc   $bb+x
+0943: b0 bb     bcs   $0900
+0945: bb bb     inc   $bb+x
+0947: bb bb     inc   $bb+x
+0949: bb bb     inc   $bb+x
+094b: bb b3     inc   $b3+x
+094d: bb bb     inc   $bb+x
+094f: bb bb     inc   $bb+x
+0951: bb bb     inc   $bb+x
+0953: bb bb     inc   $bb+x
+0955: b0 44     bcs   $099b
+0957: 44 44     eor   a,$44
+0959: 44 44     eor   a,$44
+095b: 44 44     eor   a,$44
+095d: 44 b0     eor   a,$b0
+095f: 44 44     eor   a,$44
+0961: 44 44     eor   a,$44
+0963: 44 44     eor   a,$44
+0965: 44 44     eor   a,$44
+0967: b0 44     bcs   $09ad
+0969: 44 44     eor   a,$44
+096b: 44 44     eor   a,$44
+096d: 44 44     eor   a,$44
+096f: 44 b0     eor   a,$b0
+0971: 44 44     eor   a,$44
+0973: 44 44     eor   a,$44
+0975: 44 44     eor   a,$44
+0977: 44 44     eor   a,$44
+0979: b0 44     bcs   $09bf
+097b: 44 44     eor   a,$44
+097d: 44 44     eor   a,$44
+097f: 44 44     eor   a,$44
+0981: 44 b0     eor   a,$b0
+0983: 44 44     eor   a,$44
+0985: 44 44     eor   a,$44
+0987: 44 44     eor   a,$44
+0989: 44 44     eor   a,$44
+098b: b0 bb     bcs   $0948
+098d: bb bb     inc   $bb+x
+098f: bb bb     inc   $bb+x
+0991: bb bb     inc   $bb+x
+0993: bb b3     inc   $b3+x
+0995: bb bb     inc   $bb+x
+0997: bb bb     inc   $bb+x
+0999: bb bb     inc   $bb+x
+099b: bb bb     inc   $bb+x
+099d: b0 44     bcs   $09e3
+099f: 44 44     eor   a,$44
+09a1: 44 bb     eor   a,$bb
+09a3: bb bb     inc   $bb+x
+09a5: bb b0     inc   $b0+x
+09a7: bb bb     inc   $bb+x
+09a9: bb bb     inc   $bb+x
+09ab: bb bb     inc   $bb+x
+09ad: bb bb     inc   $bb+x
+09af: b0 bb     bcs   $096c
+09b1: bb bb     inc   $bb+x
+09b3: bb bb     inc   $bb+x
+09b5: bb bb     inc   $bb+x
+09b7: bb b3     inc   $b3+x
+09b9: bb bb     inc   $bb+x
+09bb: bb bb     inc   $bb+x
+09bd: bb bb     inc   $bb+x
+09bf: bb bb     inc   $bb+x
+09c1: b0 44     bcs   $0a07
+09c3: 44 44     eor   a,$44
+09c5: 44 44     eor   a,$44
+09c7: 44 44     eor   a,$44
+09c9: 44 b0     eor   a,$b0
+09cb: bb bb     inc   $bb+x
+09cd: bb bb     inc   $bb+x
+09cf: bb bb     inc   $bb+x
+09d1: bb bb     inc   $bb+x
+09d3: b0 bb     bcs   $0990
+09d5: bb bb     inc   $bb+x
+09d7: bb bb     inc   $bb+x
+09d9: bb bb     inc   $bb+x
+09db: bb b3     inc   $b3+x
+09dd: bb bb     inc   $bb+x
+09df: bb bb     inc   $bb+x
+09e1: bb bb     inc   $bb+x
+09e3: bb bb     inc   $bb+x
+09e5: b0 44     bcs   $0a2b
+09e7: 44 44     eor   a,$44
+09e9: 44 44     eor   a,$44
+09eb: 44 44     eor   a,$44
+09ed: 44 b0     eor   a,$b0
+09ef: 44 44     eor   a,$44
+09f1: 44 44     eor   a,$44
+09f3: 44 44     eor   a,$44
+09f5: 44 44     eor   a,$44
+09f7: b0 bb     bcs   $09b4
+09f9: bb bb     inc   $bb+x
+09fb: bb bb     inc   $bb+x
+09fd: bb bb     inc   $bb+x
+09ff: bb b3     inc   $b3+x
+0a01: bb bb     inc   $bb+x
+0a03: bb bb     inc   $bb+x
+0a05: bb bb     inc   $bb+x
+0a07: bb bb     inc   $bb+x
+0a09: b0 44     bcs   $0a4f
+0a0b: 44 44     eor   a,$44
+0a0d: 44 44     eor   a,$44
+0a0f: 44 44     eor   a,$44
+0a11: 44 b0     eor   a,$b0
+0a13: 44 44     eor   a,$44
+0a15: 44 44     eor   a,$44
+0a17: 44 44     eor   a,$44
+0a19: 44 44     eor   a,$44
+0a1b: b0 44     bcs   $0a61
+0a1d: 44 44     eor   a,$44
+0a1f: 44 44     eor   a,$44
+0a21: 44 44     eor   a,$44
+0a23: 44 b3     eor   a,$b3
+0a25: bb bb     inc   $bb+x
+0a27: bb bb     inc   $bb+x
+0a29: bb bb     inc   $bb+x
+0a2b: bb bb     inc   $bb+x
+0a2d: b0 44     bcs   $0a73
+0a2f: 44 bb     eor   a,$bb
+0a31: bb bb     inc   $bb+x
+0a33: bb bb     inc   $bb+x
+0a35: bb b3     inc   $b3+x
+0a37: bb bb     inc   $bb+x
+0a39: bb bb     inc   $bb+x
+0a3b: bb bb     inc   $bb+x
+0a3d: bb bb     inc   $bb+x
+0a3f: b0 44     bcs   $0a85
+0a41: 44 44     eor   a,$44
+0a43: 44 bb     eor   a,$bb
+0a45: bb bb     inc   $bb+x
+0a47: bb b3     inc   $b3+x
+0a49: bb bb     inc   $bb+x
+0a4b: bb bb     inc   $bb+x
+0a4d: bb bb     inc   $bb+x
+0a4f: bb bb     inc   $bb+x
+0a51: b0 44     bcs   $0a97
+0a53: 44 44     eor   a,$44
+0a55: 44 44     eor   a,$44
+0a57: 44 44     eor   a,$44
+0a59: 44 b3     eor   a,$b3
+0a5b: bb bb     inc   $bb+x
+0a5d: bb bb     inc   $bb+x
+0a5f: bb bb     inc   $bb+x
+0a61: bb bb     inc   $bb+x
+0a63: b0 44     bcs   $0aa9
+0a65: 44 44     eor   a,$44
+0a67: 44 44     eor   a,$44
+0a69: 44 44     eor   a,$44
+0a6b: 44 b3     eor   a,$b3
+0a6d: 44 44     eor   a,$44
+0a6f: 44 44     eor   a,$44
+0a71: bb bb     inc   $bb+x
+0a73: bb bb     inc   $bb+x
+0a75: b0 44     bcs   $0abb
+0a77: 44 bb     eor   a,$bb
+0a79: bb bb     inc   $bb+x
+0a7b: bb bb     inc   $bb+x
+0a7d: bb b3     inc   $b3+x
+0a7f: bb bb     inc   $bb+x
+0a81: bb bb     inc   $bb+x
+0a83: bb bb     inc   $bb+x
+0a85: bb bb     inc   $bb+x
+0a87: b0 44     bcs   $0acd
+0a89: 44 44     eor   a,$44
+0a8b: 44 bb     eor   a,$bb
+0a8d: bb bb     inc   $bb+x
+0a8f: bb b3     inc   $b3+x
+0a91: bb bb     inc   $bb+x
+0a93: bb bb     inc   $bb+x
+0a95: bb bb     inc   $bb+x
+0a97: bb bb     inc   $bb+x
+0a99: b0 44     bcs   $0adf
+0a9b: 44 44     eor   a,$44
+0a9d: 44 44     eor   a,$44
+0a9f: 44 44     eor   a,$44
+0aa1: 44 b3     eor   a,$b3
+0aa3: bb bb     inc   $bb+x
+0aa5: bb bb     inc   $bb+x
+0aa7: bb bb     inc   $bb+x
+0aa9: bb bb     inc   $bb+x
+0aab: b0 44     bcs   $0af1
+0aad: 44 44     eor   a,$44
+0aaf: 44 44     eor   a,$44
+0ab1: 44 44     eor   a,$44
+0ab3: 44 b3     eor   a,$b3
+0ab5: 44 44     eor   a,$44
+0ab7: 44 44     eor   a,$44
+0ab9: bb bb     inc   $bb+x
+0abb: bb bb     inc   $bb+x
+0abd: 00        nop
+0abe: 00        nop
+0abf: 00        nop
+0ac0: 00        nop
+0ac1: 00        nop
+0ac2: 00        nop
+0ac3: 00        nop
+0ac4: 00        nop
+0ac5: 00        nop
+0ac6: 00        nop
+0ac7: 00        nop
+0ac8: 00        nop
+0ac9: 00        nop
+0aca: 00        nop
+0acb: 00        nop
+0acc: 00        nop
+0acd: 6e 63 7c  dbnz  $63,$0b4b
+0ad0: 59        eor   (x),(y)
+0ad1: 5a 51     cmpw  ya,$51
+0ad3: 92 4a     clr4  $4a
+0ad5: d6 44 eb  mov   $eb44+y,a
+0ad8: 3f a8 3b  call  $3ba8
+0adb: ee        pop   y
+0adc: 37 a3     and   a,($a3)+y
+0ade: 34 b7     and   a,$b7+x
+0ae0: 31        tcall 3
+0ae1: 19        or    (x),(y)
+0ae2: 2f be     bra   $0aa2
+0ae4: 2c 9d 2a  rol   $2a9d
+0ae7: ad 28     cmp   y,#$28
+0ae9: e8 26     mov   a,#$26
+0aeb: 49 25 cb  eor   ($cb),($25)
+0aee: 23 6b 22  bbs1  $6b,$0b12
+0af1: 24 21     and   a,$21
+0af3: f5 1f db  mov   a,$db1f+x
+0af6: 1e d4 1d  cmp   x,$1dd4
+0af9: dd        mov   a,y
+0afa: 1c        asl   a
+0afb: f7 1b     mov   a,($1b)+y
+0afd: 1e 1b 51  cmp   x,$511b
+0b00: 1a 91     decw  $91
+0b02: 19        or    (x),(y)
+0b03: db 18     mov   $18+x,y
+0b05: 2f 18     bra   $0b1f
+0b07: 8c 17 f2  dec   $f217
+0b0a: 16 5f 16  or    a,$165f+y
+0b0d: d3 15 4e  bbc6  $15,$0b5d
+0b10: 15 cf 14  or    a,$14cf+x
+0b13: 56 14 e2  eor   a,$e214+y
+0b16: 13 74 13  bbc0  $74,$0b2b
+0b19: 0a 13 a4  or1   c,$1482,3
+0b1c: 12 43     clr0  $43
+0b1e: 12 e5     clr0  $e5
+0b20: 11        tcall 1
+0b21: 8b 11     dec   $11
+0b23: 35 11 e2  and   a,$e211+x
+0b26: 10 92     bpl   $0aba
+0b28: 10 45     bpl   $0b6f
+0b2a: 10 fa     bpl   $0b26
+0b2c: 0f        brk
+0b2d: b3 0f 6d  bbc5  $0f,$0b9c
+0b30: 0f        brk
+0b31: 2a 0f ea  or1   c,!($1d41,7)
+0b34: 0e ab 0e  tset1 $0eab
+0b37: 6e 0e 34  dbnz  $0e,$0b6d
+0b3a: 0e fb 0d  tset1 $0dfb
+0b3d: c4 0d     mov   $0d,a
+0b3f: 8f 0d 5b  mov   $5b,#$0d
+0b42: 0d        push  psw
+0b43: 28 0d     and   a,#$0d
+0b45: f8 0c     mov   x,$0c
+0b47: c8 0c     cmp   x,#$0c
+0b49: 9a 0c     subw  ya,$0c
+0b4b: 6d        push  y
+0b4c: 0c 42 0c  asl   $0c42
+0b4f: 17 0c     or    a,($0c)+y
+0b51: ee        pop   y
+0b52: 0b c6     asl   $c6
+0b54: 0b 9f     asl   $9f
+0b56: 0b 79     asl   $79
+0b58: 0b 53     asl   $53
+0b5a: 0b 2f     asl   $2f
+0b5c: 0b 0c     asl   $0c
+0b5e: 0b e9     asl   $e9
+0b60: 0a c8 0a  or1   c,$0159,0
+0b63: a7 0a     sbc   a,($0a+x)
+0b65: 87 0a     adc   a,($0a+x)
+0b67: 67 0a     cmp   a,($0a+x)
+0b69: 49 0a 2b  eor   ($2b),($0a)
+0b6c: 0a 0e 0a  or1   c,$0141,6
+0b6f: f1        tcall 15
+0b70: 09 d5 09  or    ($09),($d5)
+0b73: ba 09     movw  ya,$09
+0b75: 9f        xcn   a
+0b76: 09 85 09  or    ($09),($85)
+0b79: 6b 09     ror   $09
+0b7b: 52 09     clr2  $09
+0b7d: 39        and   (x),(y)
+0b7e: 09 21 09  or    ($09),($21)
+0b81: 0a 09 f2  or1   c,$1e41,1
+0b84: 08 dc     or    a,#$dc
+0b86: 08 c5     or    a,#$c5
+0b88: 08 b0     or    a,#$b0
+0b8a: 08 9a     or    a,#$9a
+0b8c: 08 85     or    a,#$85
+0b8e: 08 71     or    a,#$71
+0b90: 08 5d     or    a,#$5d
+0b92: 08 49     or    a,#$49
+0b94: 08 35     or    a,#$35
+0b96: 08 22     or    a,#$22
+0b98: 08 0f     or    a,#$0f
+0b9a: 08 fd     or    a,#$fd
+0b9c: 07 eb     or    a,($eb+x)
+0b9e: 07 d9     or    a,($d9+x)
+0ba0: 07 c8     or    a,($c8+x)
+0ba2: 07 b6     or    a,($b6+x)
+0ba4: 07 a6     or    a,($a6+x)
+0ba6: 07 95     or    a,($95+x)
+0ba8: 07 85     or    a,($85+x)
+0baa: 07 75     or    a,($75+x)
+0bac: 07 65     or    a,($65+x)
+0bae: 07 55     or    a,($55+x)
+0bb0: 07 46     or    a,($46+x)
+0bb2: 07 37     or    a,($37+x)
+0bb4: 07 28     or    a,($28+x)
+0bb6: 07 1a     or    a,($1a+x)
+0bb8: 07 0b     or    a,($0b+x)
+0bba: 07 fd     or    a,($fd+x)
+0bbc: 06        or    a,(x)
+0bbd: ef        sleep
+0bbe: 06        or    a,(x)
+0bbf: e2 06     set7  $06
+0bc1: d4 06     mov   $06+x,a
+0bc3: c7 06     mov   ($06+x),a
+0bc5: ba 06     movw  ya,$06
+0bc7: ad 06     cmp   y,#$06
+0bc9: a0        ei
+0bca: 06        or    a,(x)
+0bcb: 94 06     adc   a,$06+x
+0bcd: 88 06     adc   a,#$06
+0bcf: 7c        ror   a
+0bd0: 06        or    a,(x)
+0bd1: 70 06     bvs   $0bd9
+0bd3: 64 06     cmp   a,$06
+0bd5: 58 06 4d  eor   $4d,#$06
+0bd8: 06        or    a,(x)
+0bd9: 42 06     set2  $06
+0bdb: 36 06 2b  and   a,$2b06+y
+0bde: 06        or    a,(x)
+0bdf: 21        tcall 2
+0be0: 06        or    a,(x)
+0be1: 16 06 0b  or    a,$0b06+y
+0be4: 06        or    a,(x)
+0be5: 01        tcall 0
+0be6: 06        or    a,(x)
+0be7: f7 05     mov   a,($05)+y
+0be9: ed        notc
+0bea: 05 e3 05  or    a,$05e3
+0bed: d9 05     mov   $05+y,x
+0bef: cf        mul   ya
+0bf0: 05 c5 05  or    a,$05c5
+0bf3: bc        inc   a
+0bf4: 05 b3 05  or    a,$05b3
+0bf7: a9 05 a0  sbc   ($a0),($05)
+0bfa: 05 97 05  or    a,$0597
+0bfd: 8e        pop   psw
+0bfe: 05 86 05  or    a,$0586
+0c01: 7d        mov   a,x
+0c02: 05 74 05  or    a,$0574
+0c05: 6c 05 64  ror   $6405
+0c08: 05 5b 05  or    a,$055b
+0c0b: 53 05 4b  bbc2  $05,$0c58
+0c0e: 05 43 05  or    a,$0543
+0c11: 3b 05     rol   $05+x
+0c13: 33 05 2c  bbc1  $05,$0c41
+0c16: 05 24 05  or    a,$0524
+0c19: 1d        dec   x
+0c1a: 05 15 05  or    a,$0515
+0c1d: 0e 05 07  tset1 $0705
+0c20: 05 ff 04  or    a,$04ff
+0c23: f8 04     mov   x,$04
+0c25: f1        tcall 15
+0c26: 04 ea     or    a,$ea
+0c28: 04 e3     or    a,$e3
+0c2a: 04 dd     or    a,$dd
+0c2c: 04 d6     or    a,$d6
+0c2e: 04 cf     or    a,$cf
+0c30: 04 c9     or    a,$c9
+0c32: 04 c2     or    a,$c2
+0c34: 04 bc     or    a,$bc
+0c36: 04 b5     or    a,$b5
+0c38: 04 af     or    a,$af
+0c3a: 04 a9     or    a,$a9
+0c3c: 04 a2     or    a,$a2
+0c3e: 04 9c     or    a,$9c
+0c40: 04 96     or    a,$96
+0c42: 04 90     or    a,$90
+0c44: 04 8a     or    a,$8a
+0c46: 04 85     or    a,$85
+0c48: 04 7f     or    a,$7f
+0c4a: 04 79     or    a,$79
+0c4c: 04 73     or    a,$73
+0c4e: 04 6e     or    a,$6e
+0c50: 04 68     or    a,$68
+0c52: 04 62     or    a,$62
+0c54: 04 5d     or    a,$5d
+0c56: 04 58     or    a,$58
+0c58: 04 52     or    a,$52
+0c5a: 04 4d     or    a,$4d
+0c5c: 04 48     or    a,$48
+0c5e: 04 42     or    a,$42
+0c60: 04 3d     or    a,$3d
+0c62: 04 38     or    a,$38
+0c64: 04 33     or    a,$33
+0c66: 04 2e     or    a,$2e
+0c68: 04 29     or    a,$29
+0c6a: 04 24     or    a,$24
+0c6c: 04 1f     or    a,$1f
+0c6e: 04 1a     or    a,$1a
+0c70: 04 16     or    a,$16
+0c72: 04 11     or    a,$11
+0c74: 04 0c     or    a,$0c
+0c76: 04 07     or    a,$07
+0c78: 04 03     or    a,$03
+0c7a: 04 fe     or    a,$fe
+0c7c: 03 fa 03  bbs0  $fa,$0c81
+0c7f: f5 03 f1  mov   a,$f103+x
+0c82: 03 ec 03  bbs0  $ec,$0c87
+0c85: e8 03     mov   a,#$03
+0c87: e4 03     mov   a,$03
+0c89: df        daa   a
+0c8a: 03 db 03  bbs0  $db,$0c8f
+0c8d: d7 03     mov   ($03)+y,a
+0c8f: d3 03 ce  bbc6  $03,$0c5f
+0c92: 03 ca 03  bbs0  $ca,$0c97
+0c95: c6        mov   (x),a
+0c96: 03 c2 03  bbs0  $c2,$0c9b
+0c99: be        das   a
+0c9a: 03 ba 03  bbs0  $ba,$0c9f
+0c9d: b6 03 b2  sbc   a,$b203+y
+0ca0: 03 ae 03  bbs0  $ae,$0ca5
+0ca3: aa 03 a7  mov1  c,$14e0,3
+0ca6: 03 a3 03  bbs0  $a3,$0cab
+0ca9: 9f        xcn   a
+0caa: 03 9b 03  bbs0  $9b,$0caf
+0cad: 98 03 94  adc   $94,#$03
+0cb0: 03 90 03  bbs0  $90,$0cb5
+0cb3: 8d 03     mov   y,#$03
+0cb5: 89 03 85  adc   ($85),($03)
+0cb8: 03 82 03  bbs0  $82,$0cbd
+0cbb: 7e 03     cmp   y,$03
+0cbd: 7b 03     ror   $03+x
+0cbf: 77 03     cmp   a,($03)+y
+0cc1: 74 03     cmp   a,$03+x
+0cc3: 71        tcall 7
+0cc4: 03 6d 03  bbs0  $6d,$0cc9
+0cc7: 6a 03 67  and1  c,!($0ce0,3)
+0cca: 03 63 03  bbs0  $63,$0ccf
+0ccd: 60        clrc
+0cce: 03 5d 03  bbs0  $5d,$0cd3
+0cd1: 5a 03     cmpw  ya,$03
+0cd3: 56 03 53  eor   a,$5303+y
+0cd6: 03 50 03  bbs0  $50,$0cdb
+0cd9: 4d        push  x
+0cda: 03 4a 03  bbs0  $4a,$0cdf
+0cdd: 47 03     eor   a,($03+x)
+0cdf: 44 03     eor   a,$03
+0ce1: 41        tcall 4
+0ce2: 03 3e 03  bbs0  $3e,$0ce7
+0ce5: 3b 03     rol   $03+x
+0ce7: 38 03 35  and   $35,#$03
+0cea: 03 32 03  bbs0  $32,$0cef
+0ced: 2f 03     bra   $0cf2
+0cef: 2c 03 29  rol   $2903
+0cf2: 03 26 03  bbs0  $26,$0cf7
+0cf5: 23 03 21  bbs1  $03,$0d18
+0cf8: 03 1e 03  bbs0  $1e,$0cfd
+0cfb: 1b 03     asl   $03+x
+0cfd: 18 03 15  or    $15,#$03
+0d00: 03 13 03  bbs0  $13,$0d05
+0d03: 10 03     bpl   $0d08
+0d05: 0d        push  psw
+0d06: 03 0b 03  bbs0  $0b,$0d0b
+0d09: 08 03     or    a,#$03
+0d0b: 05 03 03  or    a,$0303
+0d0e: 03 00 03  bbs0  $00,$0d13
+0d11: fe 02     dbnz  y,$0d15
+0d13: fb 02     mov   y,$02+x
+0d15: f9 02     mov   x,$02+y
+0d17: f6 02 f4  mov   a,$f402+y
+0d1a: 02 f1     set0  $f1
+0d1c: 02 ef     set0  $ef
+0d1e: 02 ec     set0  $ec
+0d20: 02 ea     set0  $ea
+0d22: 02 e7     set0  $e7
+0d24: 02 e5     set0  $e5
+0d26: 02 e2     set0  $e2
+0d28: 02 e0     set0  $e0
+0d2a: 02 de     set0  $de
+0d2c: 02 db     set0  $db
+0d2e: 02 d9     set0  $d9
+0d30: 02 d7     set0  $d7
+0d32: 02 d4     set0  $d4
+0d34: 02 d2     set0  $d2
+0d36: 02 d0     set0  $d0
+0d38: 02 ce     set0  $ce
+0d3a: 02 cb     set0  $cb
+0d3c: 02 c9     set0  $c9
+0d3e: 02 c7     set0  $c7
+0d40: 02 c5     set0  $c5
+0d42: 02 c3     set0  $c3
+0d44: 02 c0     set0  $c0
+0d46: 02 be     set0  $be
+0d48: 02 bc     set0  $bc
+0d4a: 02 ba     set0  $ba
+0d4c: 02 b8     set0  $b8
+0d4e: 02 b6     set0  $b6
+0d50: 02 b4     set0  $b4
+0d52: 02 b2     set0  $b2
+0d54: 02 af     set0  $af
+0d56: 02 ad     set0  $ad
+0d58: 02 ab     set0  $ab
+0d5a: 02 a9     set0  $a9
+0d5c: 02 a7     set0  $a7
+0d5e: 02 a5     set0  $a5
+0d60: 02 a3     set0  $a3
+0d62: 02 a1     set0  $a1
+0d64: 02 9f     set0  $9f
+0d66: 02 9d     set0  $9d
+0d68: 02 9b     set0  $9b
+0d6a: 02 99     set0  $99
+0d6c: 02 98     set0  $98
+0d6e: 02 96     set0  $96
+0d70: 02 94     set0  $94
+0d72: 02 92     set0  $92
+0d74: 02 90     set0  $90
+0d76: 02 8e     set0  $8e
+0d78: 02 8c     set0  $8c
+0d7a: 02 8a     set0  $8a
+0d7c: 02 88     set0  $88
+0d7e: 02 87     set0  $87
+0d80: 02 85     set0  $85
+0d82: 02 83     set0  $83
+0d84: 02 81     set0  $81
+0d86: 02 7f     set0  $7f
+0d88: 02 7e     set0  $7e
+0d8a: 02 7c     set0  $7c
+0d8c: 02 7a     set0  $7a
+0d8e: 02 78     set0  $78
+0d90: 02 77     set0  $77
+0d92: 02 75     set0  $75
+0d94: 02 73     set0  $73
+0d96: 02 71     set0  $71
+0d98: 02 70     set0  $70
+0d9a: 02 6e     set0  $6e
+0d9c: 02 6c     set0  $6c
+0d9e: 02 6b     set0  $6b
+0da0: 02 69     set0  $69
+0da2: 02 67     set0  $67
+0da4: 02 66     set0  $66
+0da6: 02 64     set0  $64
+0da8: 02 62     set0  $62
+0daa: 02 61     set0  $61
+0dac: 02 5f     set0  $5f
+0dae: 02 5e     set0  $5e
+0db0: 02 5c     set0  $5c
+0db2: 02 5a     set0  $5a
+0db4: 02 59     set0  $59
+0db6: 02 57     set0  $57
+0db8: 02 56     set0  $56
+0dba: 02 54     set0  $54
+0dbc: 02 53     set0  $53
+0dbe: 02 51     set0  $51
+0dc0: 02 4f     set0  $4f
+0dc2: 02 4e     set0  $4e
+0dc4: 02 4c     set0  $4c
+0dc6: 02 4b     set0  $4b
+0dc8: 02 49     set0  $49
+0dca: 02 48     set0  $48
+0dcc: 02 46     set0  $46
+0dce: 02 45     set0  $45
+0dd0: 02 43     set0  $43
+0dd2: 02 42     set0  $42
+0dd4: 02 41     set0  $41
+0dd6: 02 3f     set0  $3f
+0dd8: 02 3e     set0  $3e
+0dda: 02 3c     set0  $3c
+0ddc: 02 3b     set0  $3b
+0dde: 02 39     set0  $39
+0de0: 02 38     set0  $38
+0de2: 02 37     set0  $37
+0de4: 02 35     set0  $35
+0de6: 02 34     set0  $34
+0de8: 02 32     set0  $32
+0dea: 02 31     set0  $31
+0dec: 02 30     set0  $30
+0dee: 02 2e     set0  $2e
+0df0: 02 2d     set0  $2d
+0df2: 02 2c     set0  $2c
+0df4: 02 2a     set0  $2a
+0df6: 02 29     set0  $29
+0df8: 02 28     set0  $28
+0dfa: 02 26     set0  $26
+0dfc: 02 25     set0  $25
+0dfe: 02 24     set0  $24
+0e00: 02 22     set0  $22
+0e02: 02 21     set0  $21
+0e04: 02 20     set0  $20
+0e06: 02 1e     set0  $1e
+0e08: 02 1d     set0  $1d
+0e0a: 02 1c     set0  $1c
+0e0c: 02 1b     set0  $1b
+0e0e: 02 19     set0  $19
+0e10: 02 18     set0  $18
+0e12: 02 17     set0  $17
+0e14: 02 16     set0  $16
+0e16: 02 14     set0  $14
+0e18: 02 13     set0  $13
+0e1a: 02 12     set0  $12
+0e1c: 02 11     set0  $11
+0e1e: 02 0f     set0  $0f
+0e20: 02 0e     set0  $0e
+0e22: 02 0d     set0  $0d
+0e24: 02 0c     set0  $0c
+0e26: 02 0b     set0  $0b
+0e28: 02 09     set0  $09
+0e2a: 02 08     set0  $08
+0e2c: 02 07     set0  $07
+0e2e: 02 06     set0  $06
+0e30: 02 05     set0  $05
+0e32: 02 03     set0  $03
+0e34: 02 02     set0  $02
+0e36: 02 01     set0  $01
+0e38: 02 00     set0  $00
+0e3a: 02 ff     set0  $ff
+0e3c: 01        tcall 0
+0e3d: fe 01     dbnz  y,$0e40
+0e3f: fd        mov   y,a
+0e40: 01        tcall 0
+0e41: fb 01     mov   y,$01+x
+0e43: fa 01 f9  mov   ($f9),($01)
+0e46: 01        tcall 0
+0e47: f8 01     mov   x,$01
+0e49: f7 01     mov   a,($01)+y
+0e4b: f6 01 f5  mov   a,$f501+y
+0e4e: 01        tcall 0
+0e4f: f4 01     mov   a,$01+x
+0e51: f3 01 f2  bbc7  $01,$0e45
+0e54: 01        tcall 0
+0e55: f0 01     beq   $0e58
+0e57: ef        sleep
+0e58: 01        tcall 0
+0e59: ee        pop   y
+0e5a: 01        tcall 0
+0e5b: ed        notc
+0e5c: 01        tcall 0
+0e5d: ec 01 eb  mov   y,$eb01
+0e60: 01        tcall 0
+0e61: ea 01 e9  not1  $1d20,1
+0e64: 01        tcall 0
+0e65: e8 01     mov   a,#$01
+0e67: e7 01     mov   a,($01+x)
+0e69: e6        mov   a,(x)
+0e6a: 01        tcall 0
+0e6b: e5 01 e4  mov   a,$e401
+0e6e: 01        tcall 0
+0e6f: e3 01 e2  bbs7  $01,$0e53
+0e72: 01        tcall 0
+0e73: e1        tcall 14
+0e74: 01        tcall 0
+0e75: e0        clrv
+0e76: 01        tcall 0
+0e77: df        daa   a
+0e78: 01        tcall 0
+0e79: de 01 dd  cbne  $01+x,$0e58
+0e7c: 01        tcall 0
+0e7d: dc        dec   y
+0e7e: 01        tcall 0
+0e7f: db 01     mov   $01+x,y
+0e81: da 01     movw  $01,ya
+0e83: d9 01     mov   $01+y,x
+0e85: d8 01     mov   $01,x
+0e87: d7 01     mov   ($01)+y,a
+0e89: d6 01 d5  mov   $d501+y,a
+0e8c: 01        tcall 0
+0e8d: d4 01     mov   $01+x,a
+0e8f: d3 01 d2  bbc6  $01,$0e63
+0e92: 01        tcall 0
+0e93: d1        tcall 13
+0e94: 01        tcall 0
+0e95: d0 01     bne   $0e98
+0e97: cf        mul   ya
+0e98: 01        tcall 0
+0e99: ce        pop   x
+0e9a: 01        tcall 0
+0e9b: cd 01     mov   x,#$01
+0e9d: cc 01 cc  mov   $cc01,y
+0ea0: 01        tcall 0
+0ea1: cb 01     mov   $01,y
+0ea3: ca 01 c9  mov1  $1920,1,c
+0ea6: 01        tcall 0
+0ea7: c8 01     cmp   x,#$01
+0ea9: c7 01     mov   ($01+x),a
+0eab: c6        mov   (x),a
+0eac: 01        tcall 0
+0ead: c5 01 c4  mov   $c401,a
+0eb0: 01        tcall 0
+0eb1: c3 01 c2  bbs6  $01,$0e75
+0eb4: 01        tcall 0
+0eb5: c2 01     set6  $01
+0eb7: c1        tcall 12
+0eb8: 01        tcall 0
+0eb9: c0        di
+0eba: 01        tcall 0
+0ebb: bf        mov   a,(x)+
+0ebc: 01        tcall 0
+0ebd: be        das   a
+0ebe: 01        tcall 0
+0ebf: bd        mov   sp,x
+0ec0: 01        tcall 0
+0ec1: bc        inc   a
+0ec2: 01        tcall 0
+0ec3: bb 01     inc   $01+x
+0ec5: bb 01     inc   $01+x
+0ec7: ba 01     movw  ya,$01
+0ec9: b9        sbc   (x),(y)
+0eca: 01        tcall 0
+0ecb: b8 01 b7  sbc   $b7,#$01
+0ece: 01        tcall 0
+0ecf: b6 01 b6  sbc   a,$b601+y
+0ed2: 01        tcall 0
+0ed3: b5 01 b4  sbc   a,$b401+x
+0ed6: 01        tcall 0
+0ed7: b3 01 b2  bbc5  $01,$0e8b
+0eda: 01        tcall 0
+0edb: b1        tcall 11
+0edc: 01        tcall 0
+0edd: b1        tcall 11
+0ede: 01        tcall 0
+0edf: b0 01     bcs   $0ee2
+0ee1: af        mov   (x)+,a
+0ee2: 01        tcall 0
+0ee3: ae        pop   a
+0ee4: 01        tcall 0
+0ee5: ad 01     cmp   y,#$01
+0ee7: ad 01     cmp   y,#$01
+0ee9: ac 01 ab  inc   $ab01
+0eec: 01        tcall 0
+0eed: aa 01 a9  mov1  c,$1520,1
+0ef0: 01        tcall 0
+0ef1: a9 01 a8  sbc   ($a8),($01)
+0ef4: 01        tcall 0
+0ef5: a7 01     sbc   a,($01+x)
+0ef7: a6        sbc   a,(x)
+0ef8: 01        tcall 0
+0ef9: a5 01 a5  sbc   a,$a501
+0efc: 01        tcall 0
+0efd: a4 01     sbc   a,$01
+0eff: a3 01 a2  bbs5  $01,$0ea3
+0f02: 01        tcall 0
+0f03: a2 01     set5  $01
+0f05: a1        tcall 10
+0f06: 01        tcall 0
+0f07: a0        ei
+0f08: 01        tcall 0
+0f09: 9f        xcn   a
+0f0a: 01        tcall 0
+0f0b: 9f        xcn   a
+0f0c: 01        tcall 0
+0f0d: 9e        div   ya,x
+0f0e: 01        tcall 0
+0f0f: 9d        mov   x,sp
+0f10: 01        tcall 0
+0f11: 9c        dec   a
+0f12: 01        tcall 0
+0f13: 9c        dec   a
+0f14: 01        tcall 0
+0f15: 9b 01     dec   $01+x
+0f17: 9a 01     subw  ya,$01
+0f19: 99        adc   (x),(y)
+0f1a: 01        tcall 0
+0f1b: 99        adc   (x),(y)
+0f1c: 01        tcall 0
+0f1d: 98 01 97  adc   $97,#$01
+0f20: 01        tcall 0
+0f21: 96 01 96  adc   a,$9601+y
+0f24: 01        tcall 0
+0f25: 95 01 94  adc   a,$9401+x
+0f28: 01        tcall 0
+0f29: 94 01     adc   a,$01+x
+0f2b: 93 01 92  bbc4  $01,$0ebf
+0f2e: 01        tcall 0
+0f2f: 91        tcall 9
+0f30: 01        tcall 0
+0f31: 91        tcall 9
+0f32: 01        tcall 0
+0f33: 90 01     bcc   $0f36
+0f35: 8f 01 8f  mov   $8f,#$01
+0f38: 01        tcall 0
+0f39: 8e        pop   psw
+0f3a: 01        tcall 0
+0f3b: 8d 01     mov   y,#$01
+0f3d: 8d 01     mov   y,#$01
+0f3f: 8c 01 8b  dec   $8b01
+0f42: 01        tcall 0
+0f43: 8a 01 8a  eor1  c,$1140,1
+0f46: 01        tcall 0
+0f47: 89 01 88  adc   ($88),($01)
+0f4a: 01        tcall 0
+0f4b: 88 01     adc   a,#$01
+0f4d: 87 01     adc   a,($01+x)
+0f4f: 86        adc   a,(x)
+0f50: 01        tcall 0
+0f51: 86        adc   a,(x)
+0f52: 01        tcall 0
+0f53: 85 01 84  adc   a,$8401
+0f56: 01        tcall 0
+0f57: 84 01     adc   a,$01
+0f59: 83 01 82  bbs4  $01,$0edd
+0f5c: 01        tcall 0
+0f5d: 82 01     set4  $01
+0f5f: 81        tcall 8
+0f60: 01        tcall 0
+0f61: 81        tcall 8
+0f62: 01        tcall 0
+0f63: 80        setc
+0f64: 01        tcall 0
+0f65: 7f        reti
+0f66: 01        tcall 0
+0f67: 7f        reti
+0f68: 01        tcall 0
+0f69: 7e 01     cmp   y,$01
+0f6b: 7d        mov   a,x
+0f6c: 01        tcall 0
+0f6d: 7d        mov   a,x
+0f6e: 01        tcall 0
+0f6f: 7c        ror   a
+0f70: 01        tcall 0
+0f71: 7b 01     ror   $01+x
+0f73: 7b 01     ror   $01+x
+0f75: 7a 01     addw  ya,$01
+0f77: 7a 01     addw  ya,$01
+0f79: 79        cmp   (x),(y)
+0f7a: 01        tcall 0
+0f7b: 78 01 78  cmp   $78,#$01
+0f7e: 01        tcall 0
+0f7f: 77 01     cmp   a,($01)+y
+0f81: 76 01 76  cmp   a,$7601+y
+0f84: 01        tcall 0
+0f85: 75 01 75  cmp   a,$7501+x
+0f88: 01        tcall 0
+0f89: 74 01     cmp   a,$01+x
+0f8b: 73 01 73  bbc3  $01,$1000
+0f8e: 01        tcall 0
+0f8f: 72 01     clr3  $01
+0f91: 72 01     clr3  $01
+0f93: 71        tcall 7
+0f94: 01        tcall 0
+0f95: 70 01     bvs   $0f98
+0f97: 70 01     bvs   $0f9a
+0f99: 6f        ret
+0f9a: 01        tcall 0
+0f9b: 6f        ret
+0f9c: 01        tcall 0
+0f9d: 6e 01 6d  dbnz  $01,$100c
+0fa0: 01        tcall 0
+0fa1: 6d        push  y
+0fa2: 01        tcall 0
+0fa3: 6c 01 6c  ror   $6c01
+0fa6: 01        tcall 0
+0fa7: 6b 01     ror   $01
+0fa9: 6b 01     ror   $01
+0fab: 6a 01 69  and1  c,!($0d20,1)
+0fae: 01        tcall 0
+0faf: 69 01 68  cmp   ($68),($01)
+0fb2: 01        tcall 0
+0fb3: 68 01     cmp   a,#$01
+0fb5: 67 01     cmp   a,($01+x)
+0fb7: 67 01     cmp   a,($01+x)
+0fb9: 66        cmp   a,(x)
+0fba: 01        tcall 0
+0fbb: 65 01 65  cmp   a,$6501
+0fbe: 01        tcall 0
+0fbf: 64 01     cmp   a,$01
+0fc1: 64 01     cmp   a,$01
+0fc3: 63 01 63  bbs3  $01,$1028
+0fc6: 01        tcall 0
+0fc7: 62 01     set3  $01
+0fc9: 62 01     set3  $01
+0fcb: 61        tcall 6
+0fcc: 01        tcall 0
+0fcd: 60        clrc
+0fce: 01        tcall 0
+0fcf: 60        clrc
+0fd0: 01        tcall 0
+0fd1: 5f 01 5f  jmp   $5f01
+0fd4: 01        tcall 0
+0fd5: 5e 01 5e  cmp   y,$5e01
+0fd8: 01        tcall 0
+0fd9: 5d        mov   x,a
+0fda: 01        tcall 0
+0fdb: 5d        mov   x,a
+0fdc: 01        tcall 0
+0fdd: 5c        lsr   a
+0fde: 01        tcall 0
+0fdf: 5c        lsr   a
+0fe0: 01        tcall 0
+0fe1: 5b 01     lsr   $01+x
+0fe3: 5b 01     lsr   $01+x
+0fe5: 5a 01     cmpw  ya,$01
+0fe7: 5a 01     cmpw  ya,$01
+0fe9: 59        eor   (x),(y)
+0fea: 01        tcall 0
+0feb: 59        eor   (x),(y)
+0fec: 01        tcall 0
+0fed: 58 01 57  eor   $57,#$01
+0ff0: 01        tcall 0
+0ff1: 57 01     eor   a,($01)+y
+0ff3: 56 01 56  eor   a,$5601+y
+0ff6: 01        tcall 0
+0ff7: 55 01 55  eor   a,$5501+x
+0ffa: 01        tcall 0
+0ffb: 54 01     eor   a,$01+x
+0ffd: 54 01     eor   a,$01+x
+0fff: 53 01 53  bbc2  $01,$1054
+1002: 01        tcall 0
+1003: 52 01     clr2  $01
+1005: 52 01     clr2  $01
+1007: 51        tcall 5
+1008: 01        tcall 0
+1009: 51        tcall 5
+100a: 01        tcall 0
+100b: 50 01     bvc   $100e
+100d: 50 01     bvc   $1010
+100f: 4f 01     pcall $01
+1011: 4f 01     pcall $01
+1013: 4e 01 4e  tclr1 $4e01
+1016: 01        tcall 0
+1017: 4d        push  x
+1018: 01        tcall 0
+1019: 4d        push  x
+101a: 01        tcall 0
+101b: 4c 01 4c  lsr   $4c01
+101e: 01        tcall 0
+101f: 4c 01 4b  lsr   $4b01
+1022: 01        tcall 0
+1023: 4b 01     lsr   $01
+1025: 4a 01 4a  and1  c,$0940,1
+1028: 01        tcall 0
+1029: 49 01 49  eor   ($49),($01)
+102c: 01        tcall 0
+102d: 48 01     eor   a,#$01
+102f: 48 01     eor   a,#$01
+1031: 47 01     eor   a,($01+x)
+1033: 47 01     eor   a,($01+x)
+1035: 46        eor   a,(x)
+1036: 01        tcall 0
+1037: 46        eor   a,(x)
+1038: 01        tcall 0
+1039: 45 01 45  eor   a,$4501
+103c: 01        tcall 0
+103d: 44 01     eor   a,$01
+103f: 44 01     eor   a,$01
+1041: 44 01     eor   a,$01
+1043: 43 01 43  bbs2  $01,$1088
+1046: 01        tcall 0
+1047: 42 01     set2  $01
+1049: 42 01     set2  $01
+104b: 41        tcall 4
+104c: 01        tcall 0
+104d: 41        tcall 4
+104e: 01        tcall 0
+104f: 40        setp
+1050: 01        tcall 0
+1051: 40        setp
+1052: 01        tcall 0
+1053: 3f 01 3f  call  $3f01
+1056: 01        tcall 0
+1057: 3f 01 3e  call  $3e01
+105a: 01        tcall 0
+105b: 3e 01     cmp   x,$01
+105d: 3d        inc   x
+105e: 01        tcall 0
+105f: 3d        inc   x
+1060: 01        tcall 0
+1061: 3c        rol   a
+1062: 01        tcall 0
+1063: 3c        rol   a
+1064: 01        tcall 0
+1065: 3b 01     rol   $01+x
+1067: 3b 01     rol   $01+x
+1069: 3b 01     rol   $01+x
+106b: 3a 01     incw  $01
+106d: 3a 01     incw  $01
+106f: 39        and   (x),(y)
+1070: 01        tcall 0
+1071: 39        and   (x),(y)
+1072: 01        tcall 0
+1073: 38 01 38  and   $38,#$01
+1076: 01        tcall 0
+1077: 38 01 37  and   $37,#$01
+107a: 01        tcall 0
+107b: 37 01     and   a,($01)+y
+107d: 36 01 36  and   a,$3601+y
+1080: 01        tcall 0
+1081: 35 01 35  and   a,$3501+x
+1084: 01        tcall 0
+1085: 35 01 34  and   a,$3401+x
+1088: 01        tcall 0
+1089: 34 01     and   a,$01+x
+108b: 33 01 33  bbc1  $01,$10c0
+108e: 01        tcall 0
+108f: 33 01 32  bbc1  $01,$10c3
+1092: 01        tcall 0
+1093: 32 01     clr1  $01
+1095: 31        tcall 3
+1096: 01        tcall 0
+1097: 31        tcall 3
+1098: 01        tcall 0
+1099: 31        tcall 3
+109a: 01        tcall 0
+109b: 30 01     bmi   $109e
+109d: 30 01     bmi   $10a0
+109f: 2f 01     bra   $10a2
+10a1: 2f 01     bra   $10a4
+10a3: 2f 01     bra   $10a6
+10a5: 2e 01 2e  cbne  $01,$10d5
+10a8: 01        tcall 0
+10a9: 2d        push  a
+10aa: 01        tcall 0
+10ab: 2d        push  a
+10ac: 01        tcall 0
+10ad: 2d        push  a
+10ae: 01        tcall 0
+10af: 2c 01 2c  rol   $2c01
+10b2: 01        tcall 0
+10b3: 2b 01     rol   $01
+10b5: 2b 01     rol   $01
+10b7: 2b 01     rol   $01
+10b9: 2a 01 2a  or1   c,!($0540,1)
+10bc: 01        tcall 0
+10bd: 29 01 29  and   ($29),($01)
+10c0: 01        tcall 0
+10c1: 29 01 28  and   ($28),($01)
+10c4: 01        tcall 0
+10c5: 28 01     and   a,#$01
+10c7: 27 01     and   a,($01+x)
+10c9: 27 01     and   a,($01+x)
+10cb: 27 01     and   a,($01+x)
+10cd: 26        and   a,(x)
+10ce: 01        tcall 0
+10cf: 26        and   a,(x)
+10d0: 01        tcall 0
+10d1: 26        and   a,(x)
+10d2: 01        tcall 0
+10d3: 25 01 25  and   a,$2501
+10d6: 01        tcall 0
+10d7: 24 01     and   a,$01
+10d9: 24 01     and   a,$01
+10db: 24 01     and   a,$01
+10dd: 23 01 23  bbs1  $01,$1102
+10e0: 01        tcall 0
+10e1: 23 01 22  bbs1  $01,$1105
+10e4: 01        tcall 0
+10e5: 22 01     set1  $01
+10e7: 21        tcall 2
+10e8: 01        tcall 0
+10e9: 21        tcall 2
+10ea: 01        tcall 0
+10eb: 21        tcall 2
+10ec: 01        tcall 0
+10ed: 20        clrp
+10ee: 01        tcall 0
+10ef: 20        clrp
+10f0: 01        tcall 0
+10f1: 20        clrp
+10f2: 01        tcall 0
+10f3: 1f 01 1f  jmp   ($1f01+x)
+10f6: 01        tcall 0
+10f7: 1f 01 1e  jmp   ($1e01+x)
+10fa: 01        tcall 0
+10fb: 1e 01 1e  cmp   x,$1e01
+10fe: 01        tcall 0
+10ff: 1d        dec   x
+1100: 01        tcall 0
+1101: 1d        dec   x
+1102: 01        tcall 0
+1103: 1c        asl   a
+1104: 01        tcall 0
+1105: 1c        asl   a
+1106: 01        tcall 0
+1107: 1c        asl   a
+1108: 01        tcall 0
+1109: 1b 01     asl   $01+x
+110b: 1b 01     asl   $01+x
+110d: 1b 01     asl   $01+x
+110f: 1a 01     decw  $01
+1111: 1a 01     decw  $01
+1113: 1a 01     decw  $01
+1115: 19        or    (x),(y)
+1116: 01        tcall 0
+1117: 19        or    (x),(y)
+1118: 01        tcall 0
+1119: 19        or    (x),(y)
+111a: 01        tcall 0
+111b: 18 01 18  or    $18,#$01
+111e: 01        tcall 0
+111f: 18 01 17  or    $17,#$01
+1122: 01        tcall 0
+1123: 17 01     or    a,($01)+y
+1125: 17 01     or    a,($01)+y
+1127: 16 01 16  or    a,$1601+y
+112a: 01        tcall 0
+112b: 16 01 15  or    a,$1501+y
+112e: 01        tcall 0
+112f: 15 01 15  or    a,$1501+x
+1132: 01        tcall 0
+1133: 14 01     or    a,$01+x
+1135: 14 01     or    a,$01+x
+1137: 14 01     or    a,$01+x
+1139: 13 01 13  bbc0  $01,$114e
+113c: 01        tcall 0
+113d: 13 01 12  bbc0  $01,$1151
+1140: 01        tcall 0
+1141: 12 01     clr0  $01
+1143: 12 01     clr0  $01
+1145: 11        tcall 1
+1146: 01        tcall 0
+1147: 11        tcall 1
+1148: 01        tcall 0
+1149: 11        tcall 1
+114a: 01        tcall 0
+114b: 10 01     bpl   $114e
+114d: 10 01     bpl   $1150
+114f: 10 01     bpl   $1152
+1151: 0f        brk
+1152: 01        tcall 0
+1153: 0f        brk
+1154: 01        tcall 0
+1155: 0f        brk
+1156: 01        tcall 0
+1157: 0e 01 0e  tset1 $0e01
+115a: 01        tcall 0
+115b: 0e 01 0d  tset1 $0d01
+115e: 01        tcall 0
+115f: 0d        push  psw
+1160: 01        tcall 0
+1161: 0d        push  psw
+1162: 01        tcall 0
+1163: 0c 01 0c  asl   $0c01
+1166: 01        tcall 0
+1167: 0c 01 0b  asl   $0b01
+116a: 01        tcall 0
+116b: 0b 01     asl   $01
+116d: 0b 01     asl   $01
+116f: 0b 01     asl   $01
+1171: 0a 01 0a  or1   c,$0140,1
+1174: 01        tcall 0
+1175: 0a 01 09  or1   c,$0120,1
+1178: 01        tcall 0
+1179: 09 01 09  or    ($09),($01)
+117c: 01        tcall 0
+117d: 08 01     or    a,#$01
+117f: 08 01     or    a,#$01
+1181: 08 01     or    a,#$01
+1183: 07 01     or    a,($01+x)
+1185: 07 01     or    a,($01+x)
+1187: 07 01     or    a,($01+x)
+1189: 07 01     or    a,($01+x)
+118b: 06        or    a,(x)
+118c: 01        tcall 0
+118d: 06        or    a,(x)
+118e: 01        tcall 0
+118f: 06        or    a,(x)
+1190: 01        tcall 0
+1191: 05 01 05  or    a,$0501
+1194: 01        tcall 0
+1195: 05 01 04  or    a,$0401
+1198: 01        tcall 0
+1199: 04 01     or    a,$01
+119b: 04 01     or    a,$01
+119d: 04 01     or    a,$01
+119f: 03 01 03  bbs0  $01,$11a4
+11a2: 01        tcall 0
+11a3: 03 01 02  bbs0  $01,$11a7
+11a6: 01        tcall 0
+11a7: 02 01     set0  $01
+11a9: 02 01     set0  $01
+11ab: 01        tcall 0
+11ac: 01        tcall 0
+11ad: 01        tcall 0
+11ae: 01        tcall 0
+11af: 01        tcall 0
+11b0: 01        tcall 0
+11b1: 01        tcall 0
+11b2: 01        tcall 0
+11b3: 00        nop
+11b4: 01        tcall 0
+11b5: 00        nop
+11b6: 01        tcall 0
+11b7: 00        nop
+11b8: 01        tcall 0
+11b9: ff        stop
+11ba: 00        nop
+11bb: ff        stop
+11bc: 00        nop
+11bd: ff        stop
+11be: 00        nop
+11bf: ff        stop
+11c0: 00        nop
+11c1: fe 00     dbnz  y,$11c3
+11c3: fe 00     dbnz  y,$11c5
+11c5: fe 00     dbnz  y,$11c7
+11c7: fd        mov   y,a
+11c8: 00        nop
+11c9: fd        mov   y,a
+11ca: 00        nop
+11cb: fd        mov   y,a
+11cc: 00        nop
+11cd: fd        mov   y,a
+11ce: 00        nop
+11cf: fc        inc   y
+11d0: 00        nop
+11d1: fc        inc   y
+11d2: 00        nop
+11d3: fc        inc   y
+11d4: 00        nop
+11d5: fc        inc   y
+11d6: 00        nop
+11d7: fb 00     mov   y,$00+x
+11d9: fb 00     mov   y,$00+x
+11db: fb 00     mov   y,$00+x
+11dd: fa 00 fa  mov   ($fa),($00)
+11e0: 00        nop
+11e1: fa 00 fa  mov   ($fa),($00)
+11e4: 00        nop
+11e5: f9 00     mov   x,$00+y
+11e7: f9 00     mov   x,$00+y
+11e9: f9 00     mov   x,$00+y
+11eb: f9 00     mov   x,$00+y
+11ed: f8 00     mov   x,$00
+11ef: f8 00     mov   x,$00
+11f1: f8 00     mov   x,$00
+11f3: f7 00     mov   a,($00)+y
+11f5: f7 00     mov   a,($00)+y
+11f7: f7 00     mov   a,($00)+y
+11f9: f7 00     mov   a,($00)+y
+11fb: f6 00 f6  mov   a,$f600+y
+11fe: 00        nop
+11ff: f6 00 f6  mov   a,$f600+y
+1202: 00        nop
+1203: f5 00 f5  mov   a,$f500+x
+1206: 00        nop
+1207: f5 00 f5  mov   a,$f500+x
+120a: 00        nop
+120b: f4 00     mov   a,$00+x
+120d: f4 00     mov   a,$00+x
+120f: f4 00     mov   a,$00+x
+1211: f3 00 f3  bbc7  $00,$1206
+1214: 00        nop
+1215: f3 00 f3  bbc7  $00,$120a
+1218: 00        nop
+1219: f2 00     clr7  $00
+121b: f2 00     clr7  $00
+121d: f2 00     clr7  $00
+121f: f2 00     clr7  $00
+1221: f1        tcall 15
+1222: 00        nop
+1223: f1        tcall 15
+1224: 00        nop
+1225: f1        tcall 15
+1226: 00        nop
+1227: f1        tcall 15
+1228: 00        nop
+1229: f0 00     beq   $122b
+122b: f0 00     beq   $122d
+122d: f0 00     beq   $122f
+122f: f0 00     beq   $1231
+1231: ef        sleep
+1232: 00        nop
+1233: ef        sleep
+1234: 00        nop
+1235: ef        sleep
+1236: 00        nop
+1237: ef        sleep
+1238: 00        nop
+1239: ee        pop   y
+123a: 00        nop
+123b: ee        pop   y
+123c: 00        nop
+123d: ee        pop   y
+123e: 00        nop
+123f: ee        pop   y
+1240: 00        nop
+1241: ed        notc
+1242: 00        nop
+1243: ed        notc
+1244: 00        nop
+1245: ed        notc
+1246: 00        nop
+1247: ed        notc
+1248: 00        nop
+1249: ec 00 ec  mov   y,$ec00
+124c: 00        nop
+124d: ec 00 ec  mov   y,$ec00
+1250: 00        nop
+1251: eb 00     mov   y,$00
+1253: eb 00     mov   y,$00
+1255: eb 00     mov   y,$00
+1257: eb 00     mov   y,$00
+1259: ea 00 ea  not1  $1d40,0
+125c: 00        nop
+125d: ea 00 ea  not1  $1d40,0
+1260: 00        nop
+1261: ea 00 e9  not1  $1d20,0
+1264: 00        nop
+1265: e9 00 e9  mov   x,$e900
+1268: 00        nop
+1269: e9 00 e8  mov   x,$e800
+126c: 00        nop
+126d: e8 00     mov   a,#$00
+126f: e8 00     mov   a,#$00
+1271: e8 00     mov   a,#$00
+1273: e7 00     mov   a,($00+x)
+1275: e7 00     mov   a,($00+x)
+1277: e7 00     mov   a,($00+x)
+1279: e7 00     mov   a,($00+x)
+127b: e6        mov   a,(x)
+127c: 00        nop
+127d: e6        mov   a,(x)
+127e: 00        nop
+127f: e6        mov   a,(x)
+1280: 00        nop
+1281: e6        mov   a,(x)
+1282: 00        nop
+1283: e6        mov   a,(x)
+1284: 00        nop
+1285: e5 00 e5  mov   a,$e500
+1288: 00        nop
+1289: e5 00 e5  mov   a,$e500
+128c: 00        nop
+128d: e4 00     mov   a,$00
+128f: e4 00     mov   a,$00
+1291: e4 00     mov   a,$00
+1293: e4 00     mov   a,$00
+1295: e3 00 e3  bbs7  $00,$127a
+1298: 00        nop
+1299: e3 00 e3  bbs7  $00,$127e
+129c: 00        nop
+129d: e3 00 e2  bbs7  $00,$1281
+12a0: 00        nop
+12a1: e2 00     set7  $00
+12a3: e2 00     set7  $00
+12a5: e2 00     set7  $00
+12a7: e1        tcall 14
+12a8: 00        nop
+12a9: e1        tcall 14
+12aa: 00        nop
+12ab: e1        tcall 14
+12ac: 00        nop
+12ad: e1        tcall 14
+12ae: 00        nop
+12af: e1        tcall 14
+12b0: 00        nop
+12b1: e0        clrv
+12b2: 00        nop
+12b3: e0        clrv
+12b4: 00        nop
+12b5: e0        clrv
+12b6: 00        nop
+12b7: e0        clrv
+12b8: 00        nop
+12b9: df        daa   a
+12ba: 00        nop
+12bb: df        daa   a
+12bc: 00        nop
+12bd: df        daa   a
+12be: 00        nop
+12bf: df        daa   a
+12c0: 00        nop
+12c1: df        daa   a
+12c2: 00        nop
+12c3: de 00 de  cbne  $00+x,$12a3
+12c6: 00        nop
+12c7: de 00 de  cbne  $00+x,$12a7
+12ca: 00        nop
+12cb: dd        mov   a,y
+12cc: 00        nop
+12cd: dd        mov   a,y
+12ce: 00        nop
+12cf: dd        mov   a,y
+12d0: 00        nop
+12d1: dd        mov   a,y
+12d2: 00        nop
+12d3: dd        mov   a,y
+12d4: 00        nop
+12d5: dc        dec   y
+12d6: 00        nop
+12d7: dc        dec   y
+12d8: 00        nop
+12d9: dc        dec   y
+12da: 00        nop
+12db: dc        dec   y
+12dc: 00        nop
+12dd: dc        dec   y
+12de: 00        nop
+12df: db 00     mov   $00+x,y
+12e1: db 00     mov   $00+x,y
+12e3: db 00     mov   $00+x,y
+12e5: db 00     mov   $00+x,y
+12e7: db 00     mov   $00+x,y
+12e9: da 00     movw  $00,ya
+12eb: da 00     movw  $00,ya
+12ed: da 00     movw  $00,ya
+12ef: da 00     movw  $00,ya
+12f1: d9 00     mov   $00+y,x
+12f3: d9 00     mov   $00+y,x
+12f5: d9 00     mov   $00+y,x
+12f7: d9 00     mov   $00+y,x
+12f9: d9 00     mov   $00+y,x
+12fb: d8 00     mov   $00,x
+12fd: d8 00     mov   $00,x
+12ff: d8 00     mov   $00,x
+1301: d8 00     mov   $00,x
+1303: d8 00     mov   $00,x
+1305: d7 00     mov   ($00)+y,a
+1307: d7 00     mov   ($00)+y,a
+1309: d7 00     mov   ($00)+y,a
+130b: d7 00     mov   ($00)+y,a
+130d: d7 00     mov   ($00)+y,a
+130f: d6 00 d6  mov   $d600+y,a
+1312: 00        nop
+1313: d6 00 d6  mov   $d600+y,a
+1316: 00        nop
+1317: d6 00 d5  mov   $d500+y,a
+131a: 00        nop
+131b: d5 00 d5  mov   $d500+x,a
+131e: 00        nop
+131f: d5 00 d5  mov   $d500+x,a
+1322: 00        nop
+1323: d4 00     mov   $00+x,a
+1325: d4 00     mov   $00+x,a
+1327: d4 00     mov   $00+x,a
+1329: d4 00     mov   $00+x,a
+132b: d4 00     mov   $00+x,a
+132d: d3 00 d3  bbc6  $00,$1302
+1330: 00        nop
+1331: d3 00 d3  bbc6  $00,$1306
+1334: 00        nop
+1335: d3 00 d2  bbc6  $00,$1309
+1338: 00        nop
+1339: d2 00     clr6  $00
+133b: d2 00     clr6  $00
+133d: d2 00     clr6  $00
+133f: d2 00     clr6  $00
+1341: d1        tcall 13
+1342: 00        nop
+1343: d1        tcall 13
+1344: 00        nop
+1345: d1        tcall 13
+1346: 00        nop
+1347: d1        tcall 13
+1348: 00        nop
+1349: d1        tcall 13
+134a: 00        nop
+134b: d1        tcall 13
+134c: 00        nop
+134d: d0 00     bne   $134f
+134f: d0 00     bne   $1351
+1351: d0 00     bne   $1353
+1353: d0 00     bne   $1355
+1355: d0 00     bne   $1357
+1357: cf        mul   ya
+1358: 00        nop
+1359: cf        mul   ya
+135a: 00        nop
+135b: cf        mul   ya
+135c: 00        nop
+135d: cf        mul   ya
+135e: 00        nop
+135f: cf        mul   ya
+1360: 00        nop
+1361: ce        pop   x
+1362: 00        nop
+1363: ce        pop   x
+1364: 00        nop
+1365: ce        pop   x
+1366: 00        nop
+1367: ce        pop   x
+1368: 00        nop
+1369: ce        pop   x
+136a: 00        nop
+136b: ce        pop   x
+136c: 00        nop
+136d: cd 00     mov   x,#$00
+136f: cd 00     mov   x,#$00
+1371: cd 00     mov   x,#$00
+1373: cd 00     mov   x,#$00
+1375: cd 00     mov   x,#$00
+1377: cc 00 cc  mov   $cc00,y
+137a: 00        nop
+137b: cc 00 cc  mov   $cc00,y
+137e: 00        nop
+137f: cc 00 cb  mov   $cb00,y
+1382: 00        nop
+1383: cb 00     mov   $00,y
+1385: cb 00     mov   $00,y
+1387: cb 00     mov   $00,y
+1389: cb 00     mov   $00,y
+138b: cb 00     mov   $00,y
+138d: ca 00 ca  mov1  $1940,0,c
+1390: 00        nop
+1391: ca 00 ca  mov1  $1940,0,c
+1394: 00        nop
+1395: ca 00 ca  mov1  $1940,0,c
+1398: 00        nop
+1399: c9 00 c9  mov   $c900,x
+139c: 00        nop
+139d: c9 00 c9  mov   $c900,x
+13a0: 00        nop
+13a1: c9 00 c8  mov   $c800,x
+13a4: 00        nop
+13a5: c8 00     cmp   x,#$00
+13a7: c8 00     cmp   x,#$00
+13a9: c8 00     cmp   x,#$00
+13ab: c8 00     cmp   x,#$00
+13ad: c8 00     cmp   x,#$00
+13af: c7 00     mov   ($00+x),a
+13b1: c7 00     mov   ($00+x),a
+13b3: c7 00     mov   ($00+x),a
+13b5: c7 00     mov   ($00+x),a
+13b7: c7 00     mov   ($00+x),a
+13b9: c7 00     mov   ($00+x),a
+13bb: c6        mov   (x),a
+13bc: 00        nop
+13bd: c6        mov   (x),a
+13be: 00        nop
+13bf: c6        mov   (x),a
+13c0: 00        nop
+13c1: c6        mov   (x),a
+13c2: 00        nop
+13c3: c6        mov   (x),a
+13c4: 00        nop
+13c5: c6        mov   (x),a
+13c6: 00        nop
+13c7: c5 00 c5  mov   $c500,a
+13ca: 00        nop
+13cb: c5 00 c5  mov   $c500,a
+13ce: 00        nop
+13cf: c5 00 c4  mov   $c400,a
+13d2: 00        nop
+13d3: c4 00     mov   $00,a
+13d5: c4 00     mov   $00,a
+13d7: c4 00     mov   $00,a
+13d9: c4 00     mov   $00,a
+13db: c4 00     mov   $00,a
+13dd: c3 00 c3  bbs6  $00,$13a2
+13e0: 00        nop
+13e1: c3 00 c3  bbs6  $00,$13a6
+13e4: 00        nop
+13e5: c3 00 c3  bbs6  $00,$13aa
+13e8: 00        nop
+13e9: c2 00     set6  $00
+13eb: c2 00     set6  $00
+13ed: c2 00     set6  $00
+13ef: c2 00     set6  $00
+13f1: c2 00     set6  $00
+13f3: c2 00     set6  $00
+13f5: c1        tcall 12
+13f6: 00        nop
+13f7: c1        tcall 12
+13f8: 00        nop
+13f9: c1        tcall 12
+13fa: 00        nop
+13fb: c1        tcall 12
+13fc: 00        nop
+13fd: c1        tcall 12
+13fe: 00        nop
+13ff: c1        tcall 12
+1400: 00        nop
+1401: c0        di
+1402: 00        nop
+1403: c0        di
+1404: 00        nop
+1405: c0        di
+1406: 00        nop
+1407: c0        di
+1408: 00        nop
+1409: c0        di
+140a: 00        nop
+140b: c0        di
+140c: 00        nop
+140d: c0        di
+140e: 00        nop
+140f: bf        mov   a,(x)+
+1410: 00        nop
+1411: bf        mov   a,(x)+
+1412: 00        nop
+1413: bf        mov   a,(x)+
+1414: 00        nop
+1415: bf        mov   a,(x)+
+1416: 00        nop
+1417: bf        mov   a,(x)+
+1418: 00        nop
+1419: bf        mov   a,(x)+
+141a: 00        nop
+141b: be        das   a
+141c: 00        nop
+141d: be        das   a
+141e: 00        nop
+141f: be        das   a
+1420: 00        nop
+1421: be        das   a
+1422: 00        nop
+1423: be        das   a
+1424: 00        nop
+1425: be        das   a
+1426: 00        nop
+1427: bd        mov   sp,x
+1428: 00        nop
+1429: bd        mov   sp,x
+142a: 00        nop
+142b: bd        mov   sp,x
+142c: 00        nop
+142d: bd        mov   sp,x
+142e: 00        nop
+142f: bd        mov   sp,x
+1430: 00        nop
+1431: bd        mov   sp,x
+1432: 00        nop
+1433: bd        mov   sp,x
+1434: 00        nop
+1435: bc        inc   a
+1436: 00        nop
+1437: bc        inc   a
+1438: 00        nop
+1439: bc        inc   a
+143a: 00        nop
+143b: bc        inc   a
+143c: 00        nop
+143d: bc        inc   a
+143e: 00        nop
+143f: bc        inc   a
+1440: 00        nop
+1441: bb 00     inc   $00+x
+1443: bb 00     inc   $00+x
+1445: bb 00     inc   $00+x
+1447: bb 00     inc   $00+x
+1449: bb 00     inc   $00+x
+144b: bb 00     inc   $00+x
+144d: bb 00     inc   $00+x
+144f: ba 00     movw  ya,$00
+1451: ba 00     movw  ya,$00
+1453: ba 00     movw  ya,$00
+1455: ba 00     movw  ya,$00
+1457: ba 00     movw  ya,$00
+1459: ba 00     movw  ya,$00
+145b: b9        sbc   (x),(y)
+145c: 00        nop
+145d: b9        sbc   (x),(y)
+145e: 00        nop
+145f: b9        sbc   (x),(y)
+1460: 00        nop
+1461: b9        sbc   (x),(y)
+1462: 00        nop
+1463: b9        sbc   (x),(y)
+1464: 00        nop
+1465: b9        sbc   (x),(y)
+1466: 00        nop
+1467: b9        sbc   (x),(y)
+1468: 00        nop
+1469: b8 00 b8  sbc   $b8,#$00
+146c: 00        nop
+146d: b8 00 b8  sbc   $b8,#$00
+1470: 00        nop
+1471: b8 00 b8  sbc   $b8,#$00
+1474: 00        nop
+1475: b8 00 b7  sbc   $b7,#$00
+1478: 00        nop
+1479: b7 00     sbc   a,($00)+y
+147b: b7 00     sbc   a,($00)+y
+147d: b7 00     sbc   a,($00)+y
+147f: b7 00     sbc   a,($00)+y
+1481: b7 00     sbc   a,($00)+y
+1483: b6 00 b6  sbc   a,$b600+y
+1486: 00        nop
+1487: b6 00 b6  sbc   a,$b600+y
+148a: 00        nop
+148b: b6 00 b6  sbc   a,$b600+y
+148e: 00        nop
+148f: b6 00 b5  sbc   a,$b500+y
+1492: 00        nop
+1493: b5 00 b5  sbc   a,$b500+x
+1496: 00        nop
+1497: b5 00 b5  sbc   a,$b500+x
+149a: 00        nop
+149b: b5 00 b5  sbc   a,$b500+x
+149e: 00        nop
+149f: b4 00     sbc   a,$00+x
+14a1: b4 00     sbc   a,$00+x
+14a3: b4 00     sbc   a,$00+x
+14a5: b4 00     sbc   a,$00+x
+14a7: b4 00     sbc   a,$00+x
+14a9: b4 00     sbc   a,$00+x
+14ab: b4 00     sbc   a,$00+x
+14ad: b3 00 b3  bbc5  $00,$1462
+14b0: 00        nop
+14b1: b3 00 b3  bbc5  $00,$1466
+14b4: 00        nop
+14b5: b3 00 b3  bbc5  $00,$146a
+14b8: 00        nop
+14b9: b3 00 b2  bbc5  $00,$146d
+14bc: 00        nop
+14bd: b2 00     clr5  $00
+14bf: b2 00     clr5  $00
+14c1: b2 00     clr5  $00
+14c3: b2 00     clr5  $00
+14c5: b2 00     clr5  $00
+14c7: b2 00     clr5  $00
+14c9: b2 00     clr5  $00
+14cb: b1        tcall 11
+14cc: 00        nop
+14cd: b1        tcall 11
+14ce: 00        nop
+14cf: b1        tcall 11
+14d0: 00        nop
+14d1: b1        tcall 11
+14d2: 00        nop
+14d3: b1        tcall 11
+14d4: 00        nop
+14d5: b1        tcall 11
+14d6: 00        nop
+14d7: b1        tcall 11
+14d8: 00        nop
+14d9: b0 00     bcs   $14db
+14db: b0 00     bcs   $14dd
+14dd: b0 00     bcs   $14df
+14df: b0 00     bcs   $14e1
+14e1: b0 00     bcs   $14e3
+14e3: b0 00     bcs   $14e5
+14e5: b0 00     bcs   $14e7
+14e7: af        mov   (x)+,a
+14e8: 00        nop
+14e9: af        mov   (x)+,a
+14ea: 00        nop
+14eb: af        mov   (x)+,a
+14ec: 00        nop
+14ed: af        mov   (x)+,a
+14ee: 00        nop
+14ef: af        mov   (x)+,a
+14f0: 00        nop
+14f1: af        mov   (x)+,a
+14f2: 00        nop
+14f3: af        mov   (x)+,a
+14f4: 00        nop
+14f5: af        mov   (x)+,a
+14f6: 00        nop
+14f7: ae        pop   a
+14f8: 00        nop
+14f9: ae        pop   a
+14fa: 00        nop
+14fb: ae        pop   a
+14fc: 00        nop
+14fd: ae        pop   a
+14fe: 00        nop
+14ff: ae        pop   a
+1500: 00        nop
+1501: ae        pop   a
+1502: 00        nop
+1503: ae        pop   a
+1504: 00        nop
+1505: ad 00     cmp   y,#$00
+1507: ad 00     cmp   y,#$00
+1509: ad 00     cmp   y,#$00
+150b: ad 00     cmp   y,#$00
+150d: ad 00     cmp   y,#$00
+150f: ad 00     cmp   y,#$00
+1511: ad 00     cmp   y,#$00
+1513: ad 00     cmp   y,#$00
+1515: ac 00 ac  inc   $ac00
+1518: 00        nop
+1519: ac 00 ac  inc   $ac00
+151c: 00        nop
+151d: ac 00 ac  inc   $ac00
+1520: 00        nop
+1521: ac 00 ab  inc   $ab00
+1524: 00        nop
+1525: ab 00     inc   $00
+1527: ab 00     inc   $00
+1529: ab 00     inc   $00
+152b: ab 00     inc   $00
+152d: ab 00     inc   $00
+152f: ab 00     inc   $00
+1531: ab 00     inc   $00
+1533: aa 00 aa  mov1  c,$1540,0
+1536: 00        nop
+1537: aa 00 aa  mov1  c,$1540,0
+153a: 00        nop
+153b: aa 00 aa  mov1  c,$1540,0
+153e: 00        nop
+153f: aa 00 aa  mov1  c,$1540,0
+1542: 00        nop
+1543: a9 00 a9  sbc   ($a9),($00)
+1546: 00        nop
+1547: a9 00 a9  sbc   ($a9),($00)
+154a: 00        nop
+154b: a9 00 a9  sbc   ($a9),($00)
+154e: 00        nop
+154f: a9 00 a9  sbc   ($a9),($00)
+1552: 00        nop
+1553: a8 00     sbc   a,#$00
+1555: a8 00     sbc   a,#$00
+1557: a8 00     sbc   a,#$00
+1559: a8 00     sbc   a,#$00
+155b: a8 00     sbc   a,#$00
+155d: a8 00     sbc   a,#$00
+155f: a8 00     sbc   a,#$00
+1561: a8 00     sbc   a,#$00
+1563: a7 00     sbc   a,($00+x)
+1565: a7 00     sbc   a,($00+x)
+1567: a7 00     sbc   a,($00+x)
+1569: a7 00     sbc   a,($00+x)
+156b: a7 00     sbc   a,($00+x)
+156d: a7 00     sbc   a,($00+x)
+156f: a7 00     sbc   a,($00+x)
+1571: a7 00     sbc   a,($00+x)
+1573: a6        sbc   a,(x)
+1574: 00        nop
+1575: a6        sbc   a,(x)
+1576: 00        nop
+1577: a6        sbc   a,(x)
+1578: 00        nop
+1579: a6        sbc   a,(x)
+157a: 00        nop
+157b: a6        sbc   a,(x)
+157c: 00        nop
+157d: a6        sbc   a,(x)
+157e: 00        nop
+157f: a6        sbc   a,(x)
+1580: 00        nop
+1581: a6        sbc   a,(x)
+1582: 00        nop
+1583: a6        sbc   a,(x)
+1584: 00        nop
+1585: a5 00 a5  sbc   a,$a500
+1588: 00        nop
+1589: a5 00 a5  sbc   a,$a500
+158c: 00        nop
+158d: a5 00 a5  sbc   a,$a500
+1590: 00        nop
+1591: a5 00 a5  sbc   a,$a500
+1594: 00        nop
+1595: a4 00     sbc   a,$00
+1597: a4 00     sbc   a,$00
+1599: a4 00     sbc   a,$00
+159b: a4 00     sbc   a,$00
+159d: a4 00     sbc   a,$00
+159f: a4 00     sbc   a,$00
+15a1: a4 00     sbc   a,$00
+15a3: a4 00     sbc   a,$00
+15a5: a3 00 a3  bbs5  $00,$154a
+15a8: 00        nop
+15a9: a3 00 a3  bbs5  $00,$154e
+15ac: 00        nop
+15ad: a3 00 a3  bbs5  $00,$1552
+15b0: 00        nop
+15b1: a3 00 a3  bbs5  $00,$1556
+15b4: 00        nop
+15b5: a3 00 a2  bbs5  $00,$1559
+15b8: 00        nop
+15b9: a2 00     set5  $00
+15bb: a2 00     set5  $00
+15bd: a2 00     set5  $00
+15bf: a2 00     set5  $00
+15c1: a2 00     set5  $00
+15c3: a2 00     set5  $00
+15c5: a2 00     set5  $00
+15c7: a2 00     set5  $00
+15c9: a1        tcall 10
+15ca: 00        nop
+15cb: a1        tcall 10
+15cc: 00        nop
+15cd: a1        tcall 10
+15ce: 00        nop
+15cf: a1        tcall 10
+15d0: 00        nop
+15d1: a1        tcall 10
+15d2: 00        nop
+15d3: a1        tcall 10
+15d4: 00        nop
+15d5: a1        tcall 10
+15d6: 00        nop
+15d7: a1        tcall 10
+15d8: 00        nop
+15d9: a0        ei
+15da: 00        nop
+15db: a0        ei
+15dc: 00        nop
+15dd: a0        ei
+15de: 00        nop
+15df: a0        ei
+15e0: 00        nop
+15e1: a0        ei
+15e2: 00        nop
+15e3: a0        ei
+15e4: 00        nop
+15e5: a0        ei
+15e6: 00        nop
+15e7: a0        ei
+15e8: 00        nop
+15e9: a0        ei
+15ea: 00        nop
+15eb: 9f        xcn   a
+15ec: 00        nop
+15ed: 9f        xcn   a
+15ee: 00        nop
+15ef: 9f        xcn   a
+15f0: 00        nop
+15f1: 9f        xcn   a
+15f2: 00        nop
+15f3: 9f        xcn   a
+15f4: 00        nop
+15f5: 9f        xcn   a
+15f6: 00        nop
+15f7: 9f        xcn   a
+15f8: 00        nop
+15f9: 9f        xcn   a
+15fa: 00        nop
+15fb: 9f        xcn   a
+15fc: 00        nop
+15fd: 9e        div   ya,x
+15fe: 00        nop
+15ff: 9e        div   ya,x
+1600: 00        nop
+1601: 9e        div   ya,x
+1602: 00        nop
+1603: 9e        div   ya,x
+1604: 00        nop
+1605: 9e        div   ya,x
+1606: 00        nop
+1607: 9e        div   ya,x
+1608: 00        nop
+1609: 9e        div   ya,x
+160a: 00        nop
+160b: 9e        div   ya,x
+160c: 00        nop
+160d: 9e        div   ya,x
+160e: 00        nop
+160f: 9d        mov   x,sp
+1610: 00        nop
+1611: 9d        mov   x,sp
+1612: 00        nop
+1613: 9d        mov   x,sp
+1614: 00        nop
+1615: 9d        mov   x,sp
+1616: 00        nop
+1617: 9d        mov   x,sp
+1618: 00        nop
+1619: 9d        mov   x,sp
+161a: 00        nop
+161b: 9d        mov   x,sp
+161c: 00        nop
+161d: 9d        mov   x,sp
+161e: 00        nop
+161f: 9d        mov   x,sp
+1620: 00        nop
+1621: 9d        mov   x,sp
+1622: 00        nop
+1623: 9c        dec   a
+1624: 00        nop
+1625: 9c        dec   a
+1626: 00        nop
+1627: 9c        dec   a
+1628: 00        nop
+1629: 9c        dec   a
+162a: 00        nop
+162b: 9c        dec   a
+162c: 00        nop
+162d: 9c        dec   a
+162e: 00        nop
+162f: 9c        dec   a
+1630: 00        nop
+1631: 9c        dec   a
+1632: 00        nop
+1633: 9c        dec   a
+1634: 00        nop
+1635: 9b 00     dec   $00+x
+1637: 9b 00     dec   $00+x
+1639: 9b 00     dec   $00+x
+163b: 9b 00     dec   $00+x
+163d: 9b 00     dec   $00+x
+163f: 9b 00     dec   $00+x
+1641: 9b 00     dec   $00+x
+1643: 9b 00     dec   $00+x
+1645: 9b 00     dec   $00+x
+1647: 9a 00     subw  ya,$00
+1649: 9a 00     subw  ya,$00
+164b: 9a 00     subw  ya,$00
+164d: 9a 00     subw  ya,$00
+164f: 9a 00     subw  ya,$00
+1651: 9a 00     subw  ya,$00
+1653: 9a 00     subw  ya,$00
+1655: 9a 00     subw  ya,$00
+1657: 9a 00     subw  ya,$00
+1659: 9a 00     subw  ya,$00
+165b: 99        adc   (x),(y)
+165c: 00        nop
+165d: 99        adc   (x),(y)
+165e: 00        nop
+165f: 99        adc   (x),(y)
+1660: 00        nop
+1661: 99        adc   (x),(y)
+1662: 00        nop
+1663: 99        adc   (x),(y)
+1664: 00        nop
+1665: 99        adc   (x),(y)
+1666: 00        nop
+1667: 99        adc   (x),(y)
+1668: 00        nop
+1669: 99        adc   (x),(y)
+166a: 00        nop
+166b: 99        adc   (x),(y)
+166c: 00        nop
+166d: 99        adc   (x),(y)
+166e: 00        nop
+166f: 98 00 98  adc   $98,#$00
+1672: 00        nop
+1673: 98 00 98  adc   $98,#$00
+1676: 00        nop
+1677: 98 00 98  adc   $98,#$00
+167a: 00        nop
+167b: 98 00 98  adc   $98,#$00
+167e: 00        nop
+167f: 98 00 98  adc   $98,#$00
+1682: 00        nop
+1683: 97 00     adc   a,($00)+y
+1685: 97 00     adc   a,($00)+y
+1687: 97 00     adc   a,($00)+y
+1689: 97 00     adc   a,($00)+y
+168b: 97 00     adc   a,($00)+y
+168d: 97 00     adc   a,($00)+y
+168f: 97 00     adc   a,($00)+y
+1691: 97 00     adc   a,($00)+y
+1693: 97 00     adc   a,($00)+y
+1695: 97 00     adc   a,($00)+y
+1697: 96 00 96  adc   a,$9600+y
+169a: 00        nop
+169b: 96 00 96  adc   a,$9600+y
+169e: 00        nop
+169f: 96 00 96  adc   a,$9600+y
+16a2: 00        nop
+16a3: 96 00 96  adc   a,$9600+y
+16a6: 00        nop
+16a7: 96 00 96  adc   a,$9600+y
+16aa: 00        nop
+16ab: 95 00 95  adc   a,$9500+x
+16ae: 00        nop
+16af: 95 00 95  adc   a,$9500+x
+16b2: 00        nop
+16b3: 95 00 95  adc   a,$9500+x
+16b6: 00        nop
+16b7: 95 00 95  adc   a,$9500+x
+16ba: 00        nop
+16bb: 95 00 95  adc   a,$9500+x
+16be: 00        nop
+16bf: 94 00     adc   a,$00+x
+16c1: 94 00     adc   a,$00+x
+16c3: 94 00     adc   a,$00+x
+16c5: 94 00     adc   a,$00+x
+16c7: 94 00     adc   a,$00+x
+16c9: 94 00     adc   a,$00+x
+16cb: 94 00     adc   a,$00+x
+16cd: 94 00     adc   a,$00+x
+16cf: 94 00     adc   a,$00+x
+16d1: 94 00     adc   a,$00+x
+16d3: 93 00 93  bbc4  $00,$1668
+16d6: 00        nop
+16d7: 93 00 93  bbc4  $00,$166c
+16da: 00        nop
+16db: 93 00 93  bbc4  $00,$1670
+16de: 00        nop
+16df: 93 00 93  bbc4  $00,$1674
+16e2: 00        nop
+16e3: 93 00 93  bbc4  $00,$1678
+16e6: 00        nop
+16e7: 93 00 92  bbc4  $00,$167b
+16ea: 00        nop
+16eb: 92 00     clr4  $00
+16ed: 92 00     clr4  $00
+16ef: 92 00     clr4  $00
+16f1: 92 00     clr4  $00
+16f3: 92 00     clr4  $00
+16f5: 92 00     clr4  $00
+16f7: 92 00     clr4  $00
+16f9: 92 00     clr4  $00
+16fb: 92 00     clr4  $00
+16fd: 92 00     clr4  $00
+16ff: 91        tcall 9
+1700: 00        nop
+1701: 91        tcall 9
+1702: 00        nop
+1703: 91        tcall 9
+1704: 00        nop
+1705: 91        tcall 9
+1706: 00        nop
+1707: 91        tcall 9
+1708: 00        nop
+1709: 91        tcall 9
+170a: 00        nop
+170b: 91        tcall 9
+170c: 00        nop
+170d: 91        tcall 9
+170e: 00        nop
+170f: 91        tcall 9
+1710: 00        nop
+1711: 91        tcall 9
+1712: 00        nop
+1713: 90 00     bcc   $1715
+1715: 90 00     bcc   $1717
+1717: 90 00     bcc   $1719
+1719: 90 00     bcc   $171b
+171b: 90 00     bcc   $171d
+171d: 90 00     bcc   $171f
+171f: 90 00     bcc   $1721
+1721: 90 00     bcc   $1723
+1723: 90 00     bcc   $1725
+1725: 90 00     bcc   $1727
+1727: 90 00     bcc   $1729
+1729: 8f 00 8f  mov   $8f,#$00
+172c: 00        nop
+172d: 8f 00 8f  mov   $8f,#$00
+1730: 00        nop
+1731: 8f 00 8f  mov   $8f,#$00
+1734: 00        nop
+1735: 8f 00 8f  mov   $8f,#$00
+1738: 00        nop
+1739: 8f 00 8f  mov   $8f,#$00
+173c: 00        nop
+173d: 8f 00 8f  mov   $8f,#$00
+1740: 00        nop
+1741: 8e        pop   psw
+1742: 00        nop
+1743: 8e        pop   psw
+1744: 00        nop
+1745: 8e        pop   psw
+1746: 00        nop
+1747: 8e        pop   psw
+1748: 00        nop
+1749: 8e        pop   psw
+174a: 00        nop
+174b: 8e        pop   psw
+174c: 00        nop
+174d: 8e        pop   psw
+174e: 00        nop
+174f: 8e        pop   psw
+1750: 00        nop
+1751: 8e        pop   psw
+1752: 00        nop
+1753: 8e        pop   psw
+1754: 00        nop
+1755: 8e        pop   psw
+1756: 00        nop
+1757: 8d 00     mov   y,#$00
+1759: 8d 00     mov   y,#$00
+175b: 8d 00     mov   y,#$00
+175d: 8d 00     mov   y,#$00
+175f: 8d 00     mov   y,#$00
+1761: 8d 00     mov   y,#$00
+1763: 8d 00     mov   y,#$00
+1765: 8d 00     mov   y,#$00
+1767: 8d 00     mov   y,#$00
+1769: 8d 00     mov   y,#$00
+176b: 8d 00     mov   y,#$00
+176d: 8c 00 8c  dec   $8c00
+1770: 00        nop
+1771: 8c 00 8c  dec   $8c00
+1774: 00        nop
+1775: 8c 00 8c  dec   $8c00
+1778: 00        nop
+1779: 8c 00 8c  dec   $8c00
+177c: 00        nop
+177d: 8c 00 8c  dec   $8c00
+1780: 00        nop
+1781: 8c 00 8c  dec   $8c00
+1784: 00        nop
+1785: 8b 00     dec   $00
+1787: 8b 00     dec   $00
+1789: 8b 00     dec   $00
+178b: 8b 00     dec   $00
+178d: 8b 00     dec   $00
+178f: 8b 00     dec   $00
+1791: 8b 00     dec   $00
+1793: 8b 00     dec   $00
+1795: 8b 00     dec   $00
+1797: 8b 00     dec   $00
+1799: 8b 00     dec   $00
+179b: 8b 00     dec   $00
+179d: 8a 00 8a  eor1  c,$1140,0
+17a0: 00        nop
+17a1: 8a 00 8a  eor1  c,$1140,0
+17a4: 00        nop
+17a5: 8a 00 8a  eor1  c,$1140,0
+17a8: 00        nop
+17a9: 8a 00 8a  eor1  c,$1140,0
+17ac: 00        nop
+17ad: 8a 00 8a  eor1  c,$1140,0
+17b0: 00        nop
+17b1: 8a 00 8a  eor1  c,$1140,0
+17b4: 00        nop
+17b5: 89 00 89  adc   ($89),($00)
+17b8: 00        nop
+17b9: 89 00 89  adc   ($89),($00)
+17bc: 00        nop
+17bd: 89 00 89  adc   ($89),($00)
+17c0: 00        nop
+17c1: 89 00 89  adc   ($89),($00)
+17c4: 00        nop
+17c5: 89 00 89  adc   ($89),($00)
+17c8: 00        nop
+17c9: 89 00 89  adc   ($89),($00)
+17cc: 00        nop
+17cd: 88 00     adc   a,#$00
+17cf: 88 00     adc   a,#$00
+17d1: 88 00     adc   a,#$00
+17d3: 88 00     adc   a,#$00
+17d5: 88 00     adc   a,#$00
+17d7: 88 00     adc   a,#$00
+17d9: 88 00     adc   a,#$00
+17db: 88 00     adc   a,#$00
+17dd: 88 00     adc   a,#$00
+17df: 88 00     adc   a,#$00
+17e1: 88 00     adc   a,#$00
+17e3: 88 00     adc   a,#$00
+17e5: 87 00     adc   a,($00+x)
+17e7: 87 00     adc   a,($00+x)
+17e9: 87 00     adc   a,($00+x)
+17eb: 87 00     adc   a,($00+x)
+17ed: 87 00     adc   a,($00+x)
+17ef: 87 00     adc   a,($00+x)
+17f1: 87 00     adc   a,($00+x)
+17f3: 87 00     adc   a,($00+x)
+17f5: 87 00     adc   a,($00+x)
+17f7: 87 00     adc   a,($00+x)
+17f9: 87 00     adc   a,($00+x)
+17fb: 87 00     adc   a,($00+x)
+17fd: 86        adc   a,(x)
+17fe: 00        nop
+17ff: 86        adc   a,(x)
+1800: 00        nop
+1801: 86        adc   a,(x)
+1802: 00        nop
+1803: 86        adc   a,(x)
+1804: 00        nop
+1805: 86        adc   a,(x)
+1806: 00        nop
+1807: 86        adc   a,(x)
+1808: 00        nop
+1809: 86        adc   a,(x)
+180a: 00        nop
+180b: 86        adc   a,(x)
+180c: 00        nop
+180d: 86        adc   a,(x)
+180e: 00        nop
+180f: 86        adc   a,(x)
+1810: 00        nop
+1811: 86        adc   a,(x)
+1812: 00        nop
+1813: 86        adc   a,(x)
+1814: 00        nop
+1815: 86        adc   a,(x)
+1816: 00        nop
+1817: 85 00 85  adc   a,$8500
+181a: 00        nop
+181b: 85 00 85  adc   a,$8500
+181e: 00        nop
+181f: 85 00 85  adc   a,$8500
+1822: 00        nop
+1823: 85 00 85  adc   a,$8500
+1826: 00        nop
+1827: 85 00 85  adc   a,$8500
+182a: 00        nop
+182b: 85 00 85  adc   a,$8500
+182e: 00        nop
+182f: 85 00 84  adc   a,$8400
+1832: 00        nop
+1833: 84 00     adc   a,$00
+1835: 84 00     adc   a,$00
+1837: 84 00     adc   a,$00
+1839: 84 00     adc   a,$00
+183b: 84 00     adc   a,$00
+183d: 84 00     adc   a,$00
+183f: 84 00     adc   a,$00
+1841: 84 00     adc   a,$00
+1843: 84 00     adc   a,$00
+1845: 84 00     adc   a,$00
+1847: 84 00     adc   a,$00
+1849: 84 00     adc   a,$00
+184b: 83 00 83  bbs4  $00,$17d0
+184e: 00        nop
+184f: 83 00 83  bbs4  $00,$17d4
+1852: 00        nop
+1853: 83 00 83  bbs4  $00,$17d8
+1856: 00        nop
+1857: 83 00 83  bbs4  $00,$17dc
+185a: 00        nop
+185b: 83 00 83  bbs4  $00,$17e0
+185e: 00        nop
+185f: 83 00 83  bbs4  $00,$17e4
+1862: 00        nop
+1863: 83 00 82  bbs4  $00,$17e7
+1866: 00        nop
+1867: 82 00     set4  $00
+1869: 82 00     set4  $00
+186b: 82 00     set4  $00
+186d: 82 00     set4  $00
+186f: 82 00     set4  $00
+1871: 82 00     set4  $00
+1873: 82 00     set4  $00
+1875: 82 00     set4  $00
+1877: 82 00     set4  $00
+1879: 82 00     set4  $00
+187b: 82 00     set4  $00
+187d: 82 00     set4  $00
+187f: 82 00     set4  $00
+1881: 81        tcall 8
+1882: 00        nop
+1883: 81        tcall 8
+1884: 00        nop
+1885: 81        tcall 8
+1886: 00        nop
+1887: 81        tcall 8
+1888: 00        nop
+1889: 81        tcall 8
+188a: 00        nop
+188b: 81        tcall 8
+188c: 00        nop
+188d: 81        tcall 8
+188e: 00        nop
+188f: 81        tcall 8
+1890: 00        nop
+1891: 81        tcall 8
+1892: 00        nop
+1893: 81        tcall 8
+1894: 00        nop
+1895: 81        tcall 8
+1896: 00        nop
+1897: 81        tcall 8
+1898: 00        nop
+1899: 81        tcall 8
+189a: 00        nop
+189b: 80        setc
+189c: 00        nop
+189d: 80        setc
+189e: 00        nop
+189f: 80        setc
+18a0: 00        nop
+18a1: 80        setc
+18a2: 00        nop
+18a3: 80        setc
+18a4: 00        nop
+18a5: 80        setc
+18a6: 00        nop
+18a7: 80        setc
+18a8: 00        nop
+18a9: 80        setc
+18aa: 00        nop
+18ab: 80        setc
+18ac: 00        nop
+18ad: 80        setc
+18ae: 00        nop
+18af: 80        setc
+18b0: 00        nop
+18b1: 80        setc
+18b2: 00        nop
+18b3: 80        setc
+18b4: 00        nop
+18b5: 80        setc
+18b6: 00        nop
+18b7: 7f        reti
+18b8: 00        nop
+18b9: 7f        reti
+18ba: 00        nop
+18bb: 7f        reti
+18bc: 00        nop
+18bd: 7f        reti
+18be: 00        nop
+18bf: 7f        reti
+18c0: 00        nop
+18c1: 7f        reti
+18c2: 00        nop
+18c3: 7f        reti
+18c4: 00        nop
+18c5: 7f        reti
+18c6: 00        nop
+18c7: 7f        reti
+18c8: 00        nop
+18c9: 7f        reti
+18ca: 00        nop
+18cb: 7f        reti
+18cc: 00        nop
+18cd: 7f        reti
+18ce: 00        nop
+18cf: 7f        reti
+18d0: 00        nop
+18d1: 7f        reti
+18d2: 00        nop
+18d3: 7e 00     cmp   y,$00
+18d5: 7e 00     cmp   y,$00
+18d7: 7e 00     cmp   y,$00
+18d9: 7e 00     cmp   y,$00
+18db: 7e 00     cmp   y,$00
+18dd: 7e 00     cmp   y,$00
+18df: 7e 00     cmp   y,$00
+18e1: 7e 00     cmp   y,$00
+18e3: 7e 00     cmp   y,$00
+18e5: 7e 00     cmp   y,$00
+18e7: 7e 00     cmp   y,$00
+18e9: 7e 00     cmp   y,$00
+18eb: 7e 00     cmp   y,$00
+18ed: 7e 00     cmp   y,$00
+18ef: 7e 00     cmp   y,$00
+18f1: 7d        mov   a,x
+18f2: 00        nop
+18f3: 7d        mov   a,x
+18f4: 00        nop
+18f5: 7d        mov   a,x
+18f6: 00        nop
+18f7: 7d        mov   a,x
+18f8: 00        nop
+18f9: 7d        mov   a,x
+18fa: 00        nop
+18fb: 7d        mov   a,x
+18fc: 00        nop
+18fd: 7d        mov   a,x
+18fe: 00        nop
+18ff: 7d        mov   a,x
+1900: 00        nop
+1901: 7d        mov   a,x
+1902: 00        nop
+1903: 7d        mov   a,x
+1904: 00        nop
+1905: 7d        mov   a,x
+1906: 00        nop
+1907: 7d        mov   a,x
+1908: 00        nop
+1909: 7d        mov   a,x
+190a: 00        nop
+190b: 7d        mov   a,x
+190c: 00        nop
+190d: 7c        ror   a
+190e: 00        nop
+190f: 7c        ror   a
+1910: 00        nop
+1911: 7c        ror   a
+1912: 00        nop
+1913: 7c        ror   a
+1914: 00        nop
+1915: 7c        ror   a
+1916: 00        nop
+1917: 7c        ror   a
+1918: 00        nop
+1919: 7c        ror   a
+191a: 00        nop
+191b: 7c        ror   a
+191c: 00        nop
+191d: 7c        ror   a
+191e: 00        nop
+191f: 7c        ror   a
+1920: 00        nop
+1921: 7c        ror   a
+1922: 00        nop
+1923: 7c        ror   a
+1924: 00        nop
+1925: 7c        ror   a
+1926: 00        nop
+1927: 7c        ror   a
+1928: 00        nop
+1929: 7c        ror   a
+192a: 00        nop
+192b: 7b 00     ror   $00+x
+192d: 7b 00     ror   $00+x
+192f: 7b 00     ror   $00+x
+1931: 7b 00     ror   $00+x
+1933: 7b 00     ror   $00+x
+1935: 7b 00     ror   $00+x
+1937: 7b 00     ror   $00+x
+1939: 7b 00     ror   $00+x
+193b: 7b 00     ror   $00+x
+193d: 7b 00     ror   $00+x
+193f: 7b 00     ror   $00+x
+1941: 7b 00     ror   $00+x
+1943: 7b 00     ror   $00+x
+1945: 7b 00     ror   $00+x
+1947: 7b 00     ror   $00+x
+1949: 7a 00     addw  ya,$00
+194b: 7a 00     addw  ya,$00
+194d: 7a 00     addw  ya,$00
+194f: 7a 00     addw  ya,$00
+1951: 7a 00     addw  ya,$00
+1953: 7a 00     addw  ya,$00
+1955: 7a 00     addw  ya,$00
+1957: 7a 00     addw  ya,$00
+1959: 7a 00     addw  ya,$00
+195b: 7a 00     addw  ya,$00
+195d: 7a 00     addw  ya,$00
+195f: 7a 00     addw  ya,$00
+1961: 7a 00     addw  ya,$00
+1963: 7a 00     addw  ya,$00
+1965: 7a 00     addw  ya,$00
+1967: 79        cmp   (x),(y)
+1968: 00        nop
+1969: 79        cmp   (x),(y)
+196a: 00        nop
+196b: 79        cmp   (x),(y)
+196c: 00        nop
+196d: 79        cmp   (x),(y)
+196e: 00        nop
+196f: 79        cmp   (x),(y)
+1970: 00        nop
+1971: 79        cmp   (x),(y)
+1972: 00        nop
+1973: 79        cmp   (x),(y)
+1974: 00        nop
+1975: 79        cmp   (x),(y)
+1976: 00        nop
+1977: 79        cmp   (x),(y)
+1978: 00        nop
+1979: 79        cmp   (x),(y)
+197a: 00        nop
+197b: 79        cmp   (x),(y)
+197c: 00        nop
+197d: 79        cmp   (x),(y)
+197e: 00        nop
+197f: 79        cmp   (x),(y)
+1980: 00        nop
+1981: 79        cmp   (x),(y)
+1982: 00        nop
+1983: 79        cmp   (x),(y)
+1984: 00        nop
+1985: 79        cmp   (x),(y)
+1986: 00        nop
+1987: 78 00 78  cmp   $78,#$00
+198a: 00        nop
+198b: 78 00 78  cmp   $78,#$00
+198e: 00        nop
+198f: 78 00 78  cmp   $78,#$00
+1992: 00        nop
+1993: 78 00 78  cmp   $78,#$00
+1996: 00        nop
+1997: 78 00 78  cmp   $78,#$00
+199a: 00        nop
+199b: 78 00 78  cmp   $78,#$00
+199e: 00        nop
+199f: 78 00 78  cmp   $78,#$00
+19a2: 00        nop
+19a3: 78 00 78  cmp   $78,#$00
+19a6: 00        nop
+19a7: 77 00     cmp   a,($00)+y
+19a9: 77 00     cmp   a,($00)+y
+19ab: 77 00     cmp   a,($00)+y
+19ad: 77 00     cmp   a,($00)+y
+19af: 77 00     cmp   a,($00)+y
+19b1: 77 00     cmp   a,($00)+y
+19b3: 77 00     cmp   a,($00)+y
+19b5: 77 00     cmp   a,($00)+y
+19b7: 77 00     cmp   a,($00)+y
+19b9: 77 00     cmp   a,($00)+y
+19bb: 77 00     cmp   a,($00)+y
+19bd: 77 00     cmp   a,($00)+y
+19bf: 77 00     cmp   a,($00)+y
+19c1: 77 00     cmp   a,($00)+y
+19c3: 77 00     cmp   a,($00)+y
+19c5: 77 00     cmp   a,($00)+y
+19c7: 76 00 76  cmp   a,$7600+y
+19ca: 00        nop
+19cb: 76 00 76  cmp   a,$7600+y
+19ce: 00        nop
+19cf: 76 00 76  cmp   a,$7600+y
+19d2: 00        nop
+19d3: 76 00 76  cmp   a,$7600+y
+19d6: 00        nop
+19d7: 76 00 76  cmp   a,$7600+y
+19da: 00        nop
+19db: 76 00 76  cmp   a,$7600+y
+19de: 00        nop
+19df: 76 00 76  cmp   a,$7600+y
+19e2: 00        nop
+19e3: 76 00 76  cmp   a,$7600+y
+19e6: 00        nop
+19e7: 75 00 75  cmp   a,$7500+x
+19ea: 00        nop
+19eb: 75 00 75  cmp   a,$7500+x
+19ee: 00        nop
+19ef: 75 00 75  cmp   a,$7500+x
+19f2: 00        nop
+19f3: 75 00 75  cmp   a,$7500+x
+19f6: 00        nop
+19f7: 75 00 75  cmp   a,$7500+x
+19fa: 00        nop
+19fb: 75 00 75  cmp   a,$7500+x
+19fe: 00        nop
+19ff: 75 00 75  cmp   a,$7500+x
+1a02: 00        nop
+1a03: 75 00 75  cmp   a,$7500+x
+1a06: 00        nop
+1a07: 75 00 74  cmp   a,$7400+x
+1a0a: 00        nop
+1a0b: 74 00     cmp   a,$00+x
+1a0d: 74 00     cmp   a,$00+x
+1a0f: 74 00     cmp   a,$00+x
+1a11: 74 00     cmp   a,$00+x
+1a13: 74 00     cmp   a,$00+x
+1a15: 74 00     cmp   a,$00+x
+1a17: 74 00     cmp   a,$00+x
+1a19: 74 00     cmp   a,$00+x
+1a1b: 74 00     cmp   a,$00+x
+1a1d: 74 00     cmp   a,$00+x
+1a1f: 74 00     cmp   a,$00+x
+1a21: 74 00     cmp   a,$00+x
+1a23: 74 00     cmp   a,$00+x
+1a25: 74 00     cmp   a,$00+x
+1a27: 74 00     cmp   a,$00+x
+1a29: 73 00 73  bbc3  $00,$1a9e
+1a2c: 00        nop
+1a2d: 73 00 73  bbc3  $00,$1aa2
+1a30: 00        nop
+1a31: 73 00 73  bbc3  $00,$1aa6
+1a34: 00        nop
+1a35: 73 00 73  bbc3  $00,$1aaa
+1a38: 00        nop
+1a39: 73 00 73  bbc3  $00,$1aae
+1a3c: 00        nop
+1a3d: 73 00 73  bbc3  $00,$1ab2
+1a40: 00        nop
+1a41: 73 00 73  bbc3  $00,$1ab6
+1a44: 00        nop
+1a45: 73 00 73  bbc3  $00,$1aba
+1a48: 00        nop
+1a49: 73 00 73  bbc3  $00,$1abe
+1a4c: 00        nop
+1a4d: 72 00     clr3  $00
+1a4f: 72 00     clr3  $00
+1a51: 72 00     clr3  $00
+1a53: 72 00     clr3  $00
+1a55: 72 00     clr3  $00
+1a57: 72 00     clr3  $00
+1a59: 72 00     clr3  $00
+1a5b: 72 00     clr3  $00
+1a5d: 72 00     clr3  $00
+1a5f: 72 00     clr3  $00
+1a61: 72 00     clr3  $00
+1a63: 72 00     clr3  $00
+1a65: 72 00     clr3  $00
+1a67: 72 00     clr3  $00
+1a69: 72 00     clr3  $00
+1a6b: 72 00     clr3  $00
+1a6d: 72 00     clr3  $00
+1a6f: 71        tcall 7
+1a70: 00        nop
+1a71: 71        tcall 7
+1a72: 00        nop
+1a73: 71        tcall 7
+1a74: 00        nop
+1a75: 71        tcall 7
+1a76: 00        nop
+1a77: 71        tcall 7
+1a78: 00        nop
+1a79: 71        tcall 7
+1a7a: 00        nop
+1a7b: 71        tcall 7
+1a7c: 00        nop
+1a7d: 71        tcall 7
+1a7e: 00        nop
+1a7f: 71        tcall 7
+1a80: 00        nop
+1a81: 71        tcall 7
+1a82: 00        nop
+1a83: 71        tcall 7
+1a84: 00        nop
+1a85: 71        tcall 7
+1a86: 00        nop
+1a87: 71        tcall 7
+1a88: 00        nop
+1a89: 71        tcall 7
+1a8a: 00        nop
+1a8b: 71        tcall 7
+1a8c: 00        nop
+1a8d: 71        tcall 7
+1a8e: 00        nop
+1a8f: 71        tcall 7
+1a90: 00        nop
+1a91: 71        tcall 7
+1a92: 00        nop
+1a93: 70 00     bvs   $1a95
+1a95: 70 00     bvs   $1a97
+1a97: 70 00     bvs   $1a99
+1a99: 70 00     bvs   $1a9b
+1a9b: 70 00     bvs   $1a9d
+1a9d: 70 00     bvs   $1a9f
+1a9f: 70 00     bvs   $1aa1
+1aa1: 70 00     bvs   $1aa3
+1aa3: 70 00     bvs   $1aa5
+1aa5: 70 00     bvs   $1aa7
+1aa7: 70 00     bvs   $1aa9
+1aa9: 70 00     bvs   $1aab
+1aab: 70 00     bvs   $1aad
+1aad: 70 00     bvs   $1aaf
+1aaf: 70 00     bvs   $1ab1
+1ab1: 70 00     bvs   $1ab3
+1ab3: 70 00     bvs   $1ab5
+1ab5: 70 00     bvs   $1ab7
+1ab7: 6f        ret
+1ab8: 00        nop
+1ab9: 6f        ret
+1aba: 00        nop
+1abb: 6f        ret
+1abc: 00        nop
+1abd: 00        nop
+1abe: 00        nop
+1abf: 00        nop
+1ac0: 00        nop
+1ac1: 00        nop
+1ac2: 00        nop
+1ac3: 00        nop
+1ac4: 00        nop
+1ac5: 00        nop
+1ac6: 00        nop
+1ac7: 00        nop
+1ac8: 00        nop
+1ac9: 00        nop
+1aca: 00        nop
+1acb: 00        nop
+1acc: 00        nop
+1acd: 00        nop
+1ace: 00        nop
+1acf: 00        nop
+1ad0: 00        nop
+1ad1: 00        nop
+1ad2: 00        nop
+1ad3: 00        nop
+1ad4: 00        nop
+1ad5: 00        nop
+1ad6: 00        nop
+1ad7: 00        nop
+1ad8: 00        nop
+1ad9: 00        nop
+1ada: 00        nop
+1adb: 00        nop
+1adc: 00        nop
+1add: 00        nop
+1ade: 00        nop
+1adf: 00        nop
+1ae0: 00        nop
+1ae1: 00        nop
+1ae2: 00        nop
+1ae3: 00        nop
+1ae4: 00        nop
+1ae5: 00        nop
+1ae6: 00        nop
+1ae7: 00        nop
+1ae8: 00        nop
+1ae9: 00        nop
+1aea: 00        nop
+1aeb: 00        nop
+1aec: 00        nop
+1aed: 00        nop
+1aee: 00        nop
+1aef: 00        nop
+1af0: 00        nop
+1af1: 00        nop
+1af2: 00        nop
+1af3: 00        nop
+1af4: 00        nop
+1af5: 00        nop
+1af6: 00        nop
+1af7: 00        nop
+1af8: 00        nop
+1af9: 00        nop
+1afa: 00        nop
+1afb: 00        nop
+1afc: 00        nop
+1afd: 00        nop
+1afe: 00        nop
+1aff: 00        nop
+1b00: 00        nop
+1b01: 00        nop
+1b02: 00        nop
+1b03: 00        nop
+1b04: 00        nop
+1b05: 00        nop
+1b06: 00        nop
+1b07: 00        nop
+1b08: 00        nop
+1b09: 00        nop
+1b0a: 00        nop
+1b0b: 00        nop
+1b0c: 00        nop
+1b0d: 00        nop
+1b0e: 00        nop
+1b0f: 00        nop
+1b10: 00        nop
+1b11: 00        nop
+1b12: 00        nop
+1b13: 00        nop
+1b14: 00        nop
+1b15: 00        nop
+1b16: 00        nop
+1b17: 00        nop
+1b18: 00        nop
+1b19: 00        nop
+1b1a: 00        nop
+1b1b: 00        nop
+1b1c: 00        nop
+1b1d: 00        nop
+1b1e: 00        nop
+1b1f: 00        nop
+1b20: 00        nop
+1b21: 00        nop
+1b22: 00        nop
+1b23: 00        nop
+1b24: 00        nop
+1b25: 00        nop
+1b26: 00        nop
+1b27: 00        nop
+1b28: 00        nop
+1b29: 00        nop
+1b2a: 00        nop
+1b2b: eb 3f     mov   y,$3f
+1b2d: cc 3e b7  mov   $b73e,y
+1b30: 3d        inc   x
+1b31: ab 3c     inc   $3c
+1b33: a8 3b     sbc   a,#$3b
+1b35: ae        pop   a
+1b36: 3a bb     incw  $bb
+1b38: 39        and   (x),(y)
+1b39: d1        tcall 13
+1b3a: 38 ee 37  and   $37,#$ee
+1b3d: 11        tcall 1
+1b3e: 37 3c     and   a,($3c)+y
+1b40: 36 6c 35  and   a,$356c+y
+1b43: a3 34 e0  bbs5  $34,$1b25
+1b46: 33 22 33  bbc1  $22,$1b7b
+1b49: 6a 32 b7  and1  c,!($16e6,2)
+1b4c: 31        tcall 3
+1b4d: 08 31     or    a,#$31
+1b4f: 5f 30 ba  jmp   $ba30
+1b52: 2f 19     bra   $1b6d
+1b54: 2f 7c     bra   $1bd2
+1b56: 2e e4 2d  cbne  $e4,$1b85
+1b59: 4f 2d     pcall $2d
+1b5b: be        das   a
+1b5c: 2c 31 2c  rol   $2c31
+1b5f: a7 2b     sbc   a,($2b+x)
+1b61: 20        clrp
+1b62: 2b 9d     rol   $9d
+1b64: 2a 1c 2a  or1   c,!($0543,4)
+1b67: 9f        xcn   a
+1b68: 29 24 29  and   ($29),($24)
+1b6b: ad 28     cmp   y,#$28
+1b6d: 38 28 c5  and   $c5,#$28
+1b70: 27 55     and   a,($55+x)
+1b72: 27 e8     and   a,($e8+x)
+1b74: 26        and   a,(x)
+1b75: 7d        mov   a,x
+1b76: 26        and   a,(x)
+1b77: 14 26     or    a,$26+x
+1b79: ad 25     cmp   y,#$25
+1b7b: 49 25 e6  eor   ($e6),($25)
+1b7e: 24 86     and   a,$86
+1b80: 24 28     and   a,$28
+1b82: 24 cb     and   a,$cb
+1b84: 23 70 23  bbs1  $70,$1ba9
+1b87: 17 23     or    a,($23)+y
+1b89: c0        di
+1b8a: 22 6b     set1  $6b
+1b8c: 22 17     set1  $17
+1b8e: 22 c4     set1  $c4
+1b90: 21        tcall 2
+1b91: 74 21     cmp   a,$21+x
+1b93: 24 21     and   a,$21
+1b95: d6 20 8a  mov   $8a20+y,a
+1b98: 20        clrp
+1b99: 3f 20 f5  call  $f520
+1b9c: 1f ad 1f  jmp   ($1fad+x)
+1b9f: 66        cmp   a,(x)
+1ba0: 1f 20 1f  jmp   ($1f20+x)
+1ba3: db 1e     mov   $1e+x,y
+1ba5: 98 1e 55  adc   $55,#$1e
+1ba8: 1e 14 1e  cmp   x,$1e14
+1bab: d4 1d     mov   $1d+x,a
+1bad: 95 1d 57  adc   a,$571d+x
+1bb0: 1d        dec   x
+1bb1: 1a 1d     decw  $1d
+1bb3: dd        mov   a,y
+1bb4: 1c        asl   a
+1bb5: a2 1c     set5  $1c
+1bb7: 68 1c     cmp   a,#$1c
+1bb9: 2f 1c     bra   $1bd7
+1bbb: f7 1b     mov   a,($1b)+y
+1bbd: bf        mov   a,(x)+
+1bbe: 1b 88     asl   $88+x
+1bc0: 1b 53     asl   $53+x
+1bc2: 1b 1e     asl   $1e+x
+1bc4: 1b e9     asl   $e9+x
+1bc6: 1a b6     decw  $b6
+1bc8: 1a 83     decw  $83
+1bca: 1a 51     decw  $51
+1bcc: 1a 20     decw  $20
+1bce: 1a f0     decw  $f0
+1bd0: 19        or    (x),(y)
+1bd1: c0        di
+1bd2: 19        or    (x),(y)
+1bd3: 91        tcall 9
+1bd4: 19        or    (x),(y)
+1bd5: 62 19     set3  $19
+1bd7: 35 19 08  and   a,$0819+x
+1bda: 19        or    (x),(y)
+1bdb: db 18     mov   $18+x,y
+1bdd: af        mov   (x)+,a
+1bde: 18 84 18  or    $18,#$84
+1be1: 59        eor   (x),(y)
+1be2: 18 2f 18  or    $18,#$2f
+1be5: 06        or    a,(x)
+1be6: 18 dd 17  or    $17,#$dd
+1be9: b4 17     sbc   a,$17+x
+1beb: 8c 17 65  dec   $6517
+1bee: 17 3e     or    a,($3e)+y
+1bf0: 17 17     or    a,($17)+y
+1bf2: 17 f2     or    a,($f2)+y
+1bf4: 16 cc 16  or    a,$16cc+y
+1bf7: a7 16     sbc   a,($16+x)
+1bf9: 83 16 5f  bbs4  $16,$1c5a
+1bfc: 16 3b 16  or    a,$163b+y
+1bff: 18 16 f5  or    $f5,#$16
+1c02: 15 d3 15  or    a,$15d3+x
+1c05: b1        tcall 11
+1c06: 15 90 15  or    a,$1590+x
+1c09: 6f        ret
+1c0a: 15 4e 15  or    a,$154e+x
+1c0d: 2e 15 0e  cbne  $15,$1c1d
+1c10: 15 ee 14  or    a,$14ee+x
+1c13: cf        mul   ya
+1c14: 14 b0     or    a,$b0+x
+1c16: 14 92     or    a,$92+x
+1c18: 14 74     or    a,$74+x
+1c1a: 14 56     or    a,$56+x
+1c1c: 14 39     or    a,$39+x
+1c1e: 14 1c     or    a,$1c+x
+1c20: 14 ff     or    a,$ff+x
+1c22: 13 e2 13  bbc0  $e2,$1c37
+1c25: c6        mov   (x),a
+1c26: 13 aa 13  bbc0  $aa,$1c3b
+1c29: 8f 13 74  mov   $74,#$13
+1c2c: 13 59 13  bbc0  $59,$1c41
+1c2f: 3e 13     cmp   x,$13
+1c31: 24 13     and   a,$13
+1c33: 0a 13 f0  or1   c,$1e02,3
+1c36: 12 d6     clr0  $d6
+1c38: 12 bd     clr0  $bd
+1c3a: 12 a4     clr0  $a4
+1c3c: 12 8b     clr0  $8b
+1c3e: 12 73     clr0  $73
+1c40: 12 5b     clr0  $5b
+1c42: 12 43     clr0  $43
+1c44: 12 2b     clr0  $2b
+1c46: 12 14     clr0  $14
+1c48: 12 fc     clr0  $fc
+1c4a: 11        tcall 1
+1c4b: e5 11 ce  mov   a,$ce11
+1c4e: 11        tcall 1
+1c4f: b8 11 a2  sbc   $a2,#$11
+1c52: 11        tcall 1
+1c53: 8b 11     dec   $11
+1c55: 76 11 60  cmp   a,$6011+y
+1c58: 11        tcall 1
+1c59: 4a 11 35  and1  c,$06a2,1
+1c5c: 11        tcall 1
+1c5d: 20        clrp
+1c5e: 11        tcall 1
+1c5f: 0b 11     asl   $11
+1c61: f6 10 e2  mov   a,$e210+y
+1c64: 10 ce     bpl   $1c34
+1c66: 10 ba     bpl   $1c22
+1c68: 10 a6     bpl   $1c10
+1c6a: 10 92     bpl   $1bfe
+1c6c: 10 7e     bpl   $1cec
+1c6e: 10 6b     bpl   $1cdb
+1c70: 10 58     bpl   $1cca
+1c72: 10 45     bpl   $1cb9
+1c74: 10 32     bpl   $1ca8
+1c76: 10 1f     bpl   $1c97
+1c78: 10 0d     bpl   $1c87
+1c7a: 10 fa     bpl   $1c76
+1c7c: 0f        brk
+1c7d: e8 0f     mov   a,#$0f
+1c7f: d6 0f c4  mov   $c40f+y,a
+1c82: 0f        brk
+1c83: b3 0f a1  bbc5  $0f,$1c26
+1c86: 0f        brk
+1c87: 90 0f     bcc   $1c98
+1c89: 7e 0f     cmp   y,$0f
+1c8b: 6d        push  y
+1c8c: 0f        brk
+1c8d: 5c        lsr   a
+1c8e: 0f        brk
+1c8f: 4c 0f 3b  lsr   $3b0f
+1c92: 0f        brk
+1c93: 2a 0f 1a  or1   c,!($0341,7)
+1c96: 0f        brk
+1c97: 0a 0f fa  or1   c,$1f41,7
+1c9a: 0e ea 0e  tset1 $0eea
+1c9d: da 0e     movw  $0e,ya
+1c9f: ca 0e bb  mov1  $1761,6,c
+1ca2: 0e ab 0e  tset1 $0eab
+1ca5: 9c        dec   a
+1ca6: 0e 8d 0e  tset1 $0e8d
+1ca9: 7d        mov   a,x
+1caa: 0e 6e 0e  tset1 $0e6e
+1cad: 60        clrc
+1cae: 0e 51 0e  tset1 $0e51
+1cb1: 42 0e     set2  $0e
+1cb3: 34 0e     and   a,$0e+x
+1cb5: 25 0e 17  and   a,$170e
+1cb8: 0e 09 0e  tset1 $0e09
+1cbb: fb 0d     mov   y,$0d+x
+1cbd: ed        notc
+1cbe: 0d        push  psw
+1cbf: df        daa   a
+1cc0: 0d        push  psw
+1cc1: d2 0d     clr6  $0d
+1cc3: c4 0d     mov   $0d,a
+1cc5: b6 0d a9  sbc   a,$a90d+y
+1cc8: 0d        push  psw
+1cc9: 9c        dec   a
+1cca: 0d        push  psw
+1ccb: 8f 0d 81  mov   $81,#$0d
+1cce: 0d        push  psw
+1ccf: 74 0d     cmp   a,$0d+x
+1cd1: 68 0d     cmp   a,#$0d
+1cd3: 5b 0d     lsr   $0d+x
+1cd5: 4e 0d 41  tclr1 $410d
+1cd8: 0d        push  psw
+1cd9: 35 0d 28  and   a,$280d+x
+1cdc: 0d        push  psw
+1cdd: 1c        asl   a
+1cde: 0d        push  psw
+1cdf: 10 0d     bpl   $1cee
+1ce1: 04 0d     or    a,$0d
+1ce3: f8 0c     mov   x,$0c
+1ce5: ec 0c e0  mov   y,$e00c
+1ce8: 0c d4 0c  asl   $0cd4
+1ceb: c8 0c     cmp   x,#$0c
+1ced: bd        mov   sp,x
+1cee: 0c b1 0c  asl   $0cb1
+1cf1: a6        sbc   a,(x)
+1cf2: 0c 9a 0c  asl   $0c9a
+1cf5: 8f 0c 84  mov   $84,#$0c
+1cf8: 0c 78 0c  asl   $0c78
+1cfb: 6d        push  y
+1cfc: 0c 62 0c  asl   $0c62
+1cff: 57 0c     eor   a,($0c)+y
+1d01: 4c 0c 42  lsr   $420c
+1d04: 0c 37 0c  asl   $0c37
+1d07: 2c 0c 22  rol   $220c
+1d0a: 0c 17 0c  asl   $0c17
+1d0d: 0d        push  psw
+1d0e: 0c 03 0c  asl   $0c03
+1d11: f8 0b     mov   x,$0b
+1d13: ee        pop   y
+1d14: 0b e4     asl   $e4
+1d16: 0b da     asl   $da
+1d18: 0b d0     asl   $d0
+1d1a: 0b c6     asl   $c6
+1d1c: 0b bc     asl   $bc
+1d1e: 0b b2     asl   $b2
+1d20: 0b a8     asl   $a8
+1d22: 0b 9f     asl   $9f
+1d24: 0b 95     asl   $95
+1d26: 0b 8b     asl   $8b
+1d28: 0b 82     asl   $82
+1d2a: 0b 79     asl   $79
+1d2c: 0b 6f     asl   $6f
+1d2e: 0b 66     asl   $66
+1d30: 0b 5d     asl   $5d
+1d32: 0b 53     asl   $53
+1d34: 0b 4a     asl   $4a
+1d36: 0b 41     asl   $41
+1d38: 0b 38     asl   $38
+1d3a: 0b 2f     asl   $2f
+1d3c: 0b 26     asl   $26
+1d3e: 0b 1d     asl   $1d
+1d40: 0b 15     asl   $15
+1d42: 0b 0c     asl   $0c
+1d44: 0b 03     asl   $03
+1d46: 0b fa     asl   $fa
+1d48: 0a f2 0a  or1   c,$015e,2
+1d4b: e9 0a e1  mov   x,$e10a
+1d4e: 0a d8 0a  or1   c,$015b,0
+1d51: d0 0a     bne   $1d5d
+1d53: c8 0a     cmp   x,#$0a
+1d55: bf        mov   a,(x)+
+1d56: 0a b7 0a  or1   c,$0156,7
+1d59: af        mov   (x)+,a
+1d5a: 0a a7 0a  or1   c,$0154,7
+1d5d: 9f        xcn   a
+1d5e: 0a 97 0a  or1   c,$0152,7
+1d61: 8f 0a 87  mov   $87,#$0a
+1d64: 0a 7f 0a  or1   c,$014f,7
+1d67: 77 0a     cmp   a,($0a)+y
+1d69: 6f        ret
+1d6a: 0a 67 0a  or1   c,$014c,7
+1d6d: 60        clrc
+1d6e: 0a 58 0a  or1   c,$014b,0
+1d71: 50 0a     bvc   $1d7d
+1d73: 49 0a 41  eor   ($41),($0a)
+1d76: 0a 3a 0a  or1   c,$0147,2
+1d79: 32 0a     clr1  $0a
+1d7b: 2b 0a     rol   $0a
+1d7d: 23 0a 1c  bbs1  $0a,$1d9b
+1d80: 0a 15 0a  or1   c,$0142,5
+1d83: 0e 0a 06  tset1 $060a
+1d86: 0a ff 09  or1   c,$013f,7
+1d89: f8 09     mov   x,$09
+1d8b: f1        tcall 15
+1d8c: 09 ea 09  or    ($09),($ea)
+1d8f: e3 09 dc  bbs7  $09,$1d6d
+1d92: 09 d5 09  or    ($09),($d5)
+1d95: ce        pop   x
+1d96: 09 c7 09  or    ($09),($c7)
+1d99: c0        di
+1d9a: 09 ba 09  or    ($09),($ba)
+1d9d: b3 09 ac  bbc5  $09,$1d4b
+1da0: 09 a5 09  or    ($09),($a5)
+1da3: 9f        xcn   a
+1da4: 09 98 09  or    ($09),($98)
+1da7: 92 09     clr4  $09
+1da9: 8b 09     dec   $09
+1dab: 85 09 7e  adc   a,$7e09
+1dae: 09 78 09  or    ($09),($78)
+1db1: 71        tcall 7
+1db2: 09 6b 09  or    ($09),($6b)
+1db5: 65 09 5e  cmp   a,$5e09
+1db8: 09 58 09  or    ($09),($58)
+1dbb: 52 09     clr2  $09
+1dbd: 4c 09 45  lsr   $4509
+1dc0: 09 3f 09  or    ($09),($3f)
+1dc3: 39        and   (x),(y)
+1dc4: 09 33 09  or    ($09),($33)
+1dc7: 2d        push  a
+1dc8: 09 27 09  or    ($09),($27)
+1dcb: 21        tcall 2
+1dcc: 09 1b 09  or    ($09),($1b)
+1dcf: 15 09 0f  or    a,$0f09+x
+1dd2: 09 0a 09  or    ($09),($0a)
+1dd5: 04 09     or    a,$09
+1dd7: fe 08     dbnz  y,$1de1
+1dd9: f8 08     mov   x,$08
+1ddb: f2 08     clr7  $08
+1ddd: ed        notc
+1dde: 08 e7     or    a,#$e7
+1de0: 08 e1     or    a,#$e1
+1de2: 08 dc     or    a,#$dc
+1de4: 08 d6     or    a,#$d6
+1de6: 08 d1     or    a,#$d1
+1de8: 08 cb     or    a,#$cb
+1dea: 08 c5     or    a,#$c5
+1dec: 08 c0     or    a,#$c0
+1dee: 08 bb     or    a,#$bb
+1df0: 08 b5     or    a,#$b5
+1df2: 08 b0     or    a,#$b0
+1df4: 08 aa     or    a,#$aa
+1df6: 08 a5     or    a,#$a5
+1df8: 08 a0     or    a,#$a0
+1dfa: 08 9a     or    a,#$9a
+1dfc: 08 95     or    a,#$95
+1dfe: 08 90     or    a,#$90
+1e00: 08 8b     or    a,#$8b
+1e02: 08 85     or    a,#$85
+1e04: 08 80     or    a,#$80
+1e06: 08 7b     or    a,#$7b
+1e08: 08 76     or    a,#$76
+1e0a: 08 71     or    a,#$71
+1e0c: 08 6c     or    a,#$6c
+1e0e: 08 67     or    a,#$67
+1e10: 08 62     or    a,#$62
+1e12: 08 5d     or    a,#$5d
+1e14: 08 58     or    a,#$58
+1e16: 08 53     or    a,#$53
+1e18: 08 4e     or    a,#$4e
+1e1a: 08 49     or    a,#$49
+1e1c: 08 44     or    a,#$44
+1e1e: 08 3f     or    a,#$3f
+1e20: 08 3a     or    a,#$3a
+1e22: 08 35     or    a,#$35
+1e24: 08 30     or    a,#$30
+1e26: 08 2c     or    a,#$2c
+1e28: 08 27     or    a,#$27
+1e2a: 08 22     or    a,#$22
+1e2c: 08 1d     or    a,#$1d
+1e2e: 08 19     or    a,#$19
+1e30: 08 14     or    a,#$14
+1e32: 08 0f     or    a,#$0f
+1e34: 08 0b     or    a,#$0b
+1e36: 08 06     or    a,#$06
+1e38: 08 02     or    a,#$02
+1e3a: 08 fd     or    a,#$fd
+1e3c: 07 f8     or    a,($f8+x)
+1e3e: 07 f4     or    a,($f4+x)
+1e40: 07 ef     or    a,($ef+x)
+1e42: 07 eb     or    a,($eb+x)
+1e44: 07 e6     or    a,($e6+x)
+1e46: 07 e2     or    a,($e2+x)
+1e48: 07 dd     or    a,($dd+x)
+1e4a: 07 d9     or    a,($d9+x)
+1e4c: 07 d5     or    a,($d5+x)
+1e4e: 07 d0     or    a,($d0+x)
+1e50: 07 cc     or    a,($cc+x)
+1e52: 07 c8     or    a,($c8+x)
+1e54: 07 c3     or    a,($c3+x)
+1e56: 07 bf     or    a,($bf+x)
+1e58: 07 bb     or    a,($bb+x)
+1e5a: 07 b6     or    a,($b6+x)
+1e5c: 07 b2     or    a,($b2+x)
+1e5e: 07 ae     or    a,($ae+x)
+1e60: 07 aa     or    a,($aa+x)
+1e62: 07 a6     or    a,($a6+x)
+1e64: 07 a1     or    a,($a1+x)
+1e66: 07 9d     or    a,($9d+x)
+1e68: 07 99     or    a,($99+x)
+1e6a: 07 95     or    a,($95+x)
+1e6c: 07 91     or    a,($91+x)
+1e6e: 07 8d     or    a,($8d+x)
+1e70: 07 89     or    a,($89+x)
+1e72: 07 85     or    a,($85+x)
+1e74: 07 81     or    a,($81+x)
+1e76: 07 7d     or    a,($7d+x)
+1e78: 07 79     or    a,($79+x)
+1e7a: 07 75     or    a,($75+x)
+1e7c: 07 71     or    a,($71+x)
+1e7e: 07 6d     or    a,($6d+x)
+1e80: 07 69     or    a,($69+x)
+1e82: 07 65     or    a,($65+x)
+1e84: 07 61     or    a,($61+x)
+1e86: 07 5d     or    a,($5d+x)
+1e88: 07 59     or    a,($59+x)
+1e8a: 07 55     or    a,($55+x)
+1e8c: 07 51     or    a,($51+x)
+1e8e: 07 4e     or    a,($4e+x)
+1e90: 07 4a     or    a,($4a+x)
+1e92: 07 46     or    a,($46+x)
+1e94: 07 42     or    a,($42+x)
+1e96: 07 3e     or    a,($3e+x)
+1e98: 07 3b     or    a,($3b+x)
+1e9a: 07 37     or    a,($37+x)
+1e9c: 07 33     or    a,($33+x)
+1e9e: 07 30     or    a,($30+x)
+1ea0: 07 2c     or    a,($2c+x)
+1ea2: 07 28     or    a,($28+x)
+1ea4: 07 25     or    a,($25+x)
+1ea6: 07 21     or    a,($21+x)
+1ea8: 07 1d     or    a,($1d+x)
+1eaa: 07 1a     or    a,($1a+x)
+1eac: 07 16     or    a,($16+x)
+1eae: 07 12     or    a,($12+x)
+1eb0: 07 0f     or    a,($0f+x)
+1eb2: 07 0b     or    a,($0b+x)
+1eb4: 07 08     or    a,($08+x)
+1eb6: 07 04     or    a,($04+x)
+1eb8: 07 01     or    a,($01+x)
+1eba: 07 fd     or    a,($fd+x)
+1ebc: 06        or    a,(x)
+1ebd: fa 06 f6  mov   ($f6),($06)
+1ec0: 06        or    a,(x)
+1ec1: f3 06 ef  bbc7  $06,$1eb2
+1ec4: 06        or    a,(x)
+1ec5: ec 06 e9  mov   y,$e906
+1ec8: 06        or    a,(x)
+1ec9: e5 06 e2  mov   a,$e206
+1ecc: 06        or    a,(x)
+1ecd: de 06 db  cbne  $06+x,$1eaa
+1ed0: 06        or    a,(x)
+1ed1: d8 06     mov   $06,x
+1ed3: d4 06     mov   $06+x,a
+1ed5: d1        tcall 13
+1ed6: 06        or    a,(x)
+1ed7: ce        pop   x
+1ed8: 06        or    a,(x)
+1ed9: ca 06 c7  mov1  $18e0,6,c
+1edc: 06        or    a,(x)
+1edd: c4 06     mov   $06,a
+1edf: c0        di
+1ee0: 06        or    a,(x)
+1ee1: bd        mov   sp,x
+1ee2: 06        or    a,(x)
+1ee3: ba 06     movw  ya,$06
+1ee5: b7 06     sbc   a,($06)+y
+1ee7: b4 06     sbc   a,$06+x
+1ee9: b0 06     bcs   $1ef1
+1eeb: ad 06     cmp   y,#$06
+1eed: aa 06 a7  mov1  c,$14e0,6
+1ef0: 06        or    a,(x)
+1ef1: a4 06     sbc   a,$06
+1ef3: a0        ei
+1ef4: 06        or    a,(x)
+1ef5: 9d        mov   x,sp
+1ef6: 06        or    a,(x)
+1ef7: 9a 06     subw  ya,$06
+1ef9: 97 06     adc   a,($06)+y
+1efb: 94 06     adc   a,$06+x
+1efd: 91        tcall 9
+1efe: 06        or    a,(x)
+1eff: 8e        pop   psw
+1f00: 06        or    a,(x)
+1f01: 8b 06     dec   $06
+1f03: 88 06     adc   a,#$06
+1f05: 85 06 82  adc   a,$8206
+1f08: 06        or    a,(x)
+1f09: 7f        reti
+1f0a: 06        or    a,(x)
+1f0b: 7c        ror   a
+1f0c: 06        or    a,(x)
+1f0d: 79        cmp   (x),(y)
+1f0e: 06        or    a,(x)
+1f0f: 76 06 73  cmp   a,$7306+y
+1f12: 06        or    a,(x)
+1f13: 70 06     bvs   $1f1b
+1f15: 6d        push  y
+1f16: 06        or    a,(x)
+1f17: 6a 06 67  and1  c,!($0ce0,6)
+1f1a: 06        or    a,(x)
+1f1b: 64 06     cmp   a,$06
+1f1d: 61        tcall 6
+1f1e: 06        or    a,(x)
+1f1f: 5e 06 5b  cmp   y,$5b06
+1f22: 06        or    a,(x)
+1f23: 58 06 55  eor   $55,#$06
+1f26: 06        or    a,(x)
+1f27: 53 06 50  bbc2  $06,$1f79
+1f2a: 06        or    a,(x)
+1f2b: 4d        push  x
+1f2c: 06        or    a,(x)
+1f2d: 4a 06 47  and1  c,$08e0,6
+1f30: 06        or    a,(x)
+1f31: 44 06     eor   a,$06
+1f33: 42 06     set2  $06
+1f35: 3f 06 3c  call  $3c06
+1f38: 06        or    a,(x)
+1f39: 39        and   (x),(y)
+1f3a: 06        or    a,(x)
+1f3b: 36 06 34  and   a,$3406+y
+1f3e: 06        or    a,(x)
+1f3f: 31        tcall 3
+1f40: 06        or    a,(x)
+1f41: 2e 06 2b  cbne  $06,$1f6e
+1f44: 06        or    a,(x)
+1f45: 29 06 26  and   ($26),($06)
+1f48: 06        or    a,(x)
+1f49: 23 06 21  bbs1  $06,$1f6c
+1f4c: 06        or    a,(x)
+1f4d: 1e 06 1b  cmp   x,$1b06
+1f50: 06        or    a,(x)
+1f51: 19        or    (x),(y)
+1f52: 06        or    a,(x)
+1f53: 16 06 13  or    a,$1306+y
+1f56: 06        or    a,(x)
+1f57: 11        tcall 1
+1f58: 06        or    a,(x)
+1f59: 0e 06 0b  tset1 $0b06
+1f5c: 06        or    a,(x)
+1f5d: 09 06 06  or    ($06),($06)
+1f60: 06        or    a,(x)
+1f61: 04 06     or    a,$06
+1f63: 01        tcall 0
+1f64: 06        or    a,(x)
+1f65: fe 05     dbnz  y,$1f6c
+1f67: fc        inc   y
+1f68: 05 f9 05  or    a,$05f9
+1f6b: f7 05     mov   a,($05)+y
+1f6d: f4 05     mov   a,$05+x
+1f6f: f2 05     clr7  $05
+1f71: ef        sleep
+1f72: 05 ed 05  or    a,$05ed
+1f75: ea 05 e8  not1  $1d00,5
+1f78: 05 e5 05  or    a,$05e5
+1f7b: e3 05 e0  bbs7  $05,$1f5d
+1f7e: 05 de 05  or    a,$05de
+1f81: db 05     mov   $05+x,y
+1f83: d9 05     mov   $05+y,x
+1f85: d6 05 d4  mov   $d405+y,a
+1f88: 05 d2 05  or    a,$05d2
+1f8b: cf        mul   ya
+1f8c: 05 cd 05  or    a,$05cd
+1f8f: ca 05 c8  mov1  $1900,5,c
+1f92: 05 c5 05  or    a,$05c5
+1f95: c3 05 c1  bbs6  $05,$1f58
+1f98: 05 be 05  or    a,$05be
+1f9b: bc        inc   a
+1f9c: 05 ba 05  or    a,$05ba
+1f9f: b7 05     sbc   a,($05)+y
+1fa1: b5 05 b3  sbc   a,$b305+x
+1fa4: 05 b0 05  or    a,$05b0
+1fa7: ae        pop   a
+1fa8: 05 ac 05  or    a,$05ac
+1fab: a9 05 a7  sbc   ($a7),($05)
+1fae: 05 a5 05  or    a,$05a5
+1fb1: a3 05 a0  bbs5  $05,$1f53
+1fb4: 05 9e 05  or    a,$059e
+1fb7: 9c        dec   a
+1fb8: 05 9a 05  or    a,$059a
+1fbb: 97 05     adc   a,($05)+y
+1fbd: 95 05 93  adc   a,$9305+x
+1fc0: 05 91 05  or    a,$0591
+1fc3: 8e        pop   psw
+1fc4: 05 8c 05  or    a,$058c
+1fc7: 8a 05 88  eor1  c,$1100,5
+1fca: 05 86 05  or    a,$0586
+1fcd: 83 05 81  bbs4  $05,$1f50
+1fd0: 05 7f 05  or    a,$057f
+1fd3: 7d        mov   a,x
+1fd4: 05 7b 05  or    a,$057b
+1fd7: 79        cmp   (x),(y)
+1fd8: 05 77 05  or    a,$0577
+1fdb: 74 05     cmp   a,$05+x
+1fdd: 72 05     clr3  $05
+1fdf: 70 05     bvs   $1fe6
+1fe1: 6e 05 6c  dbnz  $05,$204f
+1fe4: 05 6a 05  or    a,$056a
+1fe7: 68 05     cmp   a,#$05
+1fe9: 66        cmp   a,(x)
+1fea: 05 64 05  or    a,$0564
+1fed: 61        tcall 6
+1fee: 05 5f 05  or    a,$055f
+1ff1: 5d        mov   x,a
+1ff2: 05 5b 05  or    a,$055b
+1ff5: 59        eor   (x),(y)
+1ff6: 05 57 05  or    a,$0557
+1ff9: 55 05 53  eor   a,$5305+x
+1ffc: 05 51 05  or    a,$0551
+1fff: 4f 05     pcall $05
+2001: 4d        push  x
+2002: 05 4b 05  or    a,$054b
+2005: 49 05 47  eor   ($47),($05)
+2008: 05 45 05  or    a,$0545
+200b: 43 05 41  bbs2  $05,$204e
+200e: 05 3f 05  or    a,$053f
+2011: 3d        inc   x
+2012: 05 3b 05  or    a,$053b
+2015: 39        and   (x),(y)
+2016: 05 37 05  or    a,$0537
+2019: 35 05 33  and   a,$3305+x
+201c: 05 31 05  or    a,$0531
+201f: 30 05     bmi   $2026
+2021: 2e 05 2c  cbne  $05,$204f
+2024: 05 2a 05  or    a,$052a
+2027: 28 05     and   a,#$05
+2029: 26        and   a,(x)
+202a: 05 24 05  or    a,$0524
+202d: 22 05     set1  $05
+202f: 20        clrp
+2030: 05 1e 05  or    a,$051e
+2033: 1d        dec   x
+2034: 05 1b 05  or    a,$051b
+2037: 19        or    (x),(y)
+2038: 05 17 05  or    a,$0517
+203b: 15 05 13  or    a,$1305+x
+203e: 05 11 05  or    a,$0511
+2041: 10 05     bpl   $2048
+2043: 0e 05 0c  tset1 $0c05
+2046: 05 0a 05  or    a,$050a
+2049: 08 05     or    a,#$05
+204b: 07 05     or    a,($05+x)
+204d: 05 05 03  or    a,$0305
+2050: 05 01 05  or    a,$0501
+2053: ff        stop
+2054: 04 fe     or    a,$fe
+2056: 04 fc     or    a,$fc
+2058: 04 fa     or    a,$fa
+205a: 04 f8     or    a,$f8
+205c: 04 f6     or    a,$f6
+205e: 04 f5     or    a,$f5
+2060: 04 f3     or    a,$f3
+2062: 04 f1     or    a,$f1
+2064: 04 ef     or    a,$ef
+2066: 04 ee     or    a,$ee
+2068: 04 ec     or    a,$ec
+206a: 04 ea     or    a,$ea
+206c: 04 e9     or    a,$e9
+206e: 04 e7     or    a,$e7
+2070: 04 e5     or    a,$e5
+2072: 04 e3     or    a,$e3
+2074: 04 e2     or    a,$e2
+2076: 04 e0     or    a,$e0
+2078: 04 de     or    a,$de
+207a: 04 dd     or    a,$dd
+207c: 04 db     or    a,$db
+207e: 04 d9     or    a,$d9
+2080: 04 d7     or    a,$d7
+2082: 04 d6     or    a,$d6
+2084: 04 d4     or    a,$d4
+2086: 04 d2     or    a,$d2
+2088: 04 d1     or    a,$d1
+208a: 04 cf     or    a,$cf
+208c: 04 ce     or    a,$ce
+208e: 04 cc     or    a,$cc
+2090: 04 ca     or    a,$ca
+2092: 04 c9     or    a,$c9
+2094: 04 c7     or    a,$c7
+2096: 04 c5     or    a,$c5
+2098: 04 c4     or    a,$c4
+209a: 04 c2     or    a,$c2
+209c: 04 c0     or    a,$c0
+209e: 04 bf     or    a,$bf
+20a0: 04 bd     or    a,$bd
+20a2: 04 bc     or    a,$bc
+20a4: 04 ba     or    a,$ba
+20a6: 04 b8     or    a,$b8
+20a8: 04 b7     or    a,$b7
+20aa: 04 b5     or    a,$b5
+20ac: 04 b4     or    a,$b4
+20ae: 04 b2     or    a,$b2
+20b0: 04 b0     or    a,$b0
+20b2: 04 af     or    a,$af
+20b4: 04 ad     or    a,$ad
+20b6: 04 ac     or    a,$ac
+20b8: 04 aa     or    a,$aa
+20ba: 04 a9     or    a,$a9
+20bc: 04 a7     or    a,$a7
+20be: 04 a6     or    a,$a6
+20c0: 04 a4     or    a,$a4
+20c2: 04 a2     or    a,$a2
+20c4: 04 a1     or    a,$a1
+20c6: 04 9f     or    a,$9f
+20c8: 04 9e     or    a,$9e
+20ca: 04 9c     or    a,$9c
+20cc: 04 9b     or    a,$9b
+20ce: 04 99     or    a,$99
+20d0: 04 98     or    a,$98
+20d2: 04 96     or    a,$96
+20d4: 04 95     or    a,$95
+20d6: 04 93     or    a,$93
+20d8: 04 92     or    a,$92
+20da: 04 90     or    a,$90
+20dc: 04 8f     or    a,$8f
+20de: 04 8d     or    a,$8d
+20e0: 04 8c     or    a,$8c
+20e2: 04 8a     or    a,$8a
+20e4: 04 89     or    a,$89
+20e6: 04 87     or    a,$87
+20e8: 04 86     or    a,$86
+20ea: 04 85     or    a,$85
+20ec: 04 83     or    a,$83
+20ee: 04 82     or    a,$82
+20f0: 04 80     or    a,$80
+20f2: 04 7f     or    a,$7f
+20f4: 04 7d     or    a,$7d
+20f6: 04 7c     or    a,$7c
+20f8: 04 7a     or    a,$7a
+20fa: 04 79     or    a,$79
+20fc: 04 78     or    a,$78
+20fe: 04 76     or    a,$76
+2100: 04 75     or    a,$75
+2102: 04 73     or    a,$73
+2104: 04 72     or    a,$72
+2106: 04 70     or    a,$70
+2108: 04 6f     or    a,$6f
+210a: 04 6e     or    a,$6e
+210c: 04 6c     or    a,$6c
+210e: 04 6b     or    a,$6b
+2110: 04 69     or    a,$69
+2112: 04 68     or    a,$68
+2114: 04 67     or    a,$67
+2116: 04 65     or    a,$65
+2118: 04 64     or    a,$64
+211a: 04 62     or    a,$62
+211c: 04 61     or    a,$61
+211e: 04 60     or    a,$60
+2120: 04 5e     or    a,$5e
+2122: 04 5d     or    a,$5d
+2124: 04 5c     or    a,$5c
+2126: 04 5a     or    a,$5a
+2128: 04 59     or    a,$59
+212a: 04 58     or    a,$58
+212c: 04 56     or    a,$56
+212e: 04 55     or    a,$55
+2130: 04 54     or    a,$54
+2132: 04 52     or    a,$52
+2134: 04 51     or    a,$51
+2136: 04 50     or    a,$50
+2138: 04 4e     or    a,$4e
+213a: 04 4d     or    a,$4d
+213c: 04 4c     or    a,$4c
+213e: 04 4a     or    a,$4a
+2140: 04 49     or    a,$49
+2142: 04 48     or    a,$48
+2144: 04 46     or    a,$46
+2146: 04 45     or    a,$45
+2148: 04 44     or    a,$44
+214a: 04 42     or    a,$42
+214c: 04 41     or    a,$41
+214e: 04 40     or    a,$40
+2150: 04 3f     or    a,$3f
+2152: 04 3d     or    a,$3d
+2154: 04 3c     or    a,$3c
+2156: 04 3b     or    a,$3b
+2158: 04 39     or    a,$39
+215a: 04 38     or    a,$38
+215c: 04 37     or    a,$37
+215e: 04 36     or    a,$36
+2160: 04 34     or    a,$34
+2162: 04 33     or    a,$33
+2164: 04 32     or    a,$32
+2166: 04 31     or    a,$31
+2168: 04 2f     or    a,$2f
+216a: 04 2e     or    a,$2e
+216c: 04 2d     or    a,$2d
+216e: 04 2c     or    a,$2c
+2170: 04 2a     or    a,$2a
+2172: 04 29     or    a,$29
+2174: 04 28     or    a,$28
+2176: 04 27     or    a,$27
+2178: 04 25     or    a,$25
+217a: 04 24     or    a,$24
+217c: 04 23     or    a,$23
+217e: 04 22     or    a,$22
+2180: 04 20     or    a,$20
+2182: 04 1f     or    a,$1f
+2184: 04 1e     or    a,$1e
+2186: 04 1d     or    a,$1d
+2188: 04 1c     or    a,$1c
+218a: 04 1a     or    a,$1a
+218c: 04 19     or    a,$19
+218e: 04 18     or    a,$18
+2190: 04 17     or    a,$17
+2192: 04 16     or    a,$16
+2194: 04 14     or    a,$14
+2196: 04 13     or    a,$13
+2198: 04 12     or    a,$12
+219a: 04 11     or    a,$11
+219c: 04 10     or    a,$10
+219e: 04 0e     or    a,$0e
+21a0: 04 0d     or    a,$0d
+21a2: 04 0c     or    a,$0c
+21a4: 04 0b     or    a,$0b
+21a6: 04 0a     or    a,$0a
+21a8: 04 09     or    a,$09
+21aa: 04 07     or    a,$07
+21ac: 04 06     or    a,$06
+21ae: 04 05     or    a,$05
+21b0: 04 04     or    a,$04
+21b2: 04 03     or    a,$03
+21b4: 04 02     or    a,$02
+21b6: 04 01     or    a,$01
+21b8: 04 ff     or    a,$ff
+21ba: 03 fe 03  bbs0  $fe,$21bf
+21bd: fd        mov   y,a
+21be: 03 fc 03  bbs0  $fc,$21c3
+21c1: fb 03     mov   y,$03+x
+21c3: fa 03 f9  mov   ($f9),($03)
+21c6: 03 f7 03  bbs0  $f7,$21cb
+21c9: f6 03 f5  mov   a,$f503+y
+21cc: 03 f4 03  bbs0  $f4,$21d1
+21cf: f3 03 f2  bbc7  $03,$21c3
+21d2: 03 f1 03  bbs0  $f1,$21d7
+21d5: f0 03     beq   $21da
+21d7: ee        pop   y
+21d8: 03 ed 03  bbs0  $ed,$21dd
+21db: ec 03 eb  mov   y,$eb03
+21de: 03 ea 03  bbs0  $ea,$21e3
+21e1: e9 03 e8  mov   x,$e803
+21e4: 03 e7 03  bbs0  $e7,$21e9
+21e7: e6        mov   a,(x)
+21e8: 03 e5 03  bbs0  $e5,$21ed
+21eb: e4 03     mov   a,$03
+21ed: e2 03     set7  $03
+21ef: e1        tcall 14
+21f0: 03 e0 03  bbs0  $e0,$21f5
+21f3: df        daa   a
+21f4: 03 de 03  bbs0  $de,$21f9
+21f7: dd        mov   a,y
+21f8: 03 dc 03  bbs0  $dc,$21fd
+21fb: db 03     mov   $03+x,y
+21fd: da 03     movw  $03,ya
+21ff: d9 03     mov   $03+y,x
+2201: d8 03     mov   $03,x
+2203: d7 03     mov   ($03)+y,a
+2205: d6 03 d5  mov   $d503+y,a
+2208: 03 d4 03  bbs0  $d4,$220d
+220b: d3 03 d1  bbc6  $03,$21de
+220e: 03 d0 03  bbs0  $d0,$2213
+2211: cf        mul   ya
+2212: 03 ce 03  bbs0  $ce,$2217
+2215: cd 03     mov   x,#$03
+2217: cc 03 cb  mov   $cb03,y
+221a: 03 ca 03  bbs0  $ca,$221f
+221d: c9 03 c8  mov   $c803,x
+2220: 03 c7 03  bbs0  $c7,$2225
+2223: c6        mov   (x),a
+2224: 03 c5 03  bbs0  $c5,$2229
+2227: c4 03     mov   $03,a
+2229: c3 03 c2  bbs6  $03,$21ed
+222c: 03 c1 03  bbs0  $c1,$2231
+222f: c0        di
+2230: 03 bf 03  bbs0  $bf,$2235
+2233: be        das   a
+2234: 03 bd 03  bbs0  $bd,$2239
+2237: bc        inc   a
+2238: 03 bb 03  bbs0  $bb,$223d
+223b: ba 03     movw  ya,$03
+223d: b9        sbc   (x),(y)
+223e: 03 b8 03  bbs0  $b8,$2243
+2241: b7 03     sbc   a,($03)+y
+2243: b6 03 b5  sbc   a,$b503+y
+2246: 03 b4 03  bbs0  $b4,$224b
+2249: b3 03 b2  bbc5  $03,$21fd
+224c: 03 b1 03  bbs0  $b1,$2251
+224f: b0 03     bcs   $2254
+2251: af        mov   (x)+,a
+2252: 03 ae 03  bbs0  $ae,$2257
+2255: ad 03     cmp   y,#$03
+2257: ac 03 ab  inc   $ab03
+225a: 03 aa 03  bbs0  $aa,$225f
+225d: a9 03 a8  sbc   ($a8),($03)
+2260: 03 a8 03  bbs0  $a8,$2265
+2263: a7 03     sbc   a,($03+x)
+2265: a6        sbc   a,(x)
+2266: 03 a5 03  bbs0  $a5,$226b
+2269: a4 03     sbc   a,$03
+226b: a3 03 a2  bbs5  $03,$220f
+226e: 03 a1 03  bbs0  $a1,$2273
+2271: a0        ei
+2272: 03 9f 03  bbs0  $9f,$2277
+2275: 9e        div   ya,x
+2276: 03 9d 03  bbs0  $9d,$227b
+2279: 9c        dec   a
+227a: 03 9b 03  bbs0  $9b,$227f
+227d: 9a 03     subw  ya,$03
+227f: 99        adc   (x),(y)
+2280: 03 98 03  bbs0  $98,$2285
+2283: 98 03 97  adc   $97,#$03
+2286: 03 96 03  bbs0  $96,$228b
+2289: 95 03 94  adc   a,$9403+x
+228c: 03 93 03  bbs0  $93,$2291
+228f: 92 03     clr4  $03
+2291: 91        tcall 9
+2292: 03 90 03  bbs0  $90,$2297
+2295: 8f 03 8e  mov   $8e,#$03
+2298: 03 8d 03  bbs0  $8d,$229d
+229b: 8d 03     mov   y,#$03
+229d: 8c 03 8b  dec   $8b03
+22a0: 03 8a 03  bbs0  $8a,$22a5
+22a3: 89 03 88  adc   ($88),($03)
+22a6: 03 87 03  bbs0  $87,$22ab
+22a9: 86        adc   a,(x)
+22aa: 03 85 03  bbs0  $85,$22af
+22ad: 85 03 84  adc   a,$8403
+22b0: 03 83 03  bbs0  $83,$22b5
+22b3: 82 03     set4  $03
+22b5: 81        tcall 8
+22b6: 03 80 03  bbs0  $80,$22bb
+22b9: 7f        reti
+22ba: 03 7e 03  bbs0  $7e,$22bf
+22bd: 7e 03     cmp   y,$03
+22bf: 7d        mov   a,x
+22c0: 03 7c 03  bbs0  $7c,$22c5
+22c3: 7b 03     ror   $03+x
+22c5: 7a 03     addw  ya,$03
+22c7: 79        cmp   (x),(y)
+22c8: 03 78 03  bbs0  $78,$22cd
+22cb: 77 03     cmp   a,($03)+y
+22cd: 77 03     cmp   a,($03)+y
+22cf: 76 03 75  cmp   a,$7503+y
+22d2: 03 74 03  bbs0  $74,$22d7
+22d5: 73 03 72  bbc3  $03,$2349
+22d8: 03 71 03  bbs0  $71,$22dd
+22db: 71        tcall 7
+22dc: 03 70 03  bbs0  $70,$22e1
+22df: 6f        ret
+22e0: 03 6e 03  bbs0  $6e,$22e5
+22e3: 6d        push  y
+22e4: 03 6c 03  bbs0  $6c,$22e9
+22e7: 6c 03 6b  ror   $6b03
+22ea: 03 6a 03  bbs0  $6a,$22ef
+22ed: 69 03 68  cmp   ($68),($03)
+22f0: 03 67 03  bbs0  $67,$22f5
+22f3: 67 03     cmp   a,($03+x)
+22f5: 66        cmp   a,(x)
+22f6: 03 65 03  bbs0  $65,$22fb
+22f9: 64 03     cmp   a,$03
+22fb: 63 03 62  bbs3  $03,$235f
+22fe: 03 62 03  bbs0  $62,$2303
+2301: 61        tcall 6
+2302: 03 60 03  bbs0  $60,$2307
+2305: 5f 03 5e  jmp   $5e03
+2308: 03 5e 03  bbs0  $5e,$230d
+230b: 5d        mov   x,a
+230c: 03 5c 03  bbs0  $5c,$2311
+230f: 5b 03     lsr   $03+x
+2311: 5a 03     cmpw  ya,$03
+2313: 5a 03     cmpw  ya,$03
+2315: 59        eor   (x),(y)
+2316: 03 58 03  bbs0  $58,$231b
+2319: 57 03     eor   a,($03)+y
+231b: 56 03 56  eor   a,$5603+y
+231e: 03 55 03  bbs0  $55,$2323
+2321: 54 03     eor   a,$03+x
+2323: 53 03 52  bbc2  $03,$2377
+2326: 03 52 03  bbs0  $52,$232b
+2329: 51        tcall 5
+232a: 03 50 03  bbs0  $50,$232f
+232d: 4f 03     pcall $03
+232f: 4e 03 4e  tclr1 $4e03
+2332: 03 4d 03  bbs0  $4d,$2337
+2335: 4c 03 4b  lsr   $4b03
+2338: 03 4b 03  bbs0  $4b,$233d
+233b: 4a 03 49  and1  c,$0920,3
+233e: 03 48 03  bbs0  $48,$2343
+2341: 47 03     eor   a,($03+x)
+2343: 47 03     eor   a,($03+x)
+2345: 46        eor   a,(x)
+2346: 03 45 03  bbs0  $45,$234b
+2349: 44 03     eor   a,$03
+234b: 44 03     eor   a,$03
+234d: 43 03 42  bbs2  $03,$2391
+2350: 03 41 03  bbs0  $41,$2355
+2353: 41        tcall 4
+2354: 03 40 03  bbs0  $40,$2359
+2357: 3f 03 3e  call  $3e03
+235a: 03 3e 03  bbs0  $3e,$235f
+235d: 3d        inc   x
+235e: 03 3c 03  bbs0  $3c,$2363
+2361: 3b 03     rol   $03+x
+2363: 3b 03     rol   $03+x
+2365: 3a 03     incw  $03
+2367: 39        and   (x),(y)
+2368: 03 38 03  bbs0  $38,$236d
+236b: 38 03 37  and   $37,#$03
+236e: 03 36 03  bbs0  $36,$2373
+2371: 35 03 35  and   a,$3503+x
+2374: 03 34 03  bbs0  $34,$2379
+2377: 33 03 32  bbc1  $03,$23ab
+237a: 03 32 03  bbs0  $32,$237f
+237d: 31        tcall 3
+237e: 03 30 03  bbs0  $30,$2383
+2381: 2f 03     bra   $2386
+2383: 2f 03     bra   $2388
+2385: 2e 03 2d  cbne  $03,$23b4
+2388: 03 2d 03  bbs0  $2d,$238d
+238b: 2c 03 2b  rol   $2b03
+238e: 03 2a 03  bbs0  $2a,$2393
+2391: 2a 03 29  or1   c,!($0520,3)
+2394: 03 28 03  bbs0  $28,$2399
+2397: 28 03     and   a,#$03
+2399: 27 03     and   a,($03+x)
+239b: 26        and   a,(x)
+239c: 03 25 03  bbs0  $25,$23a1
+239f: 25 03 24  and   a,$2403
+23a2: 03 23 03  bbs0  $23,$23a7
+23a5: 23 03 22  bbs1  $03,$23c9
+23a8: 03 21 03  bbs0  $21,$23ad
+23ab: 21        tcall 2
+23ac: 03 20 03  bbs0  $20,$23b1
+23af: 1f 03 1e  jmp   ($1e03+x)
+23b2: 03 1e 03  bbs0  $1e,$23b7
+23b5: 1d        dec   x
+23b6: 03 1c 03  bbs0  $1c,$23bb
+23b9: 1c        asl   a
+23ba: 03 1b 03  bbs0  $1b,$23bf
+23bd: 1a 03     decw  $03
+23bf: 1a 03     decw  $03
+23c1: 19        or    (x),(y)
+23c2: 03 18 03  bbs0  $18,$23c7
+23c5: 18 03 17  or    $17,#$03
+23c8: 03 16 03  bbs0  $16,$23cd
+23cb: 15 03 15  or    a,$1503+x
+23ce: 03 14 03  bbs0  $14,$23d3
+23d1: 13 03 13  bbc0  $03,$23e6
+23d4: 03 12 03  bbs0  $12,$23d9
+23d7: 11        tcall 1
+23d8: 03 11 03  bbs0  $11,$23dd
+23db: 10 03     bpl   $23e0
+23dd: 0f        brk
+23de: 03 0f 03  bbs0  $0f,$23e3
+23e1: 0e 03 0d  tset1 $0d03
+23e4: 03 0d 03  bbs0  $0d,$23e9
+23e7: 0c 03 0b  asl   $0b03
+23ea: 03 0b 03  bbs0  $0b,$23ef
+23ed: 0a 03 09  or1   c,$0120,3
+23f0: 03 09 03  bbs0  $09,$23f5
+23f3: 08 03     or    a,#$03
+23f5: 07 03     or    a,($03+x)
+23f7: 07 03     or    a,($03+x)
+23f9: 06        or    a,(x)
+23fa: 03 05 03  bbs0  $05,$23ff
+23fd: 05 03 04  or    a,$0403
+2400: 03 03 03  bbs0  $03,$2405
+2403: 03 03 02  bbs0  $03,$2407
+2406: 03 02 03  bbs0  $02,$240b
+2409: 01        tcall 0
+240a: 03 00 03  bbs0  $00,$240f
+240d: 00        nop
+240e: 03 ff 02  bbs0  $ff,$2412
+2411: fe 02     dbnz  y,$2415
+2413: fe 02     dbnz  y,$2417
+2415: fd        mov   y,a
+2416: 02 fc     set0  $fc
+2418: 02 fc     set0  $fc
+241a: 02 fb     set0  $fb
+241c: 02 fa     set0  $fa
+241e: 02 fa     set0  $fa
+2420: 02 f9     set0  $f9
+2422: 02 f9     set0  $f9
+2424: 02 f8     set0  $f8
+2426: 02 f7     set0  $f7
+2428: 02 f7     set0  $f7
+242a: 02 f6     set0  $f6
+242c: 02 f5     set0  $f5
+242e: 02 f5     set0  $f5
+2430: 02 f4     set0  $f4
+2432: 02 f4     set0  $f4
+2434: 02 f3     set0  $f3
+2436: 02 f2     set0  $f2
+2438: 02 f2     set0  $f2
+243a: 02 f1     set0  $f1
+243c: 02 f0     set0  $f0
+243e: 02 f0     set0  $f0
+2440: 02 ef     set0  $ef
+2442: 02 ef     set0  $ef
+2444: 02 ee     set0  $ee
+2446: 02 ed     set0  $ed
+2448: 02 ed     set0  $ed
+244a: 02 ec     set0  $ec
+244c: 02 ec     set0  $ec
+244e: 02 eb     set0  $eb
+2450: 02 ea     set0  $ea
+2452: 02 ea     set0  $ea
+2454: 02 e9     set0  $e9
+2456: 02 e9     set0  $e9
+2458: 02 e8     set0  $e8
+245a: 02 e7     set0  $e7
+245c: 02 e7     set0  $e7
+245e: 02 e6     set0  $e6
+2460: 02 e5     set0  $e5
+2462: 02 e5     set0  $e5
+2464: 02 e4     set0  $e4
+2466: 02 e4     set0  $e4
+2468: 02 e3     set0  $e3
+246a: 02 e2     set0  $e2
+246c: 02 e2     set0  $e2
+246e: 02 e1     set0  $e1
+2470: 02 e1     set0  $e1
+2472: 02 e0     set0  $e0
+2474: 02 e0     set0  $e0
+2476: 02 df     set0  $df
+2478: 02 de     set0  $de
+247a: 02 de     set0  $de
+247c: 02 dd     set0  $dd
+247e: 02 dd     set0  $dd
+2480: 02 dc     set0  $dc
+2482: 02 db     set0  $db
+2484: 02 db     set0  $db
+2486: 02 da     set0  $da
+2488: 02 da     set0  $da
+248a: 02 d9     set0  $d9
+248c: 02 d9     set0  $d9
+248e: 02 d8     set0  $d8
+2490: 02 d7     set0  $d7
+2492: 02 d7     set0  $d7
+2494: 02 d6     set0  $d6
+2496: 02 d6     set0  $d6
+2498: 02 d5     set0  $d5
+249a: 02 d4     set0  $d4
+249c: 02 d4     set0  $d4
+249e: 02 d3     set0  $d3
+24a0: 02 d3     set0  $d3
+24a2: 02 d2     set0  $d2
+24a4: 02 d2     set0  $d2
+24a6: 02 d1     set0  $d1
+24a8: 02 d0     set0  $d0
+24aa: 02 d0     set0  $d0
+24ac: 02 cf     set0  $cf
+24ae: 02 cf     set0  $cf
+24b0: 02 ce     set0  $ce
+24b2: 02 ce     set0  $ce
+24b4: 02 cd     set0  $cd
+24b6: 02 cd     set0  $cd
+24b8: 02 cc     set0  $cc
+24ba: 02 cb     set0  $cb
+24bc: 02 cb     set0  $cb
+24be: 02 ca     set0  $ca
+24c0: 02 ca     set0  $ca
+24c2: 02 c9     set0  $c9
+24c4: 02 c9     set0  $c9
+24c6: 02 c8     set0  $c8
+24c8: 02 c8     set0  $c8
+24ca: 02 c7     set0  $c7
+24cc: 02 c6     set0  $c6
+24ce: 02 c6     set0  $c6
+24d0: 02 c5     set0  $c5
+24d2: 02 c5     set0  $c5
+24d4: 02 c4     set0  $c4
+24d6: 02 c4     set0  $c4
+24d8: 02 c3     set0  $c3
+24da: 02 c3     set0  $c3
+24dc: 02 c2     set0  $c2
+24de: 02 c1     set0  $c1
+24e0: 02 c1     set0  $c1
+24e2: 02 c0     set0  $c0
+24e4: 02 c0     set0  $c0
+24e6: 02 bf     set0  $bf
+24e8: 02 bf     set0  $bf
+24ea: 02 be     set0  $be
+24ec: 02 be     set0  $be
+24ee: 02 bd     set0  $bd
+24f0: 02 bd     set0  $bd
+24f2: 02 bc     set0  $bc
+24f4: 02 bc     set0  $bc
+24f6: 02 bb     set0  $bb
+24f8: 02 ba     set0  $ba
+24fa: 02 ba     set0  $ba
+24fc: 02 b9     set0  $b9
+24fe: 02 b9     set0  $b9
+2500: 02 b8     set0  $b8
+2502: 02 b8     set0  $b8
+2504: 02 b7     set0  $b7
+2506: 02 b7     set0  $b7
+2508: 02 b6     set0  $b6
+250a: 02 b6     set0  $b6
+250c: 02 b5     set0  $b5
+250e: 02 b5     set0  $b5
+2510: 02 b4     set0  $b4
+2512: 02 b4     set0  $b4
+2514: 02 b3     set0  $b3
+2516: 02 b3     set0  $b3
+2518: 02 b2     set0  $b2
+251a: 02 b2     set0  $b2
+251c: 02 b1     set0  $b1
+251e: 02 b0     set0  $b0
+2520: 02 b0     set0  $b0
+2522: 02 af     set0  $af
+2524: 02 af     set0  $af
+2526: 02 ae     set0  $ae
+2528: 02 ae     set0  $ae
+252a: 02 ad     set0  $ad
+252c: 02 ad     set0  $ad
+252e: 02 ac     set0  $ac
+2530: 02 ac     set0  $ac
+2532: 02 ab     set0  $ab
+2534: 02 ab     set0  $ab
+2536: 02 aa     set0  $aa
+2538: 02 aa     set0  $aa
+253a: 02 a9     set0  $a9
+253c: 02 a9     set0  $a9
+253e: 02 a8     set0  $a8
+2540: 02 a8     set0  $a8
+2542: 02 a7     set0  $a7
+2544: 02 a7     set0  $a7
+2546: 02 a6     set0  $a6
+2548: 02 a6     set0  $a6
+254a: 02 a5     set0  $a5
+254c: 02 a5     set0  $a5
+254e: 02 a4     set0  $a4
+2550: 02 a4     set0  $a4
+2552: 02 a3     set0  $a3
+2554: 02 a3     set0  $a3
+2556: 02 a2     set0  $a2
+2558: 02 a2     set0  $a2
+255a: 02 a1     set0  $a1
+255c: 02 a1     set0  $a1
+255e: 02 a0     set0  $a0
+2560: 02 a0     set0  $a0
+2562: 02 9f     set0  $9f
+2564: 02 9f     set0  $9f
+2566: 02 9e     set0  $9e
+2568: 02 9e     set0  $9e
+256a: 02 9d     set0  $9d
+256c: 02 9d     set0  $9d
+256e: 02 9c     set0  $9c
+2570: 02 9c     set0  $9c
+2572: 02 9b     set0  $9b
+2574: 02 9b     set0  $9b
+2576: 02 9a     set0  $9a
+2578: 02 9a     set0  $9a
+257a: 02 99     set0  $99
+257c: 02 99     set0  $99
+257e: 02 98     set0  $98
+2580: 02 98     set0  $98
+2582: 02 98     set0  $98
+2584: 02 97     set0  $97
+2586: 02 97     set0  $97
+2588: 02 96     set0  $96
+258a: 02 96     set0  $96
+258c: 02 95     set0  $95
+258e: 02 95     set0  $95
+2590: 02 94     set0  $94
+2592: 02 94     set0  $94
+2594: 02 93     set0  $93
+2596: 02 93     set0  $93
+2598: 02 92     set0  $92
+259a: 02 92     set0  $92
+259c: 02 91     set0  $91
+259e: 02 91     set0  $91
+25a0: 02 90     set0  $90
+25a2: 02 90     set0  $90
+25a4: 02 8f     set0  $8f
+25a6: 02 8f     set0  $8f
+25a8: 02 8f     set0  $8f
+25aa: 02 8e     set0  $8e
+25ac: 02 8e     set0  $8e
+25ae: 02 8d     set0  $8d
+25b0: 02 8d     set0  $8d
+25b2: 02 8c     set0  $8c
+25b4: 02 8c     set0  $8c
+25b6: 02 8b     set0  $8b
+25b8: 02 8b     set0  $8b
+25ba: 02 8a     set0  $8a
+25bc: 02 8a     set0  $8a
+25be: 02 89     set0  $89
+25c0: 02 89     set0  $89
+25c2: 02 88     set0  $88
+25c4: 02 88     set0  $88
+25c6: 02 88     set0  $88
+25c8: 02 87     set0  $87
+25ca: 02 87     set0  $87
+25cc: 02 86     set0  $86
+25ce: 02 86     set0  $86
+25d0: 02 85     set0  $85
+25d2: 02 85     set0  $85
+25d4: 02 84     set0  $84
+25d6: 02 84     set0  $84
+25d8: 02 83     set0  $83
+25da: 02 83     set0  $83
+25dc: 02 83     set0  $83
+25de: 02 82     set0  $82
+25e0: 02 82     set0  $82
+25e2: 02 81     set0  $81
+25e4: 02 81     set0  $81
+25e6: 02 80     set0  $80
+25e8: 02 80     set0  $80
+25ea: 02 7f     set0  $7f
+25ec: 02 7f     set0  $7f
+25ee: 02 7f     set0  $7f
+25f0: 02 7e     set0  $7e
+25f2: 02 7e     set0  $7e
+25f4: 02 7d     set0  $7d
+25f6: 02 7d     set0  $7d
+25f8: 02 7c     set0  $7c
+25fa: 02 7c     set0  $7c
+25fc: 02 7b     set0  $7b
+25fe: 02 7b     set0  $7b
+2600: 02 7b     set0  $7b
+2602: 02 7a     set0  $7a
+2604: 02 7a     set0  $7a
+2606: 02 79     set0  $79
+2608: 02 79     set0  $79
+260a: 02 78     set0  $78
+260c: 02 78     set0  $78
+260e: 02 77     set0  $77
+2610: 02 77     set0  $77
+2612: 02 77     set0  $77
+2614: 02 76     set0  $76
+2616: 02 76     set0  $76
+2618: 02 75     set0  $75
+261a: 02 75     set0  $75
+261c: 02 74     set0  $74
+261e: 02 74     set0  $74
+2620: 02 74     set0  $74
+2622: 02 73     set0  $73
+2624: 02 73     set0  $73
+2626: 02 72     set0  $72
+2628: 02 72     set0  $72
+262a: 02 71     set0  $71
+262c: 02 71     set0  $71
+262e: 02 71     set0  $71
+2630: 02 70     set0  $70
+2632: 02 70     set0  $70
+2634: 02 6f     set0  $6f
+2636: 02 6f     set0  $6f
+2638: 02 6e     set0  $6e
+263a: 02 6e     set0  $6e
+263c: 02 6e     set0  $6e
+263e: 02 6d     set0  $6d
+2640: 02 6d     set0  $6d
+2642: 02 6c     set0  $6c
+2644: 02 6c     set0  $6c
+2646: 02 6b     set0  $6b
+2648: 02 6b     set0  $6b
+264a: 02 6b     set0  $6b
+264c: 02 6a     set0  $6a
+264e: 02 6a     set0  $6a
+2650: 02 69     set0  $69
+2652: 02 69     set0  $69
+2654: 02 69     set0  $69
+2656: 02 68     set0  $68
+2658: 02 68     set0  $68
+265a: 02 67     set0  $67
+265c: 02 67     set0  $67
+265e: 02 67     set0  $67
+2660: 02 66     set0  $66
+2662: 02 66     set0  $66
+2664: 02 65     set0  $65
+2666: 02 65     set0  $65
+2668: 02 64     set0  $64
+266a: 02 64     set0  $64
+266c: 02 64     set0  $64
+266e: 02 63     set0  $63
+2670: 02 63     set0  $63
+2672: 02 62     set0  $62
+2674: 02 62     set0  $62
+2676: 02 62     set0  $62
+2678: 02 61     set0  $61
+267a: 02 61     set0  $61
+267c: 02 60     set0  $60
+267e: 02 60     set0  $60
+2680: 02 60     set0  $60
+2682: 02 5f     set0  $5f
+2684: 02 5f     set0  $5f
+2686: 02 5e     set0  $5e
+2688: 02 5e     set0  $5e
+268a: 02 5e     set0  $5e
+268c: 02 5d     set0  $5d
+268e: 02 5d     set0  $5d
+2690: 02 5c     set0  $5c
+2692: 02 5c     set0  $5c
+2694: 02 5c     set0  $5c
+2696: 02 5b     set0  $5b
+2698: 02 5b     set0  $5b
+269a: 02 5a     set0  $5a
+269c: 02 5a     set0  $5a
+269e: 02 5a     set0  $5a
+26a0: 02 59     set0  $59
+26a2: 02 59     set0  $59
+26a4: 02 58     set0  $58
+26a6: 02 58     set0  $58
+26a8: 02 58     set0  $58
+26aa: 02 57     set0  $57
+26ac: 02 57     set0  $57
+26ae: 02 56     set0  $56
+26b0: 02 56     set0  $56
+26b2: 02 56     set0  $56
+26b4: 02 55     set0  $55
+26b6: 02 55     set0  $55
+26b8: 02 54     set0  $54
+26ba: 02 54     set0  $54
+26bc: 02 54     set0  $54
+26be: 02 53     set0  $53
+26c0: 02 53     set0  $53
+26c2: 02 53     set0  $53
+26c4: 02 52     set0  $52
+26c6: 02 52     set0  $52
+26c8: 02 51     set0  $51
+26ca: 02 51     set0  $51
+26cc: 02 51     set0  $51
+26ce: 02 50     set0  $50
+26d0: 02 50     set0  $50
+26d2: 02 4f     set0  $4f
+26d4: 02 4f     set0  $4f
+26d6: 02 4f     set0  $4f
+26d8: 02 4e     set0  $4e
+26da: 02 4e     set0  $4e
+26dc: 02 4e     set0  $4e
+26de: 02 4d     set0  $4d
+26e0: 02 4d     set0  $4d
+26e2: 02 4c     set0  $4c
+26e4: 02 4c     set0  $4c
+26e6: 02 4c     set0  $4c
+26e8: 02 4b     set0  $4b
+26ea: 02 4b     set0  $4b
+26ec: 02 4b     set0  $4b
+26ee: 02 4a     set0  $4a
+26f0: 02 4a     set0  $4a
+26f2: 02 49     set0  $49
+26f4: 02 49     set0  $49
+26f6: 02 49     set0  $49
+26f8: 02 48     set0  $48
+26fa: 02 48     set0  $48
+26fc: 02 48     set0  $48
+26fe: 02 47     set0  $47
+2700: 02 47     set0  $47
+2702: 02 46     set0  $46
+2704: 02 46     set0  $46
+2706: 02 46     set0  $46
+2708: 02 45     set0  $45
+270a: 02 45     set0  $45
+270c: 02 45     set0  $45
+270e: 02 44     set0  $44
+2710: 02 44     set0  $44
+2712: 02 43     set0  $43
+2714: 02 43     set0  $43
+2716: 02 43     set0  $43
+2718: 02 42     set0  $42
+271a: 02 42     set0  $42
+271c: 02 42     set0  $42
+271e: 02 41     set0  $41
+2720: 02 41     set0  $41
+2722: 02 41     set0  $41
+2724: 02 40     set0  $40
+2726: 02 40     set0  $40
+2728: 02 3f     set0  $3f
+272a: 02 3f     set0  $3f
+272c: 02 3f     set0  $3f
+272e: 02 3e     set0  $3e
+2730: 02 3e     set0  $3e
+2732: 02 3e     set0  $3e
+2734: 02 3d     set0  $3d
+2736: 02 3d     set0  $3d
+2738: 02 3d     set0  $3d
+273a: 02 3c     set0  $3c
+273c: 02 3c     set0  $3c
+273e: 02 3c     set0  $3c
+2740: 02 3b     set0  $3b
+2742: 02 3b     set0  $3b
+2744: 02 3a     set0  $3a
+2746: 02 3a     set0  $3a
+2748: 02 3a     set0  $3a
+274a: 02 39     set0  $39
+274c: 02 39     set0  $39
+274e: 02 39     set0  $39
+2750: 02 38     set0  $38
+2752: 02 38     set0  $38
+2754: 02 38     set0  $38
+2756: 02 37     set0  $37
+2758: 02 37     set0  $37
+275a: 02 37     set0  $37
+275c: 02 36     set0  $36
+275e: 02 36     set0  $36
+2760: 02 36     set0  $36
+2762: 02 35     set0  $35
+2764: 02 35     set0  $35
+2766: 02 34     set0  $34
+2768: 02 34     set0  $34
+276a: 02 34     set0  $34
+276c: 02 33     set0  $33
+276e: 02 33     set0  $33
+2770: 02 33     set0  $33
+2772: 02 32     set0  $32
+2774: 02 32     set0  $32
+2776: 02 32     set0  $32
+2778: 02 31     set0  $31
+277a: 02 31     set0  $31
+277c: 02 31     set0  $31
+277e: 02 30     set0  $30
+2780: 02 30     set0  $30
+2782: 02 30     set0  $30
+2784: 02 2f     set0  $2f
+2786: 02 2f     set0  $2f
+2788: 02 2f     set0  $2f
+278a: 02 2e     set0  $2e
+278c: 02 2e     set0  $2e
+278e: 02 2e     set0  $2e
+2790: 02 2d     set0  $2d
+2792: 02 2d     set0  $2d
+2794: 02 2d     set0  $2d
+2796: 02 2c     set0  $2c
+2798: 02 2c     set0  $2c
+279a: 02 2c     set0  $2c
+279c: 02 2b     set0  $2b
+279e: 02 2b     set0  $2b
+27a0: 02 2b     set0  $2b
+27a2: 02 2a     set0  $2a
+27a4: 02 2a     set0  $2a
+27a6: 02 2a     set0  $2a
+27a8: 02 29     set0  $29
+27aa: 02 29     set0  $29
+27ac: 02 29     set0  $29
+27ae: 02 28     set0  $28
+27b0: 02 28     set0  $28
+27b2: 02 28     set0  $28
+27b4: 02 27     set0  $27
+27b6: 02 27     set0  $27
+27b8: 02 27     set0  $27
+27ba: 02 26     set0  $26
+27bc: 02 26     set0  $26
+27be: 02 26     set0  $26
+27c0: 02 25     set0  $25
+27c2: 02 25     set0  $25
+27c4: 02 25     set0  $25
+27c6: 02 24     set0  $24
+27c8: 02 24     set0  $24
+27ca: 02 24     set0  $24
+27cc: 02 23     set0  $23
+27ce: 02 23     set0  $23
+27d0: 02 23     set0  $23
+27d2: 02 22     set0  $22
+27d4: 02 22     set0  $22
+27d6: 02 22     set0  $22
+27d8: 02 21     set0  $21
+27da: 02 21     set0  $21
+27dc: 02 21     set0  $21
+27de: 02 20     set0  $20
+27e0: 02 20     set0  $20
+27e2: 02 20     set0  $20
+27e4: 02 1f     set0  $1f
+27e6: 02 1f     set0  $1f
+27e8: 02 1f     set0  $1f
+27ea: 02 1e     set0  $1e
+27ec: 02 1e     set0  $1e
+27ee: 02 1e     set0  $1e
+27f0: 02 1d     set0  $1d
+27f2: 02 1d     set0  $1d
+27f4: 02 1d     set0  $1d
+27f6: 02 1c     set0  $1c
+27f8: 02 1c     set0  $1c
+27fa: 02 1c     set0  $1c
+27fc: 02 1b     set0  $1b
+27fe: 02 1b     set0  $1b
+2800: 02 1b     set0  $1b
+2802: 02 1b     set0  $1b
+2804: 02 1a     set0  $1a
+2806: 02 1a     set0  $1a
+2808: 02 1a     set0  $1a
+280a: 02 19     set0  $19
+280c: 02 19     set0  $19
+280e: 02 19     set0  $19
+2810: 02 18     set0  $18
+2812: 02 18     set0  $18
+2814: 02 18     set0  $18
+2816: 02 17     set0  $17
+2818: 02 17     set0  $17
+281a: 02 17     set0  $17
+281c: 02 16     set0  $16
+281e: 02 16     set0  $16
+2820: 02 16     set0  $16
+2822: 02 16     set0  $16
+2824: 02 15     set0  $15
+2826: 02 15     set0  $15
+2828: 02 15     set0  $15
+282a: 02 14     set0  $14
+282c: 02 14     set0  $14
+282e: 02 14     set0  $14
+2830: 02 13     set0  $13
+2832: 02 13     set0  $13
+2834: 02 13     set0  $13
+2836: 02 12     set0  $12
+2838: 02 12     set0  $12
+283a: 02 12     set0  $12
+283c: 02 11     set0  $11
+283e: 02 11     set0  $11
+2840: 02 11     set0  $11
+2842: 02 11     set0  $11
+2844: 02 10     set0  $10
+2846: 02 10     set0  $10
+2848: 02 10     set0  $10
+284a: 02 0f     set0  $0f
+284c: 02 0f     set0  $0f
+284e: 02 0f     set0  $0f
+2850: 02 0e     set0  $0e
+2852: 02 0e     set0  $0e
+2854: 02 0e     set0  $0e
+2856: 02 0e     set0  $0e
+2858: 02 0d     set0  $0d
+285a: 02 0d     set0  $0d
+285c: 02 0d     set0  $0d
+285e: 02 0c     set0  $0c
+2860: 02 0c     set0  $0c
+2862: 02 0c     set0  $0c
+2864: 02 0b     set0  $0b
+2866: 02 0b     set0  $0b
+2868: 02 0b     set0  $0b
+286a: 02 0b     set0  $0b
+286c: 02 0a     set0  $0a
+286e: 02 0a     set0  $0a
+2870: 02 0a     set0  $0a
+2872: 02 09     set0  $09
+2874: 02 09     set0  $09
+2876: 02 09     set0  $09
+2878: 02 08     set0  $08
+287a: 02 08     set0  $08
+287c: 02 08     set0  $08
+287e: 02 08     set0  $08
+2880: 02 07     set0  $07
+2882: 02 07     set0  $07
+2884: 02 07     set0  $07
+2886: 02 06     set0  $06
+2888: 02 06     set0  $06
+288a: 02 06     set0  $06
+288c: 02 06     set0  $06
+288e: 02 05     set0  $05
+2890: 02 05     set0  $05
+2892: 02 05     set0  $05
+2894: 02 04     set0  $04
+2896: 02 04     set0  $04
+2898: 02 04     set0  $04
+289a: 02 03     set0  $03
+289c: 02 03     set0  $03
+289e: 02 03     set0  $03
+28a0: 02 03     set0  $03
+28a2: 02 02     set0  $02
+28a4: 02 02     set0  $02
+28a6: 02 02     set0  $02
+28a8: 02 01     set0  $01
+28aa: 02 01     set0  $01
+28ac: 02 01     set0  $01
+28ae: 02 01     set0  $01
+28b0: 02 00     set0  $00
+28b2: 02 00     set0  $00
+28b4: 02 00     set0  $00
+28b6: 02 ff     set0  $ff
+28b8: 01        tcall 0
+28b9: ff        stop
+28ba: 01        tcall 0
+28bb: ff        stop
+28bc: 01        tcall 0
+28bd: ff        stop
+28be: 01        tcall 0
+28bf: fe 01     dbnz  y,$28c2
+28c1: fe 01     dbnz  y,$28c4
+28c3: fe 01     dbnz  y,$28c6
+28c5: fd        mov   y,a
+28c6: 01        tcall 0
+28c7: fd        mov   y,a
+28c8: 01        tcall 0
+28c9: fd        mov   y,a
+28ca: 01        tcall 0
+28cb: fd        mov   y,a
+28cc: 01        tcall 0
+28cd: fc        inc   y
+28ce: 01        tcall 0
+28cf: fc        inc   y
+28d0: 01        tcall 0
+28d1: fc        inc   y
+28d2: 01        tcall 0
+28d3: fb 01     mov   y,$01+x
+28d5: fb 01     mov   y,$01+x
+28d7: fb 01     mov   y,$01+x
+28d9: fb 01     mov   y,$01+x
+28db: fa 01 fa  mov   ($fa),($01)
+28de: 01        tcall 0
+28df: fa 01 f9  mov   ($f9),($01)
+28e2: 01        tcall 0
+28e3: f9 01     mov   x,$01+y
+28e5: f9 01     mov   x,$01+y
+28e7: f9 01     mov   x,$01+y
+28e9: f8 01     mov   x,$01
+28eb: f8 01     mov   x,$01
+28ed: f8 01     mov   x,$01
+28ef: f8 01     mov   x,$01
+28f1: f7 01     mov   a,($01)+y
+28f3: f7 01     mov   a,($01)+y
+28f5: f7 01     mov   a,($01)+y
+28f7: f6 01 f6  mov   a,$f601+y
+28fa: 01        tcall 0
+28fb: f6 01 f6  mov   a,$f601+y
+28fe: 01        tcall 0
+28ff: f5 01 f5  mov   a,$f501+x
+2902: 01        tcall 0
+2903: f5 01 f5  mov   a,$f501+x
+2906: 01        tcall 0
+2907: f4 01     mov   a,$01+x
+2909: f4 01     mov   a,$01+x
+290b: f4 01     mov   a,$01+x
+290d: f3 01 f3  bbc7  $01,$2902
+2910: 01        tcall 0
+2911: f3 01 f3  bbc7  $01,$2906
+2914: 01        tcall 0
+2915: f2 01     clr7  $01
+2917: f2 01     clr7  $01
+2919: f2 01     clr7  $01
+291b: f2 01     clr7  $01
+291d: f1        tcall 15
+291e: 01        tcall 0
+291f: f1        tcall 15
+2920: 01        tcall 0
+2921: f1        tcall 15
+2922: 01        tcall 0
+2923: f0 01     beq   $2926
+2925: f0 01     beq   $2928
+2927: f0 01     beq   $292a
+2929: f0 01     beq   $292c
+292b: ef        sleep
+292c: 01        tcall 0
+292d: ef        sleep
+292e: 01        tcall 0
+292f: ef        sleep
+2930: 01        tcall 0
+2931: ef        sleep
+2932: 01        tcall 0
+2933: ee        pop   y
+2934: 01        tcall 0
+2935: ee        pop   y
+2936: 01        tcall 0
+2937: ee        pop   y
+2938: 01        tcall 0
+2939: ed        notc
+293a: 01        tcall 0
+293b: ed        notc
+293c: 01        tcall 0
+293d: ed        notc
+293e: 01        tcall 0
+293f: ed        notc
+2940: 01        tcall 0
+2941: ec 01 ec  mov   y,$ec01
+2944: 01        tcall 0
+2945: ec 01 ec  mov   y,$ec01
+2948: 01        tcall 0
+2949: eb 01     mov   y,$01
+294b: eb 01     mov   y,$01
+294d: eb 01     mov   y,$01
+294f: eb 01     mov   y,$01
+2951: ea 01 ea  not1  $1d40,1
+2954: 01        tcall 0
+2955: ea 01 ea  not1  $1d40,1
+2958: 01        tcall 0
+2959: e9 01 e9  mov   x,$e901
+295c: 01        tcall 0
+295d: e9 01 e8  mov   x,$e801
+2960: 01        tcall 0
+2961: e8 01     mov   a,#$01
+2963: e8 01     mov   a,#$01
+2965: e8 01     mov   a,#$01
+2967: e7 01     mov   a,($01+x)
+2969: e7 01     mov   a,($01+x)
+296b: e7 01     mov   a,($01+x)
+296d: e7 01     mov   a,($01+x)
+296f: e6        mov   a,(x)
+2970: 01        tcall 0
+2971: e6        mov   a,(x)
+2972: 01        tcall 0
+2973: e6        mov   a,(x)
+2974: 01        tcall 0
+2975: e6        mov   a,(x)
+2976: 01        tcall 0
+2977: e5 01 e5  mov   a,$e501
+297a: 01        tcall 0
+297b: e5 01 e5  mov   a,$e501
+297e: 01        tcall 0
+297f: e4 01     mov   a,$01
+2981: e4 01     mov   a,$01
+2983: e4 01     mov   a,$01
+2985: e4 01     mov   a,$01
+2987: e3 01 e3  bbs7  $01,$296c
+298a: 01        tcall 0
+298b: e3 01 e3  bbs7  $01,$2970
+298e: 01        tcall 0
+298f: e2 01     set7  $01
+2991: e2 01     set7  $01
+2993: e2 01     set7  $01
+2995: e2 01     set7  $01
+2997: e1        tcall 14
+2998: 01        tcall 0
+2999: e1        tcall 14
+299a: 01        tcall 0
+299b: e1        tcall 14
+299c: 01        tcall 0
+299d: e1        tcall 14
+299e: 01        tcall 0
+299f: e0        clrv
+29a0: 01        tcall 0
+29a1: e0        clrv
+29a2: 01        tcall 0
+29a3: e0        clrv
+29a4: 01        tcall 0
+29a5: e0        clrv
+29a6: 01        tcall 0
+29a7: df        daa   a
+29a8: 01        tcall 0
+29a9: df        daa   a
+29aa: 01        tcall 0
+29ab: df        daa   a
+29ac: 01        tcall 0
+29ad: df        daa   a
+29ae: 01        tcall 0
+29af: de 01 de  cbne  $01+x,$298f
+29b2: 01        tcall 0
+29b3: de 01 de  cbne  $01+x,$2993
+29b6: 01        tcall 0
+29b7: dd        mov   a,y
+29b8: 01        tcall 0
+29b9: dd        mov   a,y
+29ba: 01        tcall 0
+29bb: dd        mov   a,y
+29bc: 01        tcall 0
+29bd: dd        mov   a,y
+29be: 01        tcall 0
+29bf: dc        dec   y
+29c0: 01        tcall 0
+29c1: dc        dec   y
+29c2: 01        tcall 0
+29c3: dc        dec   y
+29c4: 01        tcall 0
+29c5: dc        dec   y
+29c6: 01        tcall 0
+29c7: db 01     mov   $01+x,y
+29c9: db 01     mov   $01+x,y
+29cb: db 01     mov   $01+x,y
+29cd: db 01     mov   $01+x,y
+29cf: da 01     movw  $01,ya
+29d1: da 01     movw  $01,ya
+29d3: da 01     movw  $01,ya
+29d5: da 01     movw  $01,ya
+29d7: d9 01     mov   $01+y,x
+29d9: d9 01     mov   $01+y,x
+29db: d9 01     mov   $01+y,x
+29dd: d9 01     mov   $01+y,x
+29df: d8 01     mov   $01,x
+29e1: d8 01     mov   $01,x
+29e3: d8 01     mov   $01,x
+29e5: d8 01     mov   $01,x
+29e7: d7 01     mov   ($01)+y,a
+29e9: d7 01     mov   ($01)+y,a
+29eb: d7 01     mov   ($01)+y,a
+29ed: d7 01     mov   ($01)+y,a
+29ef: d6 01 d6  mov   $d601+y,a
+29f2: 01        tcall 0
+29f3: d6 01 d6  mov   $d601+y,a
+29f6: 01        tcall 0
+29f7: d5 01 d5  mov   $d501+x,a
+29fa: 01        tcall 0
+29fb: d5 01 d5  mov   $d501+x,a
+29fe: 01        tcall 0
+29ff: d4 01     mov   $01+x,a
+2a01: d4 01     mov   $01+x,a
+2a03: d4 01     mov   $01+x,a
+2a05: d4 01     mov   $01+x,a
+2a07: d4 01     mov   $01+x,a
+2a09: d3 01 d3  bbc6  $01,$29de
+2a0c: 01        tcall 0
+2a0d: d3 01 d3  bbc6  $01,$29e2
+2a10: 01        tcall 0
+2a11: d2 01     clr6  $01
+2a13: d2 01     clr6  $01
+2a15: d2 01     clr6  $01
+2a17: d2 01     clr6  $01
+2a19: d1        tcall 13
+2a1a: 01        tcall 0
+2a1b: d1        tcall 13
+2a1c: 01        tcall 0
+2a1d: d1        tcall 13
+2a1e: 01        tcall 0
+2a1f: d1        tcall 13
+2a20: 01        tcall 0
+2a21: d0 01     bne   $2a24
+2a23: d0 01     bne   $2a26
+2a25: d0 01     bne   $2a28
+2a27: d0 01     bne   $2a2a
+2a29: cf        mul   ya
+2a2a: 01        tcall 0
+2a2b: cf        mul   ya
+2a2c: 01        tcall 0
+2a2d: cf        mul   ya
+2a2e: 01        tcall 0
+2a2f: cf        mul   ya
+2a30: 01        tcall 0
+2a31: cf        mul   ya
+2a32: 01        tcall 0
+2a33: ce        pop   x
+2a34: 01        tcall 0
+2a35: ce        pop   x
+2a36: 01        tcall 0
+2a37: ce        pop   x
+2a38: 01        tcall 0
+2a39: ce        pop   x
+2a3a: 01        tcall 0
+2a3b: cd 01     mov   x,#$01
+2a3d: cd 01     mov   x,#$01
+2a3f: cd 01     mov   x,#$01
+2a41: cd 01     mov   x,#$01
+2a43: cc 01 cc  mov   $cc01,y
+2a46: 01        tcall 0
+2a47: cc 01 cc  mov   $cc01,y
+2a4a: 01        tcall 0
+2a4b: cc 01 cb  mov   $cb01,y
+2a4e: 01        tcall 0
+2a4f: cb 01     mov   $01,y
+2a51: cb 01     mov   $01,y
+2a53: cb 01     mov   $01,y
+2a55: ca 01 ca  mov1  $1940,1,c
+2a58: 01        tcall 0
+2a59: ca 01 ca  mov1  $1940,1,c
+2a5c: 01        tcall 0
+2a5d: c9 01 c9  mov   $c901,x
+2a60: 01        tcall 0
+2a61: c9 01 c9  mov   $c901,x
+2a64: 01        tcall 0
+2a65: c9 01 c8  mov   $c801,x
+2a68: 01        tcall 0
+2a69: c8 01     cmp   x,#$01
+2a6b: c8 01     cmp   x,#$01
+2a6d: c8 01     cmp   x,#$01
+2a6f: c7 01     mov   ($01+x),a
+2a71: c7 01     mov   ($01+x),a
+2a73: c7 01     mov   ($01+x),a
+2a75: c7 01     mov   ($01+x),a
+2a77: c6        mov   (x),a
+2a78: 01        tcall 0
+2a79: c6        mov   (x),a
+2a7a: 01        tcall 0
+2a7b: c6        mov   (x),a
+2a7c: 01        tcall 0
+2a7d: c6        mov   (x),a
+2a7e: 01        tcall 0
+2a7f: c6        mov   (x),a
+2a80: 01        tcall 0
+2a81: c5 01 c5  mov   $c501,a
+2a84: 01        tcall 0
+2a85: c5 01 c5  mov   $c501,a
+2a88: 01        tcall 0
+2a89: c4 01     mov   $01,a
+2a8b: c4 01     mov   $01,a
+2a8d: c4 01     mov   $01,a
+2a8f: c4 01     mov   $01,a
+2a91: c4 01     mov   $01,a
+2a93: c3 01 c3  bbs6  $01,$2a58
+2a96: 01        tcall 0
+2a97: c3 01 c3  bbs6  $01,$2a5c
+2a9a: 01        tcall 0
+2a9b: c2 01     set6  $01
+2a9d: c2 01     set6  $01
+2a9f: c2 01     set6  $01
+2aa1: c2 01     set6  $01
+2aa3: c2 01     set6  $01
+2aa5: c1        tcall 12
+2aa6: 01        tcall 0
+2aa7: c1        tcall 12
+2aa8: 01        tcall 0
+2aa9: c1        tcall 12
+2aaa: 01        tcall 0
+2aab: c1        tcall 12
+2aac: 01        tcall 0
+2aad: c0        di
+2aae: 01        tcall 0
+2aaf: c0        di
+2ab0: 01        tcall 0
+2ab1: c0        di
+2ab2: 01        tcall 0
+2ab3: c0        di
+2ab4: 01        tcall 0
+2ab5: c0        di
+2ab6: 01        tcall 0
+2ab7: bf        mov   a,(x)+
+2ab8: 01        tcall 0
+2ab9: bf        mov   a,(x)+
+2aba: 01        tcall 0
+2abb: bf        mov   a,(x)+
+2abc: 01        tcall 0
+2abd: b0 44     bcs   $2b03
+2abf: 44 44     eor   a,$44
+2ac1: 44 44     eor   a,$44
+2ac3: 44 44     eor   a,$44
+2ac5: 44 b0     eor   a,$b0
+2ac7: 44 44     eor   a,$44
+2ac9: 44 44     eor   a,$44
+2acb: 44 44     eor   a,$44
+2acd: 44 44     eor   a,$44
+2acf: b0 bb     bcs   $2a8c
+2ad1: bb bb     inc   $bb+x
+2ad3: bb bb     inc   $bb+x
+2ad5: bb bb     inc   $bb+x
+2ad7: bb b3     inc   $b3+x
+2ad9: bb bb     inc   $bb+x
+2adb: bb bb     inc   $bb+x
+2add: bb bb     inc   $bb+x
+2adf: bb bb     inc   $bb+x
+2ae1: 92 00     clr4  $00
+2ae3: 10 21     bpl   $2b06
+2ae5: 32 43     clr1  $43
+2ae7: 54 65     eor   a,$65+x
+2ae9: 76 a2 43  cmp   a,$43a2+y
+2aec: 44 54     eor   a,$54
+2aee: 55 65 66  eor   a,$6665+x
+2af1: 76 77 b2  cmp   a,$b277+y
+2af4: 34 33     and   a,$33+x
+2af6: 33 33 23  bbc1  $33,$2b1b
+2af9: 22 22     set1  $22
+2afb: 22 a2     set1  $a2
+2afd: 34 33     and   a,$33+x
+2aff: 23 22 12  bbs1  $22,$2b13
+2b02: 11        tcall 1
+2b03: 01        tcall 0
+2b04: 00        nop
+2b05: 92 f0     clr4  $f0
+2b07: ef        sleep
+2b08: de cd bc  cbne  $cd+x,$2ac6
+2b0b: ab 9a     inc   $9a
+2b0d: 89 a2 bc  adc   ($bc),($a2)
+2b10: bb ab     inc   $ab+x
+2b12: aa 9a 99  mov1  c,$1333,2
+2b15: 89 88 b2  adc   ($b2),($88)
+2b18: cb cc     mov   $cc,y
+2b1a: cc cc dc  mov   $dccc,y
+2b1d: dd        mov   a,y
+2b1e: dd        mov   a,y
+2b1f: dd        mov   a,y
+2b20: a3 cb cc  bbs5  $cb,$2aee
+2b23: dc        dec   y
+2b24: dd        mov   a,y
+2b25: ed        notc
+2b26: ee        pop   y
+2b27: fe ff     dbnz  y,$2b28
